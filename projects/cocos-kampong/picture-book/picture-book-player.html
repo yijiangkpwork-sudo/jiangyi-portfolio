@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Reader — Coco's Kampong</title>
+  <link rel="stylesheet" href="../../../assets/style.css">
+  <style>
+    body { background: #0d1012; }
+
+    .reader-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(13,16,18,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+    }
+
+    .reader-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .reader-title {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    .reader-stage {
+      min-height: 100vh;
+      padding-top: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 2rem 4rem;
+    }
+
+    .book-frame {
+      width: 100%;
+      max-width: 900px;
+      aspect-ratio: 16/9;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      color: var(--text3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(126,200,160,0.04) 0%, transparent 70%);
+    }
+
+    .book-frame-inner {
+      text-align: center;
+      position: relative;
+    }
+
+    .book-frame-inner .book-icon {
+      width: 64px;
+      height: 64px;
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: #7ec8a0;
+    }
+
+    .book-frame-inner h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-frame-inner p {
+      font-size: 0.82rem;
+      color: var(--text2);
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    .book-controls {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+
+    .page-indicator {
+      font-family: var(--font-head);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--text3);
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .todo-note {
+      margin: 2rem auto;
+      max-width: 600px;
+      background: rgba(200,169,110,0.06);
+      border: 1px solid rgba(200,169,110,0.2);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .todo-note .todo-label {
+      font-family: var(--font-head);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .todo-note p {
+      font-size: 0.82rem;
+      color: var(--text2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="reader-header">
+    <div class="container">
+      <a href="../index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Coco's Kampong
+      </a>
+      <span class="reader-title">Interactive Reader · Prototype</span>
+      <span style="font-family:var(--font-head);font-size:0.65rem;color:var(--text3);letter-spacing:0.1em">Coco's Kampong</span>
+    </div>
+  </div>
+
+  <main class="reader-stage">
+    <div style="width:100%;max-width:900px">
+      <div class="book-frame">
+        <div class="book-frame-inner">
+          <div class="book-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <h3>Interactive Picture Book Reader</h3>
+          <p>Place your picture book assets here. This reader prototype supports page-turn animation, audio narration, and interactive hotspots.</p>
+          <div class="book-controls">
+            <button class="btn btn-outline" disabled>← Prev Page</button>
+            <button class="btn btn-primary" disabled>Next Page →</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="page-indicator">Page 1 of — · Add pages to activate</p>
+
+      <div class="todo-note">
+        <div class="todo-label">TODO — Add Your Assets</div>
+        <p>Place book page images in <code>./assets/</code> and update the reader script to load them. This frame supports full-bleed images, audio narration per page, and click-through hotspots.</p>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNICEF Meena — Jiang Yi</title>
+  <meta name="description" content="UNICEF Meena — Multilingual mental-health education series with AI-assisted animation workflow. Design Lead: Jiang Yi.">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <style>
+    .tag-blue { background: rgba(100,160,220,0.1); border-color: rgba(100,160,220,0.3); color: #80b4e0; }
+
+    /* Hero video fills the right panel */
+    .project-hero-media .media-frame video {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* Episode thumbnails — static grid, no hover/play overlay */
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .episode-thumb {
+      aspect-ratio: 16/9;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .episode-thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+
+    .episode-thumb .ep-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(10,10,10,0.82));
+      padding: 1rem 0.75rem 0.5rem;
+      font-family: var(--font-head);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text);
+    }
+
+    /* Character design grid */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .char-thumb {
+      aspect-ratio: 3/4;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .char-thumb img {
+      width: 100%; height: 100%; object-fit: contain;
+      padding: 0.5rem;
+      background: #12141a;
+    }
+
+    /* Process steps */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .process-step {
+      padding: 1.5rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .process-step .step-num {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      opacity: 0.5;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .process-step h4 { font-size: 0.88rem; margin-bottom: 0.5rem; }
+    .process-step p { font-size: 0.78rem; color: var(--text2); line-height: 1.65; }
+
+    /* AI / proof gallery */
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .proof-grid img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border2);
+      display: block;
+    }
+
+    .lang-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .lang-pill {
+      font-family: var(--font-head); font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      background: var(--bg3); border: 1px solid var(--border2);
+      border-radius: 2rem; color: var(--text2);
+    }
+
+    @media (max-width: 900px) {
+      .episode-grid { grid-template-columns: repeat(2, 1fr); }
+      .char-grid { grid-template-columns: repeat(3, 1fr); }
+      .process-steps { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 540px) {
+      .episode-grid { grid-template-columns: repeat(2, 1fr); }
+      .char-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav">
+    <div class="container">
+      <a href="../../index.html" class="nav-logo">Jiang Yi</a>
+      <ul class="nav-links">
+        <li><a href="../../index.html#featured-projects">Work</a></li>
+        <li><a href="../../index.html#skill-showcase">Skills</a></li>
+        <li><a href="../../index.html#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PROJECT HERO -->
+  <section class="project-hero">
+    <div class="container">
+      <div class="project-hero-inner">
+
+        <div class="project-hero-content">
+          <div class="back-wrap">
+            <a href="../../index.html" class="back-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              Back to Portfolio
+            </a>
+          </div>
+
+          <div class="project-logo-area">
+            <img src="./assets/unicef-logo.png" alt="UNICEF"
+                 style="height:32px;width:auto;opacity:0.85;margin-bottom:1rem"
+                 onerror="this.style.display='none'">
+          </div>
+
+          <h1>UNICEF<br>Meena</h1>
+          <div class="subtitle" style="color:#80b4e0;font-family:var(--font-head);font-size:0.75rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1.25rem">Multilingual Mental-Health Education Series</div>
+
+          <p style="font-size:0.95rem;color:var(--text2);line-height:1.8;max-width:480px">An AI-assisted animation series educating children on mental health and social-emotional topics — designed for multilingual delivery across multiple regions with a scalable, system-driven production workflow.</p>
+
+          <div class="tags" style="margin-top:1.5rem">
+            <span class="tag tag-blue">AI Workflow</span>
+            <span class="tag tag-blue">Animation System</span>
+            <span class="tag tag-blue">Localization</span>
+            <span class="tag">UNICEF</span>
+          </div>
+        </div>
+
+        <div class="project-hero-media">
+          <div class="media-frame">
+            <video
+              src="./assets/hero-loop.mp4"
+              poster="./assets/thumbnails/hero-poster.jpg"
+              autoplay muted loop playsinline
+              onerror="this.style.display='none';document.getElementById('meena-hero-fallback').style.display='flex'">
+            </video>
+            <div id="meena-hero-fallback" class="media-placeholder" style="display:none">
+              <img src="./assets/thumbnails/hero-poster.jpg" alt="Meena hero"
+                   style="width:100%;height:100%;object-fit:cover"
+                   onerror="this.style.display='none'">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Meta Bar -->
+    <div class="container">
+      <div class="meta-bar">
+        <div class="meta-item">
+          <span class="meta-label">Client</span>
+          <span class="meta-value">UNICEF</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Design Lead · Creative Direction</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Format</span>
+          <span class="meta-value">2D Animation Series</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Workflow</span>
+          <span class="meta-value">AI-Assisted Production</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Focus</span>
+          <span class="meta-value">Mental Health · SEL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHALLENGE & ROLE -->
+  <section class="content-section">
+    <div class="container">
+      <div class="two-col">
+        <div>
+          <span class="col-label">Challenge &amp; Role</span>
+          <h2 class="col-title">Designing for Scale and Sensitivity</h2>
+        </div>
+        <div class="col-body">
+          <p>The project required creating an animation series addressing mental health for children — a sensitive topic demanding both clear visual communication and culturally adaptive delivery. The core challenge was producing a high-quality, emotionally resonant series while building a system capable of multilingual localization without full reproduction.</p>
+          <p>My role covered creative direction of the animation visual system, design of the AI-assisted production workflow, localization framework design, and oversight of the end-to-end production pipeline.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARACTER DESIGN -->
+  <section class="content-section">
+    <div class="container">
+      <span class="section-label">Visual Design</span>
+      <h2 style="font-size:1.8rem;margin-bottom:2rem">Character Design</h2>
+      <div class="char-grid">
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-01.png" alt="Character design 01" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-02.png" alt="Character design 02" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-03.png" alt="Character design 03" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-04.png" alt="Character design 04" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-05.png" alt="Character design 05" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-06.png" alt="Character design 06" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-07.png" alt="Character design 07" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-08.png" alt="Character design 08" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-09.png" alt="Character design 09" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-10.png" alt="Character design 10" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-11.png" alt="Character design 11" loading="lazy"></div>
+        <div class="char-thumb"><img src="./assets/thumbnails/character-rigging.jpg" alt="Character rigging" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI WORKFLOW -->
+  <section class="content-section">
+    <div class="container">
+      <span class="section-label">System Design</span>
+      <h2 style="font-size:1.8rem;margin-bottom:0.75rem">AI-Assisted Animation Workflow</h2>
+      <p style="color:var(--text2);font-size:0.92rem;max-width:640px;margin-bottom:2rem">A purpose-built production pipeline integrating AI tools at key stages to accelerate output, maintain consistency, and enable localization at scale.</p>
+
+      <div class="process-steps">
+        <div class="process-step">
+          <span class="step-num">01</span>
+          <h4>Script &amp; Storyboard</h4>
+          <p>AI-assisted script adaptation and storyboard generation from brief to animatic.</p>
+        </div>
+        <div class="process-step">
+          <span class="step-num">02</span>
+          <h4>Asset Generation</h4>
+          <p>Character and background asset creation with AI-augmented production pipeline.</p>
+        </div>
+        <div class="process-step">
+          <span class="step-num">03</span>
+          <h4>Animation &amp; Lip Sync</h4>
+          <p>2D animation with AI-assisted lip sync to support multi-language voiceovers.</p>
+        </div>
+        <div class="process-step">
+          <span class="step-num">04</span>
+          <h4>Localization &amp; Export</h4>
+          <p>Modular localization system allowing audio and text swaps without re-animating.</p>
+        </div>
+      </div>
+
+      <!-- AI proof images -->
+      <div class="proof-grid" style="margin-top:2rem">
+        <div>
+          <img src="./assets/thumbnails/ai-01.png" alt="AI workflow — step 1" loading="lazy"
+               onerror="this.parentElement.style.display='none'">
+        </div>
+        <div>
+          <img src="./assets/thumbnails/ai-02.png" alt="AI workflow — step 2" loading="lazy"
+               onerror="this.parentElement.style.display='none'">
+        </div>
+        <div>
+          <img src="./assets/thumbnails/hand-shapes.jpg" alt="Hand shapes — gesture reference" loading="lazy"
+               onerror="this.parentElement.style.display='none'">
+        </div>
+        <div>
+          <img src="./assets/thumbnails/vo-1.jpg" alt="Voiceover recording" loading="lazy"
+               onerror="this.parentElement.style.display='none'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT BRIEF -->
+  <section class="content-section">
+    <div class="container">
+      <div class="two-col">
+        <div>
+          <span class="col-label">Brief</span>
+          <h2 class="col-title">Project Overview</h2>
+        </div>
+        <div class="col-body">
+          <img src="./assets/thumbnails/project-brief.png" alt="Project brief"
+               style="width:100%;border-radius:var(--radius-lg);border:1px solid var(--border2)"
+               onerror="this.style.display='none'" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EPISODES -->
+  <section class="content-section">
+    <div class="container">
+      <span class="section-label">Series</span>
+      <h2 style="font-size:1.8rem;margin-bottom:2rem">Episode Overview</h2>
+      <div class="episode-grid">
+        <div class="episode-thumb">
+          <img src="./assets/thumbnails/e1.jpg" alt="Episode 1" loading="lazy">
+          <div class="ep-label">Episode 01</div>
+        </div>
+        <div class="episode-thumb">
+          <img src="./assets/thumbnails/e2.jpg" alt="Episode 2" loading="lazy">
+          <div class="ep-label">Episode 02</div>
+        </div>
+        <div class="episode-thumb">
+          <img src="./assets/thumbnails/e3.jpg" alt="Episode 3" loading="lazy">
+          <div class="ep-label">Episode 03</div>
+        </div>
+        <div class="episode-thumb">
+          <img src="./assets/thumbnails/e4.jpg" alt="Episode 4" loading="lazy">
+          <div class="ep-label">Episode 04</div>
+        </div>
+        <div class="episode-thumb">
+          <img src="./assets/thumbnails/e5.jpg" alt="Episode 5" loading="lazy">
+          <div class="ep-label">Episode 05</div>
+        </div>
+        <div class="episode-thumb">
+          <img src="./assets/thumbnails/e6.jpg" alt="Episode 6" loading="lazy">
+          <div class="ep-label">Episode 06</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCALIZATION -->
+  <section class="content-section">
+    <div class="container">
+      <div class="two-col">
+        <div>
+          <span class="col-label">Localization</span>
+          <h2 class="col-title">Multilingual Delivery</h2>
+        </div>
+        <div class="col-body">
+          <p>The animation system was designed from the start for multilingual delivery — ensuring that audio, subtitles, and on-screen text elements could be swapped or adapted without triggering full reproduction cycles.</p>
+          <p>Language and region variants were managed through a modular asset system, enabling localization teams to work in parallel with production.</p>
+          <div class="lang-pills">
+            <span class="lang-pill">English</span>
+            <span class="lang-pill">+ Add languages</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        <a href="../../index.html" class="back-link" style="justify-content:center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Portfolio
+        </a>
+      </p>
+      <p style="margin-top:1rem">&copy; 2025 Jiang Yi. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
