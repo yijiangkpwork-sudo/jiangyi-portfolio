@@ -3,8 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GREEN GUARDIANS — Jiang Yi</title>
+  <title>Green Guardians — Jiang Yi</title>
   <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <style>
+    @keyframes slow-pan{from{background-position:40% center}to{background-position:60% center}}
+    /* Hero: full-bleed cover + looping ken-burns pan animation */
+    @keyframes hero-pan{0%{transform:scale(1.06) translateX(0)}100%{transform:scale(1.06) translateX(-3%)}}
+    .hero-full__bg img{
+      transform:none!important;
+      object-fit:cover!important;
+      object-position:center center!important;
+      animation:hero-pan 22s ease-in-out infinite alternate!important;
+      transform-origin:center center
+    }
+    .hero-full__bg video{
+      transform:none!important;
+      object-fit:cover!important;
+      object-position:center center!important;
+      width:100%!important;
+      height:100%!important;
+    }
+    /* Stronger left gradient — matches Bonzo/PomPak */
+    .hero-full__bg::before{
+      background:
+        linear-gradient(100deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.72) 38%,rgba(0,0,0,.28) 62%,rgba(0,0,0,0) 78%),
+        linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,0) 22%)!important;
+      z-index:1!important;
+      pointer-events:none!important;
+    }
+
+    /* Role grid */
+    .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.5rem}
+    .role-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.1rem 1rem;font-size:.72rem;font-weight:600;color:var(--text2);line-height:1.45;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .role-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px -8px var(--accent-glow);border-color:var(--accent-soft)}
+    .role-card svg{display:block;width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.6rem}
+
+    /* Impact cards */
+    .gg-impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
+    .gg-impact-item{background:#000;border:1px solid var(--line);border-radius:12px;padding:1.6rem 1.25rem;text-align:center;transition:transform .25s ease,box-shadow .25s ease}
+    .gg-impact-item:hover{transform:translateY(-4px);box-shadow:0 16px 40px -10px var(--accent-glow)}
+    .gg-impact-num{font-size:2.2rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.35rem;letter-spacing:-.03em}
+    .gg-impact-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:.25rem}
+    .gg-impact-note{font-size:.72rem;color:var(--text3);line-height:1.5}
+
+    /* Ecosystem / product cards */
+    .eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem}
+    .eco-card{background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+    .eco-card:hover{transform:translateY(-4px);border-color:var(--accent-soft);box-shadow:0 16px 40px -10px var(--accent-glow)}
+    .eco-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;background:#111}
+    .eco-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .4s ease}
+    .eco-card:hover .eco-thumb img{transform:scale(1.04)}
+    .eco-body{padding:1.2rem 1.25rem 1.4rem}
+    .eco-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+    .eco-desc{font-size:.82rem;color:var(--text3);line-height:1.6}
+
+    /* Grade-level cards */
+    .grade-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.75rem}
+    .grade-card{background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+    .grade-card:hover{transform:translateY(-4px);border-color:var(--accent-soft);box-shadow:0 16px 40px -10px var(--accent-glow)}
+    .grade-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;background:#111}
+    .grade-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .4s ease}
+    .grade-card:hover .grade-thumb img{transform:scale(1.04)}
+    .grade-body{padding:1.75rem 2rem 2rem}
+    .grade-badge{display:inline-block;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent-soft);border-radius:99px;padding:.3rem .8rem;margin-bottom:.85rem}
+    .grade-title{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.6rem}
+    .grade-desc{font-size:.82rem;color:var(--text2);line-height:1.7;margin-bottom:1.25rem}
+    .grade-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+    .grade-tag{font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:99px;padding:.25rem .65rem}
+
+    /* Production cards */
+    .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem}
+    .prod-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.4rem 1.25rem;transition:transform .25s ease,border-color .25s ease}
+    .prod-card:hover{transform:translateY(-3px);border-color:var(--accent-soft)}
+    .prod-title{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
+    .prod-desc{font-size:.82rem;color:var(--text3);line-height:1.6}
+
+    /* Gallery grid variants */
+    .gallery-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem}
+    .gallery-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.75rem}
+    .gallery-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.75rem}
+
+    /* Lesson thumbnail grid — 3:2 ratio matching source images (~1214×808) */
+    .lesson-thumb-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.75rem}
+    .lesson-thumb-item{aspect-ratio:3/2;border-radius:12px;overflow:hidden;background:#111;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease}
+    .lesson-thumb-item:hover{transform:scale(1.03);box-shadow:0 12px 32px -8px var(--accent-glow)}
+    .lesson-thumb-item img{width:100%;height:100%;object-fit:cover;display:block}
+
+    @media(max-width:1000px){
+      .role-grid{grid-template-columns:repeat(2,1fr)}
+      .gg-impact-grid{grid-template-columns:repeat(2,1fr)}
+      .eco-grid{grid-template-columns:repeat(2,1fr)}
+      .grade-grid{grid-template-columns:1fr}
+      .prod-grid{grid-template-columns:repeat(2,1fr)}
+      .gallery-3{grid-template-columns:repeat(2,1fr)}
+      .gallery-4{grid-template-columns:repeat(2,1fr)}
+      .lesson-thumb-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:640px){
+      .role-grid{grid-template-columns:1fr}
+      .gg-impact-grid{grid-template-columns:1fr}
+      .eco-grid{grid-template-columns:1fr}
+      .prod-grid{grid-template-columns:1fr}
+      .gallery-3,.gallery-4,.gallery-2{grid-template-columns:1fr}
+      .lesson-thumb-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
 </head>
 <body class="theme-green">
 
@@ -14,55 +119,451 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Jiang Yi
       </a>
-      <span class="nav-project-name">Green Guardians</span>
+      <img src="./assets/GG%20logo%20topbar%20right.png" alt="Green Guardians"
+           style="height:36px;width:auto;display:block" onerror="this.style.display='none'">
     </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero-full">
     <div class="hero-full__bg">
-      <img src="./assets/hero.jpg" alt="GREEN GUARDIANS hero"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="hero-full__placeholder" style="display:none">Drop hero.jpg in ./assets/</div>
+      <video autoplay muted loop playsinline
+             style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
+        <source src="./assets/Hero%20animation.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-full__frame">
       <div class="hero-full__content">
-        <div class="hero-full__logo"><span style="font-family:var(--font-head);font-size:1.6rem;font-weight:900;color:var(--accent);letter-spacing:-.02em">GG</span></div>
+        <span class="hero-full__eyebrow">Environmental Literacy Platform</span>
         <h1 class="hero-full__title">GREEN<br>GUARDIANS</h1>
-        <p class="hero-full__sub">Product Prototype · Character IP · Learning Design</p>
-        <p class="hero-full__desc">A climate-literacy learning product and video prototype for children — building environmental awareness through character-driven storytelling, interactive activities, and age-appropriate curriculum design.</p>
-        <div class="hero-full__tags"><span class="tag">Product Prototype</span><span class="tag">Character IP</span><span class="tag">Learning Design</span></div>
+        <p class="hero-full__sub">Environmental Literacy Learning Hub</p>
+        <p class="hero-full__desc">A character-led environmental literacy platform and lesson hub designed to help teachers turn sustainability, climate, ecosystems, and community action into engaging learning experiences.</p>
+        <div class="hero-full__tags">
+          <span class="tag">Environmental Literacy</span>
+          <span class="tag">Lesson Hub</span>
+          <span class="tag">Character IP</span>
+          <span class="tag">Partner Platform</span>
+          <span class="tag">Scalable Templates</span>
+        </div>
       </div>
       <div class="hero-full__footer">
-        <div class="hero-full__meta hero-full__meta--4"><div><div class="m-l">Category</div><div class="m-v">Learning Product</div></div><div><div class="m-l">Role</div><div class="m-v">Design Lead · Creative Direction</div></div><div><div class="m-l">Format</div><div class="m-v">Video · Interactive · Print</div></div><div><div class="m-l">Theme</div><div class="m-v">Climate Literacy · Children</div></div></div>
+        <div class="hero-full__meta hero-full__meta--4">
+          <div><div class="m-l">Market</div><div class="m-v">US · Singapore Context</div></div>
+          <div><div class="m-l">Role</div><div class="m-v">Design Lead · Branding · UI/UX · Learning Media</div></div>
+          <div><div class="m-l">Audience</div><div class="m-v">K–6 Lessons · K–12 Partner Hub</div></div>
+          <div><div class="m-l">Output</div><div class="m-v">Lessons · Videos · Games · Hub · Campaign Assets</div></div>
+        </div>
       </div>
     </div>
   </section>
 
-
+  <!-- IMPACT & ECOSYSTEM CONTEXT -->
   <section class="content-section reveal">
     <div class="container">
-      <span class="section-label">Visual Work</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Character, World &amp; Product Design</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem"><div class="gallery-item"><div class="img-placeholder">Character design</div></div><div class="gallery-item"><div class="img-placeholder">World / environment</div></div><div class="gallery-item"><div class="img-placeholder">Learning screen</div></div><div class="gallery-item"><div class="img-placeholder">Video prototype still</div></div><div class="gallery-item"><div class="img-placeholder">Print / workbook</div></div><div class="gallery-item"><div class="img-placeholder">Brand / logo</div></div></div>
+      <span class="section-label">Scale & Context</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Impact & Ecosystem Context</h2>
+      <p class="section-lead">Green Guardians was built within an environmental literacy ecosystem combining lesson content, partner resources, community-based programs, and scalable learning media. Ecosystem figures are presented as partner hub context, not direct attribution to a single design asset.</p>
+      <div class="gg-impact-grid">
+        <div class="gg-impact-item">
+          <div class="gg-impact-num">155</div>
+          <div class="gg-impact-label">Partners</div>
+          <div class="gg-impact-note">CAELI hub ecosystem growth context</div>
+        </div>
+        <div class="gg-impact-item">
+          <div class="gg-impact-num">266</div>
+          <div class="gg-impact-label">Programs</div>
+          <div class="gg-impact-note">Community-based partner program context</div>
+        </div>
+        <div class="gg-impact-item">
+          <div class="gg-impact-num">50</div>
+          <div class="gg-impact-label">Videos</div>
+          <div class="gg-impact-note">Public K–5 curriculum context</div>
+        </div>
+        <div class="gg-impact-item">
+          <div class="gg-impact-num">150+</div>
+          <div class="gg-impact-label">Activities & Games</div>
+          <div class="gg-impact-note">Public K–5 curriculum context</div>
+        </div>
+        <div class="gg-impact-item">
+          <div class="gg-impact-num" style="font-size:1.45rem;padding-top:.3rem">K–12 Hub</div>
+          <div class="gg-impact-label">Partner Access</div>
+          <div class="gg-impact-note">Teacher / administrator access to partner programs</div>
+        </div>
+        <div class="gg-impact-item">
+          <div class="gg-impact-num" style="font-size:1.35rem;padding-top:.3rem">K–5</div>
+          <div class="gg-impact-label">Lesson Content</div>
+          <div class="gg-impact-note">Environmental literacy lessons, videos, activities, and games</div>
+        </div>
+        <div class="gg-impact-item">
+          <div class="gg-impact-num" style="font-size:1.35rem;padding-top:.3rem">48</div>
+          <div class="gg-impact-label">Lesson Plans</div>
+          <div class="gg-impact-note">Public K–5 curriculum context</div>
+        </div>
+        <div class="gg-impact-item">
+          <div class="gg-impact-num" style="font-size:1.35rem;padding-top:.3rem">SG</div>
+          <div class="gg-impact-label">Singapore Context</div>
+          <div class="gg-impact-note">Sustainability education programme extension</div>
+        </div>
+      </div>
+      <p style="font-size:.72rem;color:var(--text3);margin-top:1.25rem;line-height:1.6;font-style:italic">Figures reflect public Green Guardians / CAELI / curriculum ecosystem context. Direct project attribution should remain conservative.</p>
     </div>
   </section>
 
+  <!-- PRODUCT CHALLENGE -->
   <section class="content-section reveal">
     <div class="container">
-      <span class="section-label">Curriculum Design</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Learning Activities &amp; Content</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem"><div class="gallery-item"><div class="img-placeholder">Activity 1</div></div><div class="gallery-item"><div class="img-placeholder">Activity 2</div></div><div class="gallery-item"><div class="img-placeholder">Activity 3</div></div><div class="gallery-item"><div class="img-placeholder">Worksheet</div></div><div class="gallery-item"><div class="img-placeholder">Print</div></div><div class="gallery-item"><div class="img-placeholder">Resource</div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;min-height:320px;border-radius:16px;overflow:hidden;border:1px solid var(--line)">
+        <div style="overflow:hidden">
+          <img src="./assets/picturebook-01.png" alt="Green Guardians lesson" loading="lazy"
+               style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;padding:2.5rem 2.75rem;background:#000">
+          <span class="section-label">Product Challenge</span>
+          <h2 style="font-size:1.5rem;margin:.75rem 0 1rem;line-height:1.15">Making Environmental Literacy Actionable</h2>
+          <p style="color:var(--text2);font-size:.85rem;line-height:1.8;margin-bottom:.9rem">Environmental education can feel abstract unless learners can connect it to real places, choices, and community action. Green Guardians needed a product system that could make climate, ecosystems, conservation, and sustainability more visual, approachable, and classroom-ready.</p>
+          <p style="color:var(--text3);font-size:.82rem;line-height:1.75">The platform also needed to connect teachers to a growing network of community-based partners and programs — turning environmental education from a solo classroom effort into a community-connected learning experience.</p>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- MY ROLE & OWNERSHIP -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">My Role & Ownership</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Design Lead · Brand System · Learning Media</h2>
+      <p class="section-lead">I led the design direction and hands-on execution across Green Guardians' visual identity, character systems, UI/UX, lesson visuals, video direction, campaign assets, social media, partner-facing materials, and scalable production templates.</p>
+      <div class="role-grid">
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/></svg>
+          Product Creative Direction
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Logo & Brand Identity
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          UI / UX Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Character System
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Lesson Visual Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Video & Storyboard Direction
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M9 11v4M7 13h4"/><circle cx="15.5" cy="13.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="11.5" r=".5" fill="currentColor"/></svg>
+          Games & Activities
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Social Media & Campaigns
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Partner Hub Visual Support
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Production Workflow & Templates
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT SYSTEM -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Product Architecture</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Environmental Literacy Product System</h2>
+      <p class="section-lead">Green Guardians combined teacher resources, partner programs, lesson content, videos, activities, games, and visual storytelling into one scalable learning ecosystem.</p>
+      <div class="eco-grid">
+        <div class="eco-card">
+          <div class="eco-thumb"><img src="./assets/Partner%20Hub%2001.png" alt="Partner Hub" loading="lazy"></div>
+          <div class="eco-body">
+            <div class="eco-title">Partner Hub</div>
+            <div class="eco-desc">CAELI Community-Based Partner Hub connecting K–12 teachers and administrators to environmental education partners and programs.</div>
+          </div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-thumb"><img src="./assets/Lesson%20Series.png" alt="Lesson Series" loading="lazy"></div>
+          <div class="eco-body">
+            <div class="eco-title">Lesson Series</div>
+            <div class="eco-desc">K–5 environmental literacy lesson plans and slide decks covering climate, ecosystems, conservation, water, energy, and sustainability.</div>
+          </div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-thumb"><img src="./assets/Video%20Lessons.png" alt="Video Lessons" loading="lazy"></div>
+          <div class="eco-body">
+            <div class="eco-title">Video Lessons</div>
+            <div class="eco-desc">Character-led and topic-driven video content making environmental concepts more visual, story-driven, and classroom-accessible.</div>
+          </div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-thumb"><img src="./assets/Games%20%26%20Activities.png" alt="Games and Activities" loading="lazy"></div>
+          <div class="eco-body">
+            <div class="eco-title">Games &amp; Activities</div>
+            <div class="eco-desc">Interactive activities and games reinforcing environmental learning through hands-on, playful, and curriculum-aligned experiences.</div>
+          </div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-thumb"><img src="./assets/Community%20Programs.jpeg" alt="Community Programs" loading="lazy"></div>
+          <div class="eco-body">
+            <div class="eco-title">Community Programs</div>
+            <div class="eco-desc">Teacher access to a growing network of community-based environmental education partners, programs, and field resources.</div>
+          </div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-thumb"><img src="./assets/Campaign%20Assets.png" alt="Campaign Assets" loading="lazy"></div>
+          <div class="eco-body">
+            <div class="eco-title">Campaign Assets</div>
+            <div class="eco-desc">Brand materials, social media assets, and campaign content supporting platform launch, growth, and partner outreach.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARACTER & GRADE-LEVEL DESIGN -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Character System</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Characters for Different Learner Stages</h2>
+      <p class="section-lead">The visual system used younger, more playful character styling for early grades and older human characters for upper primary learners — helping environmental literacy content feel age-appropriate across different grade levels.</p>
+      <div class="grade-grid">
+        <div class="grade-card">
+          <div class="grade-thumb"><img src="./assets/Playful%20Character%20World.jpeg" alt="Playful Character World" loading="lazy"></div>
+          <div class="grade-body">
+            <div class="grade-badge">Early Grades · K–3</div>
+            <div class="grade-title">Playful Character World</div>
+            <div class="grade-desc">Younger learners were guided by friendly, expressive characters in a Coco's Kampong-inspired visual style — making environmental concepts approachable, warm, and story-driven for early childhood.</div>
+            <div class="grade-tags">
+              <span class="grade-tag">Character-led lessons</span>
+              <span class="grade-tag">Expressive visual world</span>
+              <span class="grade-tag">Story moments</span>
+              <span class="grade-tag">Picture-book style</span>
+            </div>
+          </div>
+        </div>
+        <div class="grade-card">
+          <div class="grade-thumb"><img src="./assets/Human%20Character%20System.jpeg" alt="Human Character System" loading="lazy"></div>
+          <div class="grade-body">
+            <div class="grade-badge">Upper Primary · Grades 4–6</div>
+            <div class="grade-title">Human Character System</div>
+            <div class="grade-desc">Older learners were represented through human characters and more realistic environmental scenarios — connecting climate, conservation, and community action to relatable, real-world situations.</div>
+            <div class="grade-tags">
+              <span class="grade-tag">Human characters</span>
+              <span class="grade-tag">Real-world contexts</span>
+              <span class="grade-tag">Community action</span>
+              <span class="grade-tag">Field examples</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LESSONS, VIDEOS & ACTIVITIES -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Digital Product</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Lessons, Videos & Interactive Activities</h2>
+      <p class="section-lead">The lesson system used visuals, stories, videos, activities, games, and classroom-ready materials to turn environmental topics into active learning experiences.</p>
+
+      <!-- Video Lessons — 3 across -->
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin:2rem 0 .75rem">Video Lessons</div>
+      <div class="gallery-3">
+        <div class="gallery-item"><img src="./assets/video-01.png" alt="Video lesson 1" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/video%20lesson.png" alt="Video lesson 2" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/video-03.png" alt="Video lesson 3" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+      </div>
+
+      <!-- Lesson Titles — 4-col uniform 3:2 grid, only matching-ratio images -->
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin:2rem 0 .75rem">Lesson Series</div>
+      <div class="lesson-thumb-grid">
+        <div class="lesson-thumb-item"><img src="./assets/01.png" alt="Lesson 01" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/02.png" alt="Lesson 02" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/03.png" alt="Lesson 03" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/04.png" alt="Lesson 04" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/05.png" alt="Lesson 05" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/06.png" alt="Lesson 06" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/07.png" alt="Lesson 07" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/08.png" alt="Lesson 08" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/13.png" alt="Lesson 13" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/14.png" alt="Lesson 14" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/15.png" alt="Lesson 15" loading="lazy"></div>
+        <div class="lesson-thumb-item"><img src="./assets/16.png" alt="Lesson 16" loading="lazy"></div>
+      </div>
+
+      <!-- Lesson Slides — 4 across, 2 rows: pick diverse set -->
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin:2rem 0 .75rem">Lesson Slides</div>
+      <div class="gallery-4">
+        <div class="gallery-item"><img src="./assets/lesson%20sample%2001.jpeg" alt="Lesson slide 1" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/lesson%20sample%2002.jpeg" alt="Lesson slide 2" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/lesson%20sample%2004.jpeg" alt="Lesson slide 4" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/lesson%20sample%2005.jpeg" alt="Lesson slide 5" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Slide1.jpeg" alt="Slide 1" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Slide4.jpeg" alt="Slide 4" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Slide7.jpeg" alt="Slide 7" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Slide10.jpeg" alt="Slide 10" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+      </div>
+
+      <!-- Readers — 3 across -->
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin:2rem 0 .75rem">Readers</div>
+      <div class="gallery-3">
+        <div class="gallery-item"><img src="./assets/picturebook-01.png" alt="Picture book 1" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/picturebook-02.png" alt="Picture book 2" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/picturebook-03.png" alt="Picture book 3" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAELI PARTNER HUB -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Platform Design</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Community-Based Partner Hub</h2>
+      <p class="section-lead">For the US market, Green Guardians supported the CAELI Community-Based Partner Hub — a platform connecting K–12 educators and administrators to environmental education partners and their programs. I contributed design direction and visual/product execution across the hub experience.</p>
+      <div class="gallery-4">
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2001.png" alt="Partner Hub 1" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2002.png" alt="Partner Hub 2" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2003.png" alt="Partner Hub 3" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2004.png" alt="Partner Hub 4" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2005.png" alt="Partner Hub 5" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2006.png" alt="Partner Hub 6" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2007.png" alt="Partner Hub 7" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/Partner%20Hub%2008.png" alt="Partner Hub 8" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCALABLE PRODUCTION SYSTEM -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Production Design</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Scalable Production System</h2>
+      <p class="section-lead">To help the platform scale, I created visual standards, templates, character systems, and production workflows that could support new lessons, videos, activities, campaigns, and partner-facing content.</p>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-title">Brand Templates</div>
+          <div class="prod-desc">Logo, colour system, typography, and brand guidelines ensuring consistent Green Guardians visual language across all formats.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Lesson Templates</div>
+          <div class="prod-desc">Reusable lesson screen layouts and slide deck standards that teams could use to produce new content at pace.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Video Title & Transition Templates</div>
+          <div class="prod-desc">Branded video intro, outro, and transition assets keeping video production visually consistent across episodes.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Character Asset System</div>
+          <div class="prod-desc">Character poses, expressions, and environment elements reusable across lessons, videos, activities, and marketing.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Social Media Templates</div>
+          <div class="prod-desc">Campaign post templates for Instagram, Facebook, and YouTube aligned to the Green Guardians brand and launch strategy.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Partner Resource Patterns</div>
+          <div class="prod-desc">Visual standards for partner listing cards, program pages, and resource layouts within the CAELI partner hub.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOBAL CLIMATE LITERACY COMPETITION -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Global Competition</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Global Climate Literacy Competition</h2>
+      <p class="section-lead">Green Guardians also hosted the Global Climate Literacy Competition, a digital, games-based climate learning competition for students. The competition turned climate literacy into short, repeatable micro-games with progress, questions, competition mechanics, and participation data.</p>
+
+      <!-- Public context highlight -->
+      <div style="border-left:3px solid var(--accent);padding:.9rem 1.4rem;background:var(--accent-soft);border-radius:0 10px 10px 0;margin:2rem 0 2.5rem">
+        <p style="font-size:.92rem;color:#fff;line-height:1.7;margin:0">The first Global Climate Literacy Competition engaged <strong style="color:var(--accent)">3,300+ students</strong> from <strong style="color:var(--accent)">174 schools</strong> across <strong style="color:var(--accent)">37 countries</strong>, challenging Grades 6–8 learners through micro-games related to climate change, green energy, and water.</p>
+      </div>
+
+      <!-- Engagement metric strip -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin-bottom:2.5rem">
+        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">16,922</div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Games Played</div>
+        </div>
+        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">312 hrs</div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Hours Spent</div>
+        </div>
+        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">43,771</div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Questions Attempted</div>
+        </div>
+        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">14 min</div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Avg. Time per User</div>
+        </div>
+        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">32</div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Questions per User</div>
+        </div>
+      </div>
+
+      <!-- Competition slides / results visuals — 1:1 square tiles -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem">
+        <div style="aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:#111"><img src="./assets/GCLC/Slide1.png" alt="Competition overview" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.style.background='#111'"></div>
+        <div style="aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:#111"><img src="./assets/GCLC/Slide2.png" alt="Competition results" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.style.background='#111'"></div>
+        <div style="aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:#111"><img src="./assets/GCLC/Slide3.png" alt="Competition data" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.style.background='#111'"></div>
+        <div style="aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:#111"><img src="./assets/GCLC/Slide4.png" alt="Competition engagement" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.style.background='#111'"></div>
+      </div>
+
+      <!-- School participation photos -->
+      <div class="gallery-3" style="margin-bottom:2rem">
+        <div class="gallery-item"><img src="./assets/GCLC/CGS%201.jpeg" alt="School participation" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/GCLC/CGS%202.jpeg" alt="Student competition" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/GCLC/CCH%20Testimonial%202.jpeg" alt="Testimonial" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/GCLC/Diamond%20Jubilee%20Local%20Higher%20Secondary%20School%2C%20Teru%203.jpg" alt="Participating school" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/GCLC/Diamond%20Jubilee%20Local%20Higher%20Secondary%20School%2C%20Teru%204.jpg" alt="Participating school" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/GCLC/Diamond%20Jubilee%20Local%20Higher%20Secondary%20School%2C%20Teru%206.jpeg" alt="Participating school" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
+      </div>
+
+      <!-- My contribution -->
+      <div style="background:#000;border:1px solid var(--line);border-radius:14px;padding:1.75rem 2rem">
+        <div style="font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem">My Contribution</div>
+        <p style="font-size:.88rem;color:var(--text2);line-height:1.75;margin:0 0 .75rem">I supported the design and production side of the competition experience, including visual direction, campaign materials, platform and lesson visuals, game-based learning presentation, and scalable design assets.</p>
+        <p style="font-size:.85rem;color:var(--text3);line-height:1.7;margin:0">The competition showed how Green Guardians could scale climate literacy through short games, measurable participation, and global school engagement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="content-section reveal">
+    <div class="container">
+      <div style="position:relative;border-radius:20px;overflow:hidden;min-height:340px;display:flex;align-items:center;justify-content:center">
+        <div style="position:absolute;inset:0;background-image:url('./assets/footer%20background.jpg');background-size:cover;background-position:center center;animation:slow-pan 18s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.45) 50%,rgba(0,0,0,.65) 100%)"></div>
+        <div style="position:relative;z-index:1;text-align:center;padding:3.5rem 4rem;max-width:700px">
+          <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(1.2rem,2.2vw,1.65rem);color:#fff;line-height:1.65;font-weight:400;margin:0;text-shadow:0 2px 18px rgba(0,0,0,.5)">"A scalable environmental literacy system built to turn sustainability education into visual, actionable, and classroom-ready learning experiences."</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer class="site-footer">
-    <div class="container">
+    <div class="container" style="text-align:center">
+      <a href="../../index.html" class="back-link" style="justify-content:center;margin-bottom:1rem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Portfolio
+      </a>
       <p>&copy; 2025 Jiang Yi. All rights reserved.</p>
     </div>
   </footer>
-
 
 <script>
   const nav = document.getElementById('siteNav');

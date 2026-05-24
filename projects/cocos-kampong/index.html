@@ -3,42 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COCO'S KAMPONG — Jiang Yi</title>
+  <title>Coco's Kampong — Jiang Yi</title>
   <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
   <style>
-    .overview-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:start}
-    .role-note{font-size:.78rem;color:var(--text3);margin-top:1rem;line-height:1.65;font-style:italic}
-    .char-lineup{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem}
+    @keyframes slow-pan{from{background-position:40% center}to{background-position:60% center}}
+
+    /* Role grid */
+    .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.5rem}
+    .role-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.1rem 1rem;font-size:.72rem;font-weight:600;color:var(--text2);line-height:1.45;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .role-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px -8px var(--accent-glow);border-color:var(--accent-soft)}
+    .role-card svg{display:block;width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.6rem}
+
+    /* Impact cards */
+    .ck-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+    .ck-impact-item{background:#000;border:1px solid var(--line);border-radius:12px;padding:1.75rem 1.5rem;text-align:center;transition:transform .25s ease,box-shadow .25s ease}
+    .ck-impact-item:hover{transform:translateY(-4px);box-shadow:0 16px 40px -10px var(--accent-glow)}
+    .ck-impact-num{font-size:2.4rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.35rem;letter-spacing:-.03em}
+    .ck-impact-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:.25rem}
+    .ck-impact-note{font-size:.72rem;color:var(--text3);line-height:1.5}
+
+    /* Ecosystem cards */
+    .eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem}
+    .eco-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.4rem 1.25rem;transition:transform .25s ease,border-color .25s ease}
+    .eco-card:hover{transform:translateY(-3px);border-color:var(--accent-soft)}
+    .eco-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
+    .eco-desc{font-size:.82rem;color:var(--text3);line-height:1.6}
+
+    /* Character lineup */
+    .char-lineup{display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem}
     .char-card{text-align:center}
-    .char-img{aspect-ratio:1;background:#000;border-radius:10px;overflow:hidden;transition:transform .3s ease}
+    .char-img{aspect-ratio:1;background:#000;border-radius:10px;overflow:hidden;border:1px solid var(--line);transition:transform .3s ease}
     .char-img:hover{transform:translateY(-5px)}
     .char-img img{width:100%;height:100%;object-fit:contain;padding:.5rem}
-    .char-name{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:.5rem 0}
-    .expr-strip{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.5rem;margin-top:1.5rem;-webkit-overflow-scrolling:touch}
-    .expr-strip::-webkit-scrollbar{height:4px}.expr-strip::-webkit-scrollbar-track{background:#111}.expr-strip::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
-    .expr-item{flex:0 0 76px}
-    .expr-img{width:76px;height:76px;background:#000;border-radius:8px;overflow:hidden;transition:transform .25s ease}
-    .expr-img:hover{transform:scale(1.06)}
+    .char-name{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:.45rem 0}
+
+    /* Expression strip */
+    .expr-strip{display:flex;gap:.4rem;overflow-x:auto;padding-bottom:.5rem;margin-top:1.1rem;-webkit-overflow-scrolling:touch}
+    .expr-strip::-webkit-scrollbar{height:4px}
+    .expr-strip::-webkit-scrollbar-track{background:#111}
+    .expr-strip::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+    .expr-item{flex:0 0 72px}
+    .expr-img{width:72px;height:72px;background:#000;border-radius:8px;border:1px solid var(--line);overflow:hidden;transition:transform .25s ease}
+    .expr-img:hover{transform:scale(1.08)}
     .expr-img img{width:100%;height:100%;object-fit:contain;padding:4px}
-    .icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem}
-    .icon-item{text-align:center;background:#000;border-radius:10px;padding:.85rem .5rem;transition:transform .25s ease,box-shadow .25s ease}
+
+    /* Icon grid */
+    .icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.65rem;margin-top:1.75rem}
+    .icon-item{text-align:center;background:#000;border:1px solid var(--line);border-radius:10px;padding:.8rem .4rem;transition:transform .25s ease,box-shadow .25s ease}
     .icon-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px -6px var(--accent-glow)}
-    .icon-item img{width:44px;height:44px;object-fit:contain;display:block;margin:0 auto .4rem}
-    .icon-label{font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
-    .impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
-    .impact-item{background:#000;border-radius:12px;padding:2rem 1.5rem;text-align:center;transition:transform .25s ease,box-shadow .25s ease}
-    .impact-item:hover{transform:translateY(-4px);box-shadow:0 16px 40px -10px var(--accent-glow)}
-    .impact-num{font-size:2.6rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.4rem}
-    .impact-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3)}
-    .proto-block{background:#000;border-radius:16px;padding:3.5rem;display:flex;justify-content:space-between;align-items:center;gap:3rem}
-    .proto-note{font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-top:.75rem}
-    .mktg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-    @media(max-width:900px){
-      .overview-grid{grid-template-columns:1fr;gap:2.5rem}
+    .icon-item img{width:40px;height:40px;object-fit:contain;display:block;margin:0 auto .35rem}
+    .icon-label{font-size:.52rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+
+    /* Production system cards */
+    .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem}
+    .prod-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.4rem 1.25rem;transition:transform .25s ease,border-color .25s ease}
+    .prod-card:hover{transform:translateY(-3px);border-color:var(--accent-soft)}
+    .prod-title{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
+    .prod-desc{font-size:.82rem;color:var(--text3);line-height:1.6}
+
+    /* Interactive reader block */
+    .proto-block{background:#000;border:1px solid var(--line);border-radius:16px;padding:3rem;display:flex;justify-content:space-between;align-items:center;gap:3rem}
+    .proto-features{list-style:none;padding:0;margin:.85rem 0 1.5rem;display:flex;flex-direction:column;gap:.45rem}
+    .proto-features li{font-size:.84rem;color:var(--text2);display:flex;align-items:center;gap:.5rem}
+    .proto-features li::before{content:'→';color:var(--accent);font-size:.75rem;flex-shrink:0}
+    .proto-note{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-top:.75rem}
+
+    /* Marketing grid */
+    .mktg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.75rem}
+
+    @media(max-width:1000px){
       .char-lineup{grid-template-columns:repeat(3,1fr)}
+      .ck-impact-grid{grid-template-columns:repeat(2,1fr)}
+      .eco-grid{grid-template-columns:repeat(2,1fr)}
+      .prod-grid{grid-template-columns:repeat(2,1fr)}
+      .role-grid{grid-template-columns:repeat(2,1fr)}
       .icon-grid{grid-template-columns:repeat(4,1fr)}
-      .impact-grid{grid-template-columns:repeat(2,1fr)}
-      .proto-block{flex-direction:column;text-align:center}
+      .proto-block{flex-direction:column;gap:2rem}
+    }
+    @media(max-width:640px){
+      .char-lineup{grid-template-columns:repeat(3,1fr)}
+      .ck-impact-grid{grid-template-columns:1fr}
+      .eco-grid{grid-template-columns:1fr}
+      .prod-grid{grid-template-columns:1fr}
+      .role-grid{grid-template-columns:1fr}
+      .icon-grid{grid-template-columns:repeat(3,1fr)}
       .mktg-grid{grid-template-columns:1fr}
     }
   </style>
@@ -51,94 +101,206 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Jiang Yi
       </a>
-      <span class="nav-project-name">Coco's Kampong</span>
+      <img src="./assets/lss_white_on-topbar-right.png" alt="Learn Smart Singapore"
+           style="height:36px;width:auto;display:block" onerror="this.style.display='none'">
     </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero-full">
     <div class="hero-full__bg">
-      <!-- Replace hero.jpg with a hero image or video poster -->
-      <img src="./assets/hero.jpg" alt="Coco's Kampong"
+      <img src="./assets/hero-poster.jpg" alt="Coco's Kampong"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="hero-full__placeholder" style="display:none">Place hero.jpg in ./assets/ — video-ready structure for future upgrade</div>
+      <div class="hero-full__placeholder" style="display:none"></div>
     </div>
     <div class="hero-full__frame">
       <div class="hero-full__content">
-        <div class="hero-full__logo">
-          <img src="./assets/logo_big.png" alt="Coco's Kampong logo" onerror="this.style.display='none'">
-        </div>
+        <span class="hero-full__eyebrow">Education Product System</span>
         <h1 class="hero-full__title">COCO'S<br>KAMPONG</h1>
-        <p class="hero-full__sub">Scalable Learning Product System · Singapore Curriculum · IP-Driven Education</p>
+        <p class="hero-full__sub">Singapore-Curriculum Learning Universe</p>
+        <p class="hero-full__desc">A scalable learning product system for Learn Smart Singapore / Knowledge Platform, spanning digital lessons, videos, readers, workbooks, games, marketing assets, and interactive prototypes.</p>
         <div class="hero-full__tags">
-          <span class="tag">English & Math G1–G5</span>
-          <span class="tag">971 Lessons</span>
-          <span class="tag">6+ Content Formats</span>
+          <span class="tag">Product System</span>
+          <span class="tag">Education IP</span>
+          <span class="tag">Singapore Curriculum</span>
+          <span class="tag">Interactive Learning</span>
         </div>
       </div>
       <div class="hero-full__footer">
-        <div class="hero-full__meta hero-full__meta--5">
-          <div><div class="m-l">Client</div><div class="m-v">Learn Smart SG · KP JV</div></div>
-          <div><div class="m-l">Role</div><div class="m-v">Design Lead · Director</div></div>
+        <div class="hero-full__meta hero-full__meta--4">
+          <div><div class="m-l">Client</div><div class="m-v">Learn Smart Singapore · Knowledge Platform</div></div>
+          <div><div class="m-l">Role</div><div class="m-v">Design Lead · Director of Design</div></div>
           <div><div class="m-l">Scope</div><div class="m-v">971 Lessons · 775 hrs</div></div>
-          <div><div class="m-l">Formats</div><div class="m-v">Video · Book · Game · Interactive</div></div>
-          <div><div class="m-l">Grades</div><div class="m-v">English + Math · G1–G5</div></div>
+          <div><div class="m-l">Subjects</div><div class="m-v">English · Math · Science Expansion</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- OVERVIEW & ROLE -->
+  <!-- IMPACT & ECOSYSTEM CONTEXT -->
   <section class="content-section reveal">
     <div class="container">
-      <div class="overview-grid">
-        <div>
-          <span class="section-label">Product Overview</span>
-          <h2 style="font-size:2rem;margin:1rem 0 1.5rem;line-height:1.1">A Scalable Singapore-Curriculum Learning System</h2>
-          <p style="color:var(--text2);line-height:1.8;margin-bottom:1rem">Coco's Kampong is a complete education product system built as a Learn Smart Singapore and Knowledge Platform joint venture — spanning digital lessons, animated video, picture books, workbooks, interactive games, and reader prototypes aligned to Singapore's primary English and Math curriculum, Grades 1–5.</p>
-          <p style="color:var(--text2);line-height:1.8">The world, characters, visual language, and production standards were designed as a reusable, extensible ecosystem — built once, scalable across formats and subjects.</p>
+      <span class="section-label">Scale & Reach</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Impact & Ecosystem Context</h2>
+      <p class="section-lead">Coco's Kampong was built within the broader Learn Smart Singapore / Knowledge Platform ecosystem as a scalable education product system. Direct product metrics come from the Grade 1–5 English + Math brochure snapshot; broader KP and publishing reach should be treated as ecosystem and distribution context.</p>
+      <div class="ck-impact-grid">
+        <div class="ck-impact-item">
+          <div class="ck-impact-num">971</div>
+          <div class="ck-impact-label">Documented Lessons</div>
+          <div class="ck-impact-note">Grade 1–5 English + Math brochure snapshot</div>
         </div>
-        <div>
-          <span class="section-label">My Role</span>
-          <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem">
-            <span class="tag">Design Lead · Director</span>
-            <span class="tag">Hands-on IC</span>
-            <span class="tag">Product Concept</span>
-            <span class="tag">Visual System</span>
-            <span class="tag">Learning Experience</span>
-            <span class="tag">Production Standards</span>
-            <span class="tag">Cross-functional Execution</span>
-          </div>
-          <p class="role-note">Academic curriculum writing and subject matter content handled by specialist educators and subject experts.</p>
+        <div class="ck-impact-item">
+          <div class="ck-impact-num">775<span style="font-size:1.5rem"> hrs</span></div>
+          <div class="ck-impact-label">Estimated Learning Duration</div>
+          <div class="ck-impact-note">Grade 1–5 English + Math combined</div>
+        </div>
+        <div class="ck-impact-item">
+          <div class="ck-impact-num">3</div>
+          <div class="ck-impact-label">Core Subjects</div>
+          <div class="ck-impact-note">English · Math · Science Expansion</div>
+        </div>
+        <div class="ck-impact-item">
+          <div class="ck-impact-num">6+</div>
+          <div class="ck-impact-label">Content Formats</div>
+          <div class="ck-impact-note">Lessons · Videos · Readers · Workbooks · Games · Marketing · Interactive</div>
+        </div>
+        <div class="ck-impact-item">
+          <div class="ck-impact-num" style="font-size:1.5rem;padding-top:.3rem">Reusable</div>
+          <div class="ck-impact-label">Design System</div>
+          <div class="ck-impact-note">Production standards extended by later teams and subjects</div>
+        </div>
+        <div class="ck-impact-item">
+          <div class="ck-impact-num" style="font-size:1.4rem;padding-top:.3rem">Regional</div>
+          <div class="ck-impact-label">Ecosystem Reach</div>
+          <div class="ck-impact-note">KP school / LMS network + publishing and distribution partners</div>
+        </div>
+      </div>
+      <p style="font-size:.72rem;color:var(--text3);margin-top:1.25rem;line-height:1.6;font-style:italic">Lesson metrics reflect documented Grade 1–5 English + Math brochure snapshot. Ecosystem reach is broader KP / partner context.</p>
+    </div>
+  </section>
+
+  <!-- PRODUCT CHALLENGE -->
+  <section class="content-section reveal">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;min-height:320px;border-radius:16px;overflow:hidden;border:1px solid var(--line)">
+        <div style="overflow:hidden">
+          <img src="./assets/town-map.png" alt="Coco's Kampong world map" loading="lazy"
+               style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block">
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;padding:2.5rem 2.75rem;background:#000">
+          <span class="section-label">Product Challenge</span>
+          <h2 style="font-size:1.5rem;margin:.75rem 0 1rem;line-height:1.15">From Curriculum to Scalable Product System</h2>
+          <p style="color:var(--text2);font-size:.85rem;line-height:1.8;margin-bottom:.9rem">Learn Smart Singapore needed a child-friendly learning product that could make Singapore-curriculum content more engaging, visual, and scalable across subjects and markets.</p>
+          <p style="color:var(--text3);font-size:.82rem;line-height:1.75">The challenge was to create more than lesson assets — Coco's Kampong needed a repeatable world, character system, and production model that teams could extend across lessons, videos, books, games, marketing, and future interactive products.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- VISUAL WORLD -->
+  <!-- MY ROLE & OWNERSHIP -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">My Role & Ownership</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Design Lead · Product System · Hands-on Execution</h2>
+      <p class="section-lead">I contributed as Design Lead / Director of Design, shaping the product idea, creative direction, character world, learning experience, production standards, and hands-on execution across digital lessons, videos, readers, workbooks, games, marketing assets, and prototypes.</p>
+      <p style="color:var(--text2);font-size:.88rem;line-height:1.8;margin-bottom:1.5rem">I worked closely with English and Math subject leads to translate curriculum needs into scalable learner-facing experiences. Once the core system matured, later teams extended the standards into Science and additional markets.</p>
+      <div class="role-grid">
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/></svg>
+          Product Concept Support
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          Creative Direction
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Character & World Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Learning Experience Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Lesson Templates & Standards
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Video & Animation Direction
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Readers & Workbook Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M9 11v4M7 13h4"/><circle cx="15.5" cy="13.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="11.5" r=".5" fill="currentColor"/></svg>
+          Games & Activity Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6 6l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+          Marketing & Sales Materials
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Team Standards & Execution
+        </div>
+      </div>
+      <p style="font-size:.76rem;color:var(--text3);margin-top:1.25rem;line-height:1.65;font-style:italic">Academic curriculum writing and subject matter content handled by specialist educators and subject experts.</p>
+    </div>
+  </section>
+
+  <!-- LEARNING PRODUCT ECOSYSTEM -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Product Architecture</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Learning Product Ecosystem</h2>
+      <p class="section-lead">The same design system supported multiple learner-facing and business-facing formats, helping Coco's Kampong feel like one connected product rather than disconnected lesson materials.</p>
+      <div class="eco-grid">
+        <div class="eco-card">
+          <div class="eco-title">Digital Lessons</div>
+          <div class="eco-desc">971 structured lessons across English G1–5 and Math G1–5, built on reusable lesson templates and interaction patterns.</div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-title">Animated Videos</div>
+          <div class="eco-desc">Story-driven and curriculum-aligned animated content supporting key learning moments and character-led storytelling.</div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-title">Readers & Workbooks</div>
+          <div class="eco-desc">Branded print and digital readers, workbooks, and practice materials extending classroom learning beyond the screen.</div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-title">Games & Activities</div>
+          <div class="eco-desc">Playful in-lesson games and activity interactions reinforcing curriculum concepts through learner-led exploration.</div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-title">Marketing Assets</div>
+          <div class="eco-desc">Campaign and distribution materials for schools, parents, and regional markets across digital and print channels.</div>
+        </div>
+        <div class="eco-card">
+          <div class="eco-title">Science Expansion</div>
+          <div class="eco-desc">Once the core system matured, later teams applied the same production standards and visual world to Science subjects.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISUAL WORLD & CHARACTER SYSTEM -->
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Visual System & World Design</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 2rem;line-height:1.1">A Reusable Learning Ecosystem</h2>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Visual World & Character System</h2>
+      <p class="section-lead">Coco's Kampong was built as a recognisable learning world. Characters, settings, colours, layouts, and story moments were designed to stay consistent across lessons, videos, books, games, and marketing.</p>
+
       <img src="./assets/town-map.png" alt="Coco's Kampong town map"
-           style="width:100%;border-radius:12px;display:block" loading="lazy"
+           style="width:100%;border-radius:12px;display:block;margin-bottom:.9rem" loading="lazy"
            onerror="this.style.display='none'">
       <img src="./assets/town-setting.png" alt="Town environment"
-           style="width:100%;border-radius:12px;display:block;margin-top:1rem" loading="lazy"
+           style="width:100%;border-radius:12px;display:block;margin-bottom:2.5rem" loading="lazy"
            onerror="this.style.display='none'">
-      <img src="./assets/welcometo-cocos-kampong.png" alt="Welcome to Coco's Kampong"
-           style="width:100%;border-radius:12px;display:block;margin-top:1rem" loading="lazy"
-           onerror="this.style.display='none'">
-    </div>
-  </section>
 
-  <!-- CHARACTERS -->
-  <section class="content-section reveal">
-    <div class="container">
-      <span class="section-label">Characters</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 2rem;line-height:1.1">Character Universe</h2>
-
-      <!-- Main lineup -->
+      <!-- Character lineup -->
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem">Main Characters</div>
       <div class="char-lineup">
         <div class="char-card">
           <div class="char-img"><img src="./assets/coco/normal.png" alt="Coco" loading="lazy"></div>
@@ -160,87 +322,116 @@
           <div class="char-img"><img src="./assets/poppy/normal.png" alt="Poppy" loading="lazy"></div>
           <div class="char-name">Poppy</div>
         </div>
+        <div class="char-card">
+          <div class="char-img"><img src="./assets/baba/normal.png" alt="Baba" loading="lazy"></div>
+          <div class="char-name">Baba</div>
+        </div>
       </div>
 
-      <!-- Compact expression strip -->
-      <div style="margin-top:2.5rem">
-        <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem">Expression Studies</div>
+      <!-- Expression strip -->
+      <div style="margin-top:2rem">
+        <div style="font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem">Expression Studies</div>
         <div class="expr-strip">
           <div class="expr-item"><div class="expr-img"><img src="./assets/coco/smile_01.png" alt="Coco smile" loading="lazy"></div></div>
-          <div class="expr-item"><div class="expr-img"><img src="./assets/coco/think.png" alt="Coco think" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/coco/oh.png" alt="Coco oh" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/coco/coco-writing.png" alt="Coco writing" loading="lazy"></div></div>
+          <div class="expr-item"><div class="expr-img"><img src="./assets/coco/coco-holding-book.png" alt="Coco book" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/bibi/shocked.png" alt="Bibi shocked" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/bibi/lookdown_01_1.png" alt="Bibi lookdown" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/timor/shocked.png" alt="Timor shocked" loading="lazy"></div></div>
-          <div class="expr-item"><div class="expr-img"><img src="./assets/timor/cry.png" alt="Timor cry" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/timor/skate.png" alt="Timor skate" loading="lazy"></div></div>
+          <div class="expr-item"><div class="expr-img"><img src="./assets/timor/swim.png" alt="Timor swim" loading="lazy"></div></div>
+          <div class="expr-item"><div class="expr-img"><img src="./assets/timor/cry.png" alt="Timor cry" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/dino/happy.png" alt="Dino happy" loading="lazy"></div></div>
-          <div class="expr-item"><div class="expr-img"><img src="./assets/dino/laugh.png" alt="Dino laugh" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/dino/think_01.png" alt="Dino think" loading="lazy"></div></div>
+          <div class="expr-item"><div class="expr-img"><img src="./assets/dino/dino-with-tablet.png" alt="Dino tablet" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/poppy/happy.png" alt="Poppy happy" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/poppy/sad.png" alt="Poppy sad" loading="lazy"></div></div>
           <div class="expr-item"><div class="expr-img"><img src="./assets/poppy/cowboy.png" alt="Poppy cowboy" loading="lazy"></div></div>
+          <div class="expr-item"><div class="expr-img"><img src="./assets/baba/smile.png" alt="Baba smile" loading="lazy"></div></div>
+          <div class="expr-item"><div class="expr-img"><img src="./assets/baba/hungry.png" alt="Baba hungry" loading="lazy"></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- DIGITAL LESSONS & GAMES -->
+  <!-- DIGITAL LESSONS & GAME-BASED LEARNING -->
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Digital Product</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 2rem;line-height:1.1">Digital Lessons & Game-Based Learning</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
-        <div class="gallery-item"><img src="./assets/lesson-thumbnail.jpg" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item"><img src="./assets/game-screen.jpg" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item"><img src="./assets/game-screen-02.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item"><img src="./assets/game-screen-03.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item"><img src="./assets/english-with-coco_short.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item"><img src="./assets/compound-words_link-to-music-video.jpg" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Digital Lessons & Game-Based Learning</h2>
+      <p class="section-lead">Playful lesson screens, activities, and games turned curriculum content into more engaging learner experiences — built on reusable templates and interaction patterns.</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem">
+        <div class="gallery-item"><img src="./assets/lesson-thumbnail.jpg" loading="lazy" alt="Lesson screen" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/game-screen.jpg" loading="lazy" alt="Game screen" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/game-screen-02.png" loading="lazy" alt="Game screen 2" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/game-screen-03.png" loading="lazy" alt="Game screen 3" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/english-with-coco_short.png" loading="lazy" alt="English with Coco" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item"><img src="./assets/compound-words_link-to-music-video.jpg" loading="lazy" alt="Compound words" onerror="this.parentElement.style.background='#111'"></div>
       </div>
     </div>
   </section>
 
-  <!-- ICON SYSTEM -->
+  <!-- LEARNING INTERACTION ICON SYSTEM -->
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Interaction Design</span>
       <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Learning Interaction Icon System</h2>
-      <p style="color:var(--text2);font-size:.88rem;line-height:1.75;margin-bottom:2rem;">A standardised icon library defining every interaction type across the lesson system — ensuring visual consistency and learner comprehension at scale.</p>
+      <p class="section-lead">A reusable icon system for common learning actions — watch, listen, read, write, draw, sing, play, explore, create, choose, solve, count, and challenge.</p>
       <div class="icon-grid">
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_act.png" alt="Act" loading="lazy"><div class="icon-label">Act</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_choose.png" alt="Choose" loading="lazy"><div class="icon-label">Choose</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_click.png" alt="Click" loading="lazy"><div class="icon-label">Click</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_count.png" alt="Count" loading="lazy"><div class="icon-label">Count</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_create.png" alt="Create" loading="lazy"><div class="icon-label">Create</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_draw.png" alt="Draw" loading="lazy"><div class="icon-label">Draw</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_explore.png" alt="Explore" loading="lazy"><div class="icon-label">Explore</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_guess.png" alt="Guess" loading="lazy"><div class="icon-label">Guess</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_listen.png" alt="Listen" loading="lazy"><div class="icon-label">Listen</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_play.png" alt="Play" loading="lazy"><div class="icon-label">Play</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_read.png" alt="Read" loading="lazy"><div class="icon-label">Read</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_sing.png" alt="Sing" loading="lazy"><div class="icon-label">Sing</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_solve.png" alt="Solve" loading="lazy"><div class="icon-label">Solve</div></div>
-        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_talk.png" alt="Talk" loading="lazy"><div class="icon-label">Talk</div></div>
         <div class="icon-item"><img src="./assets/lesson-object-icons/tt_watch.png" alt="Watch" loading="lazy"><div class="icon-label">Watch</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_listen.png" alt="Listen" loading="lazy"><div class="icon-label">Listen</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_read.png" alt="Read" loading="lazy"><div class="icon-label">Read</div></div>
         <div class="icon-item"><img src="./assets/lesson-object-icons/tt_write.png" alt="Write" loading="lazy"><div class="icon-label">Write</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_draw.png" alt="Draw" loading="lazy"><div class="icon-label">Draw</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_sing.png" alt="Sing" loading="lazy"><div class="icon-label">Sing</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_play.png" alt="Play" loading="lazy"><div class="icon-label">Play</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_explore.png" alt="Explore" loading="lazy"><div class="icon-label">Explore</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_create.png" alt="Create" loading="lazy"><div class="icon-label">Create</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_choose.png" alt="Choose" loading="lazy"><div class="icon-label">Choose</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_solve.png" alt="Solve" loading="lazy"><div class="icon-label">Solve</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_count.png" alt="Count" loading="lazy"><div class="icon-label">Count</div></div>
         <div class="icon-item"><img src="./assets/lesson-object-icons/tf_challenge.png" alt="Challenge" loading="lazy"><div class="icon-label">Challenge</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_talk.png" alt="Talk" loading="lazy"><div class="icon-label">Talk</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_guess.png" alt="Guess" loading="lazy"><div class="icon-label">Guess</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_act.png" alt="Act" loading="lazy"><div class="icon-label">Act</div></div>
+        <div class="icon-item"><img src="./assets/lesson-object-icons/tt_click.png" alt="Click" loading="lazy"><div class="icon-label">Click</div></div>
         <div class="icon-item"><img src="./assets/lesson-object-icons/tt_challenge.png" alt="Think" loading="lazy"><div class="icon-label">Think</div></div>
       </div>
     </div>
   </section>
 
-  <!-- MARKETING -->
+  <!-- SCALABLE PRODUCTION SYSTEM -->
   <section class="content-section reveal">
     <div class="container">
-      <span class="section-label">Go-To-Market</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 2rem;line-height:1.1">Marketing & Distribution Assets</h2>
-      <div class="mktg-grid">
-        <div class="gallery-item" style="aspect-ratio:unset;min-height:180px"><img src="./assets/sm-post-facebook.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item" style="aspect-ratio:unset;min-height:180px"><img src="./assets/sm-post-youtube.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item" style="aspect-ratio:unset;min-height:180px"><img src="./assets/sm-pakistan.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
-        <div class="gallery-item" style="aspect-ratio:unset;min-height:180px"><img src="./assets/profile.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
+      <span class="section-label">Production Design</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Scalable Production System</h2>
+      <p class="section-lead">To help the product scale, I created reusable visual standards, templates, animation systems, and production patterns so teams could produce new content without reinventing the product each time.</p>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-title">Character & World Standards</div>
+          <div class="prod-desc">Reusable character poses, expressions, environments, and prop libraries ensuring visual consistency across every team and format.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Lesson & Transition Templates</div>
+          <div class="prod-desc">Standardised lesson screen layouts and animated transition sequences that teams could assemble without redesigning each time.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Workbook & Reader Layouts</div>
+          <div class="prod-desc">Print-ready layout systems for branded workbooks and readers, aligned to the visual world and curriculum structure.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Game & Activity Components</div>
+          <div class="prod-desc">Modular game UI and activity components reusable across lesson types and grade levels.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Marketing & Brochure Templates</div>
+          <div class="prod-desc">Sales and campaign templates for schools, parents, and regional distribution covering digital and print channels.</div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-title">Extended by Later Teams</div>
+          <div class="prod-desc">Once the core system matured, later teams applied the same standards to Science subjects and additional regional markets.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -251,47 +442,49 @@
       <div class="proto-block">
         <div>
           <span class="section-label">Showreel</span>
-          <h2 style="font-size:2rem;margin:1rem 0 1rem;line-height:1.1">Next-Generation Interactive Reader Prototype</h2>
-          <p style="color:var(--text2);line-height:1.8;margin-bottom:.75rem">A Claude-assisted proof of concept demonstrating the future of digital reading experiences in the Coco's Kampong universe — featuring voice-guided reading, 3D animated clips, drag-and-drop interaction, and progress navigation.</p>
+          <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Next-Generation Interactive Reader Prototype</h2>
+          <p style="color:var(--text2);font-size:.88rem;line-height:1.8">A Claude-assisted prototype exploring how Coco's Kampong-style readers could evolve into voice-guided, animation-supported, interactive learning stories.</p>
+          <ul class="proto-features">
+            <li>Voice-guided story playback</li>
+            <li>3D animated story clips</li>
+            <li>Drag-and-drop reading interactions</li>
+            <li>Progress and navigation controls</li>
+            <li>Scalable format for future interactive readers</li>
+          </ul>
           <p class="proto-note">Prototype / proof of concept — not a launched product.</p>
         </div>
-        <div style="flex-shrink:0">
-          <a href="./picture-book/picture-book-player.html" class="btn btn-primary">Open Interactive Reader →</a>
+        <div style="flex-shrink:0;text-align:center">
+          <a href="./picture-book/picture-book-player.html" class="btn btn-primary" style="padding:1rem 2.25rem;font-size:.88rem;white-space:nowrap">Open Interactive Reader →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- IMPACT -->
+  <!-- MARKETING & DISTRIBUTION -->
   <section class="content-section reveal">
     <div class="container">
-      <span class="section-label">At a Glance</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 .5rem;line-height:1.1">Scale & Impact</h2>
-      <p style="color:var(--text3);font-size:.78rem;line-height:1.6">Numbers reflect Coco's Kampong product scope. Ecosystem reach refers to broader KP/MCE context — not directly attributable to this product alone.</p>
-      <div class="impact-grid">
-        <div class="impact-item">
-          <div class="impact-num">971</div>
-          <div class="impact-label">Lessons Produced</div>
+      <span class="section-label">Go-To-Market</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Marketing & Distribution Assets</h2>
+      <p class="section-lead">Campaign and sales materials helped package the product for schools, parents, partners, and regional markets.</p>
+      <div class="mktg-grid">
+        <div class="gallery-item" style="aspect-ratio:unset;min-height:200px"><img src="./assets/sm-post-facebook.png" loading="lazy" alt="Facebook post" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item" style="aspect-ratio:unset;min-height:200px"><img src="./assets/sm-post-youtube.png" loading="lazy" alt="YouTube post" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item" style="aspect-ratio:unset;min-height:200px"><img src="./assets/sm-pakistan.png" loading="lazy" alt="Pakistan market" onerror="this.parentElement.style.background='#111'"></div>
+        <div class="gallery-item" style="aspect-ratio:unset;min-height:200px;display:flex;align-items:center;justify-content:center;background:#000;border-radius:12px;border:1px solid var(--line)">
+          <span style="font-size:.72rem;color:var(--text3);text-align:center;padding:1rem">Additional campaign<br>assets available</span>
         </div>
-        <div class="impact-item">
-          <div class="impact-num">775</div>
-          <div class="impact-label">Hours of Content</div>
-        </div>
-        <div class="impact-item">
-          <div class="impact-num">3</div>
-          <div class="impact-label">Core Subjects</div>
-        </div>
-        <div class="impact-item">
-          <div class="impact-num">6+</div>
-          <div class="impact-label">Content Formats</div>
-        </div>
-        <div class="impact-item">
-          <div class="impact-num" style="font-size:1.5rem">Reusable</div>
-          <div class="impact-label">Production Standards</div>
-        </div>
-        <div class="impact-item">
-          <div class="impact-num" style="font-size:1.4rem">Ecosystem</div>
-          <div class="impact-label">KP · MCE Reach</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="content-section reveal">
+    <div class="container">
+      <div style="position:relative;border-radius:20px;overflow:hidden;min-height:340px;display:flex;align-items:center;justify-content:center">
+        <div style="position:absolute;inset:0;background-image:url('./assets/hero-poster.jpg');background-size:cover;background-position:center center;animation:slow-pan 18s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,.48) 50%,rgba(0,0,0,.68) 100%)"></div>
+        <div style="position:relative;z-index:1;text-align:center;padding:3.5rem 4rem;max-width:700px">
+          <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(1.2rem,2.2vw,1.65rem);color:#fff;line-height:1.65;font-weight:400;margin:0;text-shadow:0 2px 18px rgba(0,0,0,.5)">"A scalable learning world — built once, extended across subjects, formats, and markets."</p>
         </div>
       </div>
     </div>
