@@ -3,197 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web / Interactive Prototyping — Jiang Yi</title>
+  <title>WEB &INTERACTIVE — Jiang Yi</title>
   <link rel="stylesheet" href="../../assets/style.css">
-  <style>
-    .tag-purple { background: rgba(200,169,110,0.08); border-color: rgba(200,169,110,0.25); color: #9090e0; }
-    .reel-hero {
-      min-height: 60vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding-top: 80px;
-      padding-bottom: 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .reel-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 30% 50%, rgba(200,169,110,0.05) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .reel-hero-inner {
-      padding: 4rem 0 2rem;
-      max-width: 760px;
-    }
-    .reel-hero h1 {
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      margin-bottom: 1rem;
-    }
-    .reel-hero .subtitle {
-      font-family: var(--font-head);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #9090e0;
-      margin-bottom: 1.25rem;
-    }
-    .reel-hero p {
-      font-size: 0.95rem;
-      color: var(--text2);
-      line-height: 1.8;
-      max-width: 560px;
-      margin-bottom: 1.5rem;
-    }
-    .placeholder-gallery {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-    @media (min-width: 900px) {
-      .placeholder-gallery { grid-template-columns: repeat(3, 1fr); }
-    }
-  </style>
 </head>
-<body>
-
-  <nav class="site-nav">
+<body class="theme-blue">
+  <nav class="site-nav" id="siteNav">
     <div class="container">
-      <a href="../../index.html" class="nav-logo">Jiang Yi</a>
-      <ul class="nav-links">
-        <li><a href="../../index.html#featured-projects">Work</a></li>
-        <li><a href="../../index.html#skill-showcase">Skills</a></li>
-        <li><a href="../../index.html#contact" class="nav-cta">Contact</a></li>
-      </ul>
+      <a href="../../index.html" class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Jiang Yi
+      </a>
+      <span class="nav-project-name">Skill Showcase</span>
     </div>
   </nav>
 
-  <section class="reel-hero">
-    <div class="container">
-      <div class="back-wrap" style="margin-bottom:2rem">
-        <a href="../../index.html" class="back-link">
+  <section class="hero-full">
+    <div class="hero-full__bg">
+      <img src="./assets/hero.jpg" alt="WEB &INTERACTIVE hero"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="hero-full__placeholder" style="display:none">Drop hero.jpg in ./assets/</div>
+    </div>
+    <div class="hero-full__frame">
+      <div class="hero-full__content">
+        <a href="../../index.html" class="back-link" style="margin-bottom:2rem;display:inline-flex">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-          Back to Portfolio
+          Back
         </a>
+        <span class="hero-full__eyebrow">Skill Showcase</span>
+        <h1 class="hero-full__title">WEB &amp;<br>INTERACTIVE</h1>
+        <p class="hero-full__sub">Digital Experiences · Prototypes</p>
+        <p class="hero-full__desc">Web design and interactive prototype development for digital learning experiences.</p>
       </div>
-      <div class="reel-hero-inner">
-        <span class="section-label">Skill Showcase</span>
-        <h1>Web / Interactive Prototyping</h1>
-        <div class="subtitle">Interactive Digital Experiences</div>
-        <p>Interactive prototypes, web experiences, and digital learning environments — built to test and demonstrate complex user journeys at pace.</p>
-        <div class="tags">
-          <span class="tag tag-purple">Web Design</span>
-          <span class="tag tag-purple">Interactive Prototype</span>
-          <span class="tag tag-purple">Digital Learning</span>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="meta-bar">
-        <div class="meta-item">
-          <span class="meta-label">Discipline</span>
-          <span class="meta-value">Web · Interactive Design</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Output</span>
-          <span class="meta-value">Prototypes, Web Pages</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Tools</span>
-          <span class="meta-value">HTML/CSS/JS · Figma</span>
-        </div>
+      <div class="hero-full__footer">
+        <div class="hero-full__meta hero-full__meta--3"><div><div class="m-l">Discipline</div><div class="m-v">Web Design · Interaction</div></div><div><div class="m-l">Output</div><div class="m-v">Web Pages · Interactive Readers</div></div><div><div class="m-l">Tools</div><div class="m-v">HTML/CSS · Figma · JS</div></div></div>
       </div>
     </div>
   </section>
 
-
-  <section class="content-section">
+  <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Gallery</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Web Experience</h2>
-      <div class="placeholder-gallery">
-        <div class="gallery-item"><div class="img-placeholder">Web Experience — Sample 1</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Web Experience — Sample 2</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Web Experience — Sample 3</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Web Experience — Sample 4</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Web Experience — Sample 5</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Web Experience — Sample 6</div></div>
+      <h2 style="font-size:1.8rem;margin-bottom:2rem">Work Samples</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+        <div class="gallery-item"><div class="img-placeholder">Sample 1</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Sample 2</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Sample 3</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Sample 4</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Sample 5</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Sample 6</div></div>
       </div>
     </div>
   </section>
 
-  <section class="content-section">
+  <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Gallery</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Interactive Prototype</h2>
-      <div class="placeholder-gallery">
-        <div class="gallery-item"><div class="img-placeholder">Interactive Prototype — Sample 1</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Interactive Prototype — Sample 2</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Interactive Prototype — Sample 3</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Interactive Prototype — Sample 4</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Interactive Prototype — Sample 5</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Interactive Prototype — Sample 6</div></div>
+      <h2 style="font-size:1.8rem;margin-bottom:2rem">Process &amp; Details</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+        <div class="gallery-item"><div class="img-placeholder">Detail 1</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Detail 2</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Detail 3</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Detail 4</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Detail 5</div></div>
+        <div class="gallery-item"><div class="img-placeholder">Detail 6</div></div>
       </div>
     </div>
   </section>
-
-  <section class="content-section">
-    <div class="container">
-      <span class="section-label">Gallery</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Digital Learning Environment</h2>
-      <div class="placeholder-gallery">
-        <div class="gallery-item"><div class="img-placeholder">Digital Learning Environment — Sample 1</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Digital Learning Environment — Sample 2</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Digital Learning Environment — Sample 3</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Digital Learning Environment — Sample 4</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Digital Learning Environment — Sample 5</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Digital Learning Environment — Sample 6</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="content-section">
-    <div class="container">
-      <span class="section-label">Gallery</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Responsive Design</h2>
-      <div class="placeholder-gallery">
-        <div class="gallery-item"><div class="img-placeholder">Responsive Design — Sample 1</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Responsive Design — Sample 2</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Responsive Design — Sample 3</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Responsive Design — Sample 4</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Responsive Design — Sample 5</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Responsive Design — Sample 6</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="content-section">
-    <div class="container">
-      <div style="padding:3rem 2rem;background:rgba(200,169,110,0.04);border:1px dashed rgba(200,169,110,0.2);border-radius:8px;text-align:center">
-        <span class="section-label" style="display:block;margin-bottom:0.75rem">TODO</span>
-        <h3 style="font-size:1.1rem;margin-bottom:0.5rem;color:var(--text2)">Add Your Showcase Assets</h3>
-        <p style="font-size:0.82rem;color:var(--text3);max-width:400px;margin:0 auto">
-          Drop images and video files into <code>./assets/</code> and replace the placeholder divs above with real &lt;img&gt; or &lt;video&gt; tags.
-        </p>
-      </div>
-    </div>
-  </section>
-
 
   <footer class="site-footer">
-    <div class="container">
-      <p>
-        <a href="../../index.html" class="back-link" style="justify-content:center">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-          Back to Portfolio
-        </a>
-      </p>
-      <p style="margin-top:1rem">&copy; 2025 Jiang Yi. All rights reserved.</p>
-    </div>
+    <div class="container"><p>&copy; 2025 Jiang Yi. All rights reserved.</p></div>
   </footer>
 
+  <script>
+    const nav = document.getElementById('siteNav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); }, {passive:true});
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('is-in');obs.unobserve(e.target);} });
+    },{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
 </body>
 </html>

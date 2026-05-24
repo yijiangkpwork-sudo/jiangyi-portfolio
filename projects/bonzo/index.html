@@ -3,152 +3,494 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bonzo — Jiang Yi</title>
-  <meta name="description" content="Bonzo — Game-based learning platform for digital education. Design Lead: Jiang Yi.">
+  <title>BONZO — Jiang Yi</title>
   <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
   <style>
-    .tag-orange { background: rgba(220,140,80,0.1); border-color: rgba(220,140,80,0.3); color: #dc9050; }
-
-    .coming-soon-block {
-      margin-top: 4rem;
-      padding: 4rem 2rem;
-      background: var(--bg2);
-      border: 1px dashed var(--border2);
-      border-radius: var(--radius-lg);
-      text-align: center;
+    @keyframes slow-pan{from{background-position:40% center}to{background-position:60% center}}
+    /* Hero: full-bleed, no scale gap, stronger left gradient */
+    .hero-full__bg img{transform:none!important;object-fit:cover!important;object-position:center center!important}
+    .hero-full__bg::before{background:
+      linear-gradient(100deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.65) 35%,rgba(0,0,0,.2) 58%,rgba(0,0,0,0) 75%),
+      linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 18%)!important}
+    .overview-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:start}
+    .role-note{font-size:.78rem;color:var(--text3);margin-top:1rem;line-height:1.65;font-style:italic}
+    .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.5rem}
+    .role-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.1rem 1rem;font-size:.72rem;font-weight:600;color:var(--text2);line-height:1.45;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .role-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px -8px var(--accent-glow);border-color:var(--accent-soft)}
+    .role-card svg{display:block;width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.6rem}
+    /* Gamification feature cards */
+    .gami-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    .gami-card{background:#000;border-radius:12px;overflow:hidden;border:1px solid var(--line);transition:transform .25s ease,box-shadow .25s ease}
+    .gami-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px -10px var(--accent-glow)}
+    .gami-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;background:#111}
+    .gami-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+    .gami-card:hover .gami-thumb img{transform:scale(1.04)}
+    .gami-body{padding:1.1rem 1.25rem 1.25rem}
+    .gami-title{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+    .gami-desc{font-size:.82rem;color:var(--text3);line-height:1.65}
+    /* Badge carousel */
+    .badge-category{margin-bottom:3.5rem}
+    .badge-cat-label{font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between}
+    .badge-cat-label span{display:flex;gap:.4rem}
+    .badge-nav-btn{background:none;border:1px solid rgba(255,255,255,0.12);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.5);transition:border-color .2s,color .2s,background .2s;flex-shrink:0}
+    .badge-nav-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,255,255,0.04)}
+    .badge-nav-btn:disabled{opacity:.2;cursor:default}
+    .badge-nav-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .badge-carousel{overflow:hidden;position:relative}
+    .badge-track{display:flex;gap:1.5rem;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+    .badge-item{text-align:center;background:none;padding:.5rem;flex:0 0 calc(25% - 1.125rem);min-width:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .badge-item:hover{transform:scale(1.15)}
+    .badge-item img{width:140px;height:140px;object-fit:contain;display:block;margin:0 auto .75rem;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.55))}
+    .badge-item:hover img{filter:drop-shadow(0 14px 28px rgba(0,0,0,0.5)) brightness(1.1)}
+    .badge-name{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);line-height:1.3}
+    /* Impact */
+    .impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .impact-item{background:#000;border:1px solid var(--line);border-radius:12px;padding:1.75rem 1.5rem;text-align:center;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .impact-item:hover{transform:translateY(-4px);box-shadow:0 16px 40px -10px var(--accent-glow);border-color:var(--accent-soft)}
+    .impact-num{font-size:2.2rem;font-weight:800;color:var(--accent);line-height:1;margin-bottom:.3rem}
+    .impact-label{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:.25rem}
+    .impact-note{font-size:.58rem;color:var(--text3);opacity:.6;margin-top:.2rem;line-height:1.4}
+    .ecosystem-note{font-size:.75rem;color:var(--text3);line-height:1.65;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--line)}
+    /* Feature pill cards */
+    .feat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2.5rem}
+    .feat-card{background:#000;border-radius:12px;overflow:hidden;transition:transform .25s ease}
+    .feat-card:hover{transform:translateY(-4px)}
+    .feat-card img{width:100%;display:block;object-fit:cover}
+    @media(max-width:900px){
+      .overview-grid{grid-template-columns:1fr;gap:2.5rem}
+      .role-grid{grid-template-columns:repeat(2,1fr)}
+      .gami-grid{grid-template-columns:repeat(2,1fr)}
+      .badge-row{grid-template-columns:repeat(4,1fr)}
+      .badge-item img{width:110px;height:110px}
+      .impact-grid{grid-template-columns:repeat(2,1fr)}
+      .feat-grid{grid-template-columns:repeat(3,1fr)}
     }
-
-    .coming-soon-block h3 { font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--text2); }
-    .coming-soon-block p { font-size: 0.85rem; color: var(--text3); max-width: 400px; margin: 0 auto; }
+    @media(max-width:600px){
+      .gami-grid{grid-template-columns:1fr}
+      .role-grid{grid-template-columns:1fr}
+      .badge-row{grid-template-columns:repeat(2,1fr)}
+      .badge-item img{width:90px;height:90px}
+      .feat-grid{grid-template-columns:repeat(2,1fr)}
+    }
   </style>
 </head>
-<body>
+<body class="theme-sky">
 
-  <!-- NAV -->
-  <nav class="site-nav">
+  <nav class="site-nav" id="siteNav">
     <div class="container">
-      <a href="../../index.html" class="nav-logo">Jiang Yi</a>
-      <ul class="nav-links">
-        <li><a href="../../index.html#featured-projects">Work</a></li>
-        <li><a href="../../index.html#skill-showcase">Skills</a></li>
-        <li><a href="../../index.html#contact" class="nav-cta">Contact</a></li>
-      </ul>
+      <a href="../../index.html" class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Jiang Yi
+      </a>
+      <img src="./assets/top%20right%20small%20Logo.png" alt="Bonzo" style="height:36px;width:auto;display:block">
     </div>
   </nav>
 
-  <!-- PROJECT HERO -->
-  <section class="project-hero">
-    <div class="container">
-      <div class="project-hero-inner">
-
-        <div class="project-hero-content">
-          <div class="back-wrap">
-            <a href="../../index.html" class="back-link">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-              Back to Portfolio
-            </a>
-          </div>
-
-          <div class="project-logo-area">
-            <div class="project-icon" style="color:#dc9050">BZ</div>
-          </div>
-
-          <h1>Bonzo</h1>
-          <div class="subtitle">Game-Based Learning Platform</div>
-
-          <p>A game-based learning platform designed to make digital education more engaging, interactive, and measurable — combining game mechanics with curriculum-aligned content experiences.</p>
-
-          <div class="tags" style="margin-top:1.5rem">
-            <span class="tag tag-orange">Game-Based Learning</span>
-            <span class="tag tag-orange">UX/UI</span>
-            <span class="tag tag-orange">EdTech Platform</span>
-          </div>
-        </div>
-
-        <div class="project-hero-media">
-          <div class="media-frame">
-            <div class="media-placeholder">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3h-8"/><path d="M9 11v4"/><path d="M7 13h4"/></svg>
-              <span>Hero visual / game screen</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
+  <!-- HERO -->
+  <section class="hero-full">
+    <div class="hero-full__bg">
+      <img src="./assets/Hero%20Image.png" alt="Bonzo platform"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="hero-full__placeholder" style="display:none"></div>
     </div>
-
-    <!-- Meta Bar -->
-    <div class="container">
-      <div class="meta-bar">
-        <div class="meta-item">
-          <span class="meta-label">Category</span>
-          <span class="meta-value">EdTech Platform</span>
+    <div class="hero-full__frame">
+      <div class="hero-full__content">
+        <h1 class="hero-full__title">BONZO</h1>
+        <p class="hero-full__sub">Gamified Learning Platform · UI/UX Design · Engagement Systems</p>
+        <p class="hero-full__desc">A gamification system designed to transform digital learning into an engaging, rewarding experience — through points, badges, streaks, leaderboards, and progression mechanics.</p>
+        <div class="hero-full__tags">
+          <span class="tag">Points & Rewards</span>
+          <span class="tag">Badges & Achievements</span>
+          <span class="tag">Streaks & Leaderboards</span>
+          <span class="tag">Game-Based Learning</span>
         </div>
-        <div class="meta-item">
-          <span class="meta-label">Role</span>
-          <span class="meta-value">Design Lead · UX/UI</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Format</span>
-          <span class="meta-value">Digital Platform</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Focus</span>
-          <span class="meta-value">Game-Based Learning</span>
+      </div>
+      <div class="hero-full__footer">
+        <div class="hero-full__meta hero-full__meta--4">
+          <div><div class="m-l">Platform</div><div class="m-v">Desktop Learning Platform</div></div>
+          <div><div class="m-l">Role</div><div class="m-v">Product Concept · UI/UX · Gamification System</div></div>
+          <div><div class="m-l">Focus</div><div class="m-v">Engagement · Rewards · Progression</div></div>
+          <div><div class="m-l">Ecosystem</div><div class="m-v">Knowledge Platform</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- OVERVIEW -->
-  <section class="content-section">
+  <!-- IMPACT & SCALE -->
+  <section class="content-section reveal" id="bonzo-impact">
     <div class="container">
-      <div class="two-col">
-        <div>
-          <span class="col-label">Overview</span>
-          <h2 class="col-title">Making Learning a Game</h2>
+      <span class="section-label">Scale & Reach</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Impact & Ecosystem Context</h2>
+      <p class="section-lead">Bonzo was built within Knowledge Platform's broader game-based learning ecosystem, where students learn through short games, challenges, leaderboards, progress tracking, rewards, competitions, prizes, and certificates. The scale figures below represent KP ecosystem context, not direct Bonzo-only attribution.</p>
+      <p style="font-size:.82rem;color:var(--text2);line-height:1.7;margin-bottom:2rem">Bonzo's design system supported scalable game-based learning experiences through rewards, progress tracking, leaderboards, and competition mechanics.</p>
+      <div class="impact-grid">
+        <div class="impact-item">
+          <div class="impact-num">600K+</div>
+          <div class="impact-label">Students Engaged</div>
+          <div class="impact-note">KP ecosystem context</div>
         </div>
-        <div class="col-body">
-          <p>Bonzo is a digital education platform built around game-based learning principles — using reward loops, challenges, and interactive mechanics to make curriculum content more engaging for students.</p>
-          <p>The design system was built to balance educational rigour with game experience, ensuring that learning objectives were never lost within the game layer.</p>
+        <div class="impact-item">
+          <div class="impact-num">600+</div>
+          <div class="impact-label">Schools Empowered</div>
+          <div class="impact-note">Global school network</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-num">2,000+</div>
+          <div class="impact-label">Courses Developed</div>
+          <div class="impact-note">KP learning content ecosystem</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-num">100s</div>
+          <div class="impact-label">Short Learning Games</div>
+          <div class="impact-note">Bonzo / Sitarey competition ecosystem</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-num">3–5 min</div>
+          <div class="impact-label">Game Sessions</div>
+          <div class="impact-note">Short-form learning format</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-num" style="font-size:1.4rem;padding-top:.3rem">Rewards</div>
+          <div class="impact-label">Leaderboards · Prizes · Certificates</div>
+          <div class="impact-note">Engagement mechanics</div>
+        </div>
+      </div>
+      <p class="ecosystem-note">Ecosystem figures reflect Knowledge Platform's public scale. Bonzo contributed as a game-based learning shell and engagement layer within this broader learning environment.</p>
+    </div>
+  </section>
+
+  <!-- PRODUCT CHALLENGE & ROLE -->
+  <section class="content-section reveal">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;min-height:320px;border-radius:16px;overflow:hidden;border:1px solid var(--line)">
+        <div style="overflow:hidden">
+          <img src="./assets/game.jpg" alt="Bonzo game interface" loading="lazy"
+               style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block">
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;padding:2.5rem 2.75rem;background:#000">
+          <span class="section-label">Product Challenge</span>
+          <h2 style="font-size:1.5rem;margin:.75rem 0 1rem;line-height:1.15">Making Education Engaging at Scale</h2>
+          <p style="color:var(--text2);font-size:.85rem;line-height:1.8;margin-bottom:.9rem">Educational platforms often struggle with learner drop-off. Bonzo was designed to solve that — a gamified learning system that turns participation into a rewarding, motivating experience through points, badges, streaks, leaderboards, and reward loops.</p>
+          <p style="color:var(--text3);font-size:.82rem;line-height:1.75">Built within the Knowledge Platform ecosystem, Bonzo layers game mechanics over curriculum-aligned content — making daily learning feel less like a task and more like a game worth coming back to.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- GALLERY PLACEHOLDER -->
-  <section class="content-section">
+  <!-- MY ROLE & OWNERSHIP -->
+  <section class="content-section reveal">
     <div class="container">
-      <span class="section-label">Visual Work</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Platform &amp; Game Design</h2>
-      <div class="gallery-grid">
-        <div class="gallery-item"><div class="img-placeholder">Platform home screen</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Game level / challenge screen</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Character / mascot design</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Reward / progress system UI</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Teacher dashboard</div></div>
-        <div class="gallery-item"><div class="img-placeholder">Mobile responsive view</div></div>
-      </div>
-
-      <div class="coming-soon-block">
-        <h3>More Content Coming Soon</h3>
-        <p>Full case study, process documentation, and additional visuals will be added here.</p>
+      <span class="section-label">My Role & Ownership</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Design Lead · UI/UX · Gamification System</h2>
+      <p class="section-lead">I led the visual direction and hands-on execution for Bonzo's game-based learning platform, shaping the UI/UX system, gamification mechanics, character direction, badges, streaks, leaderboards, and product workflow setup.</p>
+      <div class="role-grid">
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/></svg>
+          Product Visual Direction
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          UI / UX Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Gamification System
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Character & Game Design
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M8 14l-2 7h12l-2-7"/><path d="M12 14v7"/></svg>
+          Badge & Reward System
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Streaks & Leaderboards
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Branding & Campaign Visuals
+        </div>
+        <div class="role-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg>
+          Workflow Setup & Execution
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- GAMIFICATION SYSTEM -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">System Design</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Gamification System</h2>
+      <p style="color:var(--text2);font-size:.88rem;line-height:1.75;margin-bottom:2rem;">Six interconnected engagement loops designed to motivate participation, reward consistency, and build long-term learning habits.</p>
+      <div class="gami-grid">
+        <div class="gami-card">
+          <div class="gami-thumb"><img src="./assets/01.png" alt="Points & Progression" loading="lazy"></div>
+          <div class="gami-body">
+            <div class="gami-title">Points & Progression</div>
+            <div class="gami-desc">Learners earn XP for every lesson completed, game played, or challenge finished — fuelling visible progress and platform-wide rankings.</div>
+          </div>
+        </div>
+        <div class="gami-card">
+          <div class="gami-thumb"><img src="./assets/02.png" alt="Badges & Achievements" loading="lazy"></div>
+          <div class="gami-body">
+            <div class="gami-title">Badges & Achievements</div>
+            <div class="gami-desc">A rich library of collectible badges — behavioural, milestone, streak, and consistency — rewarding different learning patterns and accomplishments.</div>
+          </div>
+        </div>
+        <div class="gami-card">
+          <div class="gami-thumb"><img src="./assets/03.png" alt="Streaks & Reward Loops" loading="lazy"></div>
+          <div class="gami-body">
+            <div class="gami-title">Streaks & Reward Loops</div>
+            <div class="gami-desc">Daily streak tracking with escalating rewards — designed to build consistent learning habits and bring learners back day after day.</div>
+          </div>
+        </div>
+        <div class="gami-card">
+          <div class="gami-thumb"><img src="./assets/04.png" alt="Leaderboards" loading="lazy"></div>
+          <div class="gami-body">
+            <div class="gami-title">Leaderboards</div>
+            <div class="gami-desc">Class, school, and platform-wide leaderboards that surface healthy competition — giving top learners visibility and motivating others to climb.</div>
+          </div>
+        </div>
+        <div class="gami-card">
+          <div class="gami-thumb"><img src="./assets/05.png" alt="Quizzes & Mini-Games" loading="lazy"></div>
+          <div class="gami-body">
+            <div class="gami-title">Quizzes & Mini-Games</div>
+            <div class="gami-desc">Curriculum-aligned interactive games and quizzes that make content review feel playful — not repetitive. Designed for high replay value.</div>
+          </div>
+        </div>
+        <div class="gami-card">
+          <div class="gami-thumb"><img src="./assets/06.png" alt="Motivational Feedback" loading="lazy"></div>
+          <div class="gami-body">
+            <div class="gami-title">Motivational Feedback</div>
+            <div class="gami-desc">Context-aware feedback moments — celebrations, encouragements, and progress nudges — that keep learners emotionally engaged throughout their journey.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM FEATURE VISUALS -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Platform Features</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 2rem;line-height:1.1">Built for Engagement</h2>
+      <div class="feat-grid">
+        <div class="feat-card"><img src="./assets/Gamified.png" alt="Gamified" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
+        <div class="feat-card"><img src="./assets/Measurable.png" alt="Measurable" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
+        <div class="feat-card"><img src="./assets/Personalised.png" alt="Personalised" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
+        <div class="feat-card"><img src="./assets/Bite-sized.png" alt="Bite-sized" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
+        <div class="feat-card"><img src="./assets/Adaptiv.png" alt="Adaptive" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UI/UX DESIGN -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">UI/UX Design</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 2rem;line-height:1.1">Platform Interface & Screens</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem">
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.06.01-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.06.27-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.06.45-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.07.19-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.07.38-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.08.09-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.08.36-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="gallery-item"><img src="./assets/Screenshot-2026-05-23-at-5.09.04-PM.png" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGE & STREAK SYSTEM -->
+  <section class="content-section reveal">
+    <div class="container">
+      <span class="section-label">Reward Design</span>
+      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Badge & Streak System</h2>
+      <p style="color:var(--text2);font-size:.88rem;line-height:1.75;margin-bottom:2.5rem;">A multi-dimensional badge library recognising every learning behaviour — from first sessions to year-long consistency. Designed to reward the full spectrum of learner types.</p>
+
+      <!-- Behavioural Badges -->
+      <div class="badge-category">
+        <div class="badge-cat-label">
+          Behavioural Badges — Actions &amp; Engagement
+          <span>
+            <button class="badge-nav-btn" data-carousel="b0" data-dir="-1" disabled><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="badge-nav-btn" data-carousel="b0" data-dir="1"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </span>
+        </div>
+        <div class="badge-carousel"><div class="badge-track" id="b0">
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Badge%20collector.png" alt="Badge Collector" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Badge Collector</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Curious%20explorer.png" alt="Curious Explorer" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Curious Explorer</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Hintless%20Hero.png" alt="Hintless Hero" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Hintless Hero</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Team%20player.png" alt="Team Player" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Team Player</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Comeback%20kid.png" alt="Comeback Kid" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Comeback Kid</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Leanring%20sprint.png" alt="Learning Sprint" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Learning Sprint</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Monday%20mover.png" alt="Monday Mover" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Monday Mover</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Behavioral%20badges/Night%20owl.png" alt="Night Owl" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Night Owl</div></div>
+        </div></div>
+      </div>
+
+      <!-- Streak Badges -->
+      <div class="badge-category">
+        <div class="badge-cat-label">
+          Streak Badges — Daily Commitment
+          <span>
+            <button class="badge-nav-btn" data-carousel="b1" data-dir="-1" disabled><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="badge-nav-btn" data-carousel="b1" data-dir="1"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </span>
+        </div>
+        <div class="badge-carousel"><div class="badge-track" id="b1">
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Bonzo%20Beast.png" alt="Bonzo Beast" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Bonzo Beast</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Habit%20Hero.png" alt="Habit Hero" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Habit Hero</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Committed%20Learner.png" alt="Committed Learner" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Committed Learner</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Learning%20Machine.png" alt="Learning Machine" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Learning Machine</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/365%20Days%20of%20Brilliance.png" alt="365 Days of Brilliance" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">365 Days of Brilliance</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Consistency%20Champ.png" alt="Consistency Champ" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Consistency Champ</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Focused%20fire.png" alt="Focused Fire" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Focused Fire</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Momentum%20Builder.png" alt="Momentum Builder" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Momentum Builder</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Never%20Miss%20a%20Beat.png" alt="Never Miss a Beat" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Never Miss a Beat</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Streak%20based%20badges/Rookie%20Streaker.png" alt="Rookie Streaker" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Rookie Streaker</div></div>
+        </div></div>
+      </div>
+
+      <!-- Milestone Badges -->
+      <div class="badge-category">
+        <div class="badge-cat-label">
+          Milestone Badges — Progression
+          <span>
+            <button class="badge-nav-btn" data-carousel="b2" data-dir="-1" disabled><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="badge-nav-btn" data-carousel="b2" data-dir="1"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </span>
+        </div>
+        <div class="badge-carousel"><div class="badge-track" id="b2">
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Bonzo%20legend.png" alt="Bonzo Legend" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Bonzo Legend</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Centurion.png" alt="Centurion" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Centurion</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/First%20five.png" alt="First Five" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">First Five</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Pro%20player.png" alt="Pro Player" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Pro Player</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Double%20digits.png" alt="Double Digits" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Double Digits</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Game%20hopper.png" alt="Game Hopper" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Game Hopper</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Learning%20machine.png" alt="Learning Machine" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Learning Machine</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Master%20of%20games.png" alt="Master of Games" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Master of Games</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Milestone%20badges/Mastery%20seeker.png" alt="Mastery Seeker" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Mastery Seeker</div></div>
+        </div></div>
+      </div>
+
+      <!-- Consistency Badges -->
+      <div class="badge-category">
+        <div class="badge-cat-label">
+          Consistency Badges — Long-term Habits
+          <span>
+            <button class="badge-nav-btn" data-carousel="b3" data-dir="-1" disabled><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="badge-nav-btn" data-carousel="b3" data-dir="1"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </span>
+        </div>
+        <div class="badge-carousel"><div class="badge-track" id="b3">
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Consistency%20badges/Weekly%20hustler.png" alt="Weekly Hustler" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Weekly Hustler</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Consistency%20badges/Monthly%20grinder.png" alt="Monthly Grinder" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Monthly Grinder</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Consistency%20badges/Steady%20climber.png" alt="Steady Climber" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Steady Climber</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Consistency%20badges/Half-year%20hero.png" alt="Half-Year Hero" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Half-Year Hero</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Consistency%20badges/Quarterly%20climber.png" alt="Quarterly Climber" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">Quarterly Climber</div></div>
+          <div class="badge-item"><img src="./assets/Bonzo%20Badges/Consistency%20badges/The%20bonzo%20loyalist.png" alt="The Bonzo Loyalist" loading="lazy" onerror="this.style.display='none'"><div class="badge-name">The Bonzo Loyalist</div></div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Badge carousel logic
+    const VISIBLE = 4;
+    const state = {};
+
+    document.querySelectorAll('.badge-track').forEach(track => {
+      state[track.id] = 0;
+    });
+
+    function getItemWidth(track) {
+      const item = track.querySelector('.badge-item');
+      if (!item) return 0;
+      const gap = 24; // 1.5rem
+      return item.offsetWidth + gap;
+    }
+
+    function updateCarousel(id) {
+      const track = document.getElementById(id);
+      const items = track.querySelectorAll('.badge-item');
+      const total = items.length;
+      const idx = state[id];
+      const w = getItemWidth(track);
+      track.style.transform = `translateX(-${idx * w}px)`;
+
+      // Update buttons
+      document.querySelectorAll(`[data-carousel="${id}"]`).forEach(btn => {
+        const dir = parseInt(btn.dataset.dir);
+        if (dir === -1) btn.disabled = idx === 0;
+        if (dir === 1) btn.disabled = idx >= total - VISIBLE;
+      });
+    }
+
+    document.querySelectorAll('.badge-nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.carousel;
+        const dir = parseInt(btn.dataset.dir);
+        const track = document.getElementById(id);
+        const total = track.querySelectorAll('.badge-item').length;
+        state[id] = Math.max(0, Math.min(state[id] + dir, total - VISIBLE));
+        updateCarousel(id);
+      });
+    });
+
+    // Init after images load
+    window.addEventListener('load', () => {
+      Object.keys(state).forEach(id => updateCarousel(id));
+    });
+    // Also init on resize
+    window.addEventListener('resize', () => {
+      Object.keys(state).forEach(id => updateCarousel(id));
+    });
+  </script>
+
+
+  <!-- CLOSING -->
+  <section class="content-section reveal">
+    <div class="container">
+      <div style="position:relative;border-radius:20px;overflow:hidden;min-height:340px;display:flex;align-items:center;justify-content:center">
+        <!-- background image -->
+        <div style="position:absolute;inset:0;background-image:url('./assets/hero-poster-2.png');background-size:cover;background-position:center center;animation:slow-pan 18s ease-in-out infinite alternate"></div>
+        <!-- gradient overlay -->
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.45) 50%,rgba(0,0,0,.65) 100%)"></div>
+        <!-- text -->
+        <div style="position:relative;z-index:1;text-align:center;padding:3.5rem 4rem;max-width:700px">
+          <p style="font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(1.2rem,2.2vw,1.65rem);color:#fff;line-height:1.65;font-weight:400;margin:0;text-shadow:0 2px 18px rgba(0,0,0,.5)">"A scalable gamified learning system designed to turn education into engaging, rewarding experiences."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer class="site-footer">
-    <div class="container">
-      <p>
-        <a href="../../index.html" class="back-link" style="justify-content:center">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-          Back to Portfolio
-        </a>
-      </p>
-      <p style="margin-top:1rem">&copy; 2025 Jiang Yi. All rights reserved.</p>
+    <div class="container" style="text-align:center">
+      <a href="../../index.html" class="back-link" style="justify-content:center;margin-bottom:1rem">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Portfolio
+      </a>
+      <p>&copy; 2025 Jiang Yi. All rights reserved.</p>
     </div>
   </footer>
 
+<script>
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('is-in');obs.unobserve(e.target);} });
+  },{threshold:0.1,rootMargin:'0px 0px -5% 0px'});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>

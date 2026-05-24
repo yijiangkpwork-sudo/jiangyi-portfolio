@@ -1,401 +1,850 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UNICEF Meena — Jiang Yi</title>
-  <meta name="description" content="UNICEF Meena — Multilingual mental-health education series with AI-assisted animation workflow. Design Lead: Jiang Yi.">
-  <link rel="stylesheet" href="../../assets/style.css">
-  <style>
-    .tag-blue { background: rgba(100,160,220,0.1); border-color: rgba(100,160,220,0.3); color: #80b4e0; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Meena — Design Lead · AI Workflow · End-to-End Production Owner · Jiang Yi</title>
+<meta name="description" content="A multilingual educational content system for UNICEF South Asia, designed to deliver emotionally sensitive stories for children across 4 languages through a scalable AI-assisted production workflow." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,0,700;9..144,0,900;9..144,1,400;9..144,1,500;9..144,1,700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   DESIGN SYSTEM — black bg · UNICEF blue · editorial
+   ========================================================= */
+:root{
+  --bg:#000000; --bg-2:#0A0A0A;
+  --surface:#0F0F10; --surface-2:#15151A;
+  --line:rgba(255,255,255,0.07); --line-strong:rgba(255,255,255,0.14);
+  --ink:#F1F4F8; --ink-2:#B8C2CC; --ink-3:#7C8694; --ink-4:#4A535F;
+  --accent:#1CABE2;
+  --accent-2:#5BC4EE;
+  --accent-soft:rgba(28,171,226,0.14);
+  --accent-glow:rgba(28,171,226,0.32);
+  --radius:14px; --radius-lg:20px;
+  --f-display:"Fraunces","Times New Roman",serif;
+  --f-sans:"Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --max:1320px; --gut:64px;
+}
+@media (max-width:1080px){:root{--gut:48px}}
+@media (max-width:720px){:root{--gut:24px}}
 
-    /* Hero video fills the right panel */
-    .project-hero-media .media-frame video {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
-    /* Episode thumbnails — static grid, no hover/play overlay */
-    .episode-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-    }
+/* Subtle grain */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:200;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.25 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity:0.05;mix-blend-mode:overlay;
+}
 
-    .episode-thumb {
-      aspect-ratio: 16/9;
-      background: var(--bg3);
-      border: 1px solid var(--border2);
-      border-radius: var(--radius);
-      overflow: hidden;
-      position: relative;
-    }
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.16,.78,.24,1),transform 1s cubic-bezier(.16,.78,.24,1)}
+.reveal.is-in{opacity:1;transform:none}
 
-    .episode-thumb img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
+/* Section label */
+.s-label{
+  font-family:var(--f-display);
+  font-weight:500;
+  font-size:clamp(20px,1.8vw,26px);
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 28px;
+}
 
-    .episode-thumb .ep-label {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: linear-gradient(transparent, rgba(10,10,10,0.82));
-      padding: 1rem 0.75rem 0.5rem;
-      font-family: var(--font-head);
-      font-size: 0.6rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--text);
-    }
+/* Body copy — single font, single color */
+.body-copy p{color:var(--ink-2);font-size:16px;line-height:1.75;margin:0 0 18px;font-weight:300;font-family:var(--f-sans)}
+.body-copy p:last-child{margin-bottom:0}
 
-    /* Character design grid */
-    .char-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-    }
+/* =========================================================
+   NAV
+   ========================================================= */
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;padding:24px 0;transition:background .3s,backdrop-filter .3s}
+.nav.scrolled{background:linear-gradient(to bottom,rgba(0,0,0,0.78),rgba(0,0,0,0));backdrop-filter:blur(14px)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 var(--gut);display:flex;align-items:center;justify-content:space-between}
+.nav-back{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--ink);font-weight:400;transition:color .25s,gap .25s}
+.nav-back:hover{color:var(--accent);gap:14px}
+.nav-back svg{width:14px;height:14px}
+.nav-unicef{height:22px;width:auto;opacity:0.95}
+.nav-unicef img{height:100%;width:auto;display:block}
 
-    .char-thumb {
-      aspect-ratio: 3/4;
-      background: var(--bg3);
-      border: 1px solid var(--border2);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
+/* =========================================================
+   HERO — repositioned for design leadership
+   ========================================================= */
+.hero{
+  position:relative;
+  height:clamp(720px, 100vh, 880px);
+  overflow:hidden;
+  isolation:isolate;
+  background:#000;
+}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;z-index:-2}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(95deg, #000 0%, rgba(0,0,0,0.96) 30%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.15) 68%, rgba(0,0,0,0) 100%),
+    linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 20%);
+}
+.hero-frame{
+  position:relative;max-width:var(--max);margin:0 auto;
+  padding:88px var(--gut) 28px;
+  height:100%;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.hero-content{max-width:680px;padding-top:16px}
+.unicef-mark-blue{
+  display:block;width:200px;aspect-ratio:1627 / 391;
+  background-color:var(--accent);
+  -webkit-mask:url("./assets/unicef-logo.svg") left center / contain no-repeat;
+          mask:url("./assets/unicef-logo.svg") left center / contain no-repeat;
+  margin-bottom:22px;
+}
+.wordmark{
+  font-family:var(--f-display);font-weight:600;
+  font-size:clamp(64px, 8.5vw, 108px);
+  line-height:0.9;letter-spacing:-0.025em;
+  margin:0 0 14px;color:var(--ink);
+}
+.hero-sub{
+  font-family:var(--f-display);font-style:italic;font-weight:500;
+  font-size:clamp(22px,2.6vw,34px);
+  letter-spacing:-0.015em;color:var(--ink);
+  margin:0 0 22px;line-height:1.2;max-width:680px;
+}
+.hero-sub .uni{color:var(--accent);font-weight:700;font-style:italic}
+.hero-desc{
+  color:var(--ink-2);font-size:14.5px;line-height:1.7;
+  margin:0;max-width:580px;font-weight:300;
+}
+.hero-footer{display:flex;flex-direction:column;gap:22px}
+.hero-meta{
+  display:grid;grid-template-columns:repeat(5, minmax(0, max-content));
+  gap:44px;padding:18px 0 0;
+  border-top:1px solid var(--line);max-width:880px;
+}
+.hero-meta .l{font-size:11px;color:var(--ink-3);margin-bottom:6px;font-weight:400}
+.hero-meta .v{font-size:13.5px;color:var(--ink);font-weight:400;line-height:1.3;max-width:200px}
+.cta-row{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 22px 13px 16px;background:var(--accent);color:#fff;
+  border-radius:999px;font-size:12.5px;font-weight:600;
+  letter-spacing:0.18em;text-transform:uppercase;
+  transition:transform .2s,background .2s;
+  box-shadow:0 12px 30px -8px var(--accent-glow);
+}
+.btn:hover{transform:translateY(-1px);background:var(--accent-2)}
+.btn .play{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.22);display:inline-flex;align-items:center;justify-content:center}
+.btn .play svg{width:9px;height:9px;color:#fff;margin-left:1px}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:12px;color:var(--ink);
+  font-size:12.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+  padding:13px 6px;border-bottom:1px solid transparent;
+  transition:color .2s,border-color .2s,gap .2s;
+}
+.btn-ghost:hover{color:var(--accent);border-color:var(--accent);gap:16px}
+.btn-ghost .arrow{transition:transform .25s}
+.btn-ghost:hover .arrow{transform:translateX(4px)}
 
-    .char-thumb img {
-      width: 100%; height: 100%; object-fit: contain;
-      padding: 0.5rem;
-      background: #12141a;
-    }
+/* =========================================================
+   SECTION RHYTHM — tighter
+   ========================================================= */
+section{padding:72px 0}
+section.tight{padding:40px 0}
 
-    /* Process steps */
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
+/* =========================================================
+   PRODUCT CHALLENGE
+   ========================================================= */
+.brief-grid{
+  display:grid;grid-template-columns:.85fr 1.15fr;
+  gap:56px;align-items:center;
+}
+.brief-img{aspect-ratio:5/3;border-radius:var(--radius);overflow:hidden}
+.brief-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.16,.78,.24,1)}
+.brief-grid:hover .brief-img img{transform:scale(1.03)}
 
-    .process-step {
-      padding: 1.5rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-    }
+/* =========================================================
+   MY ROLE & OWNERSHIP — narrative + 6 cards
+   ========================================================= */
+.role-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:start}
+.role-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.role-card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:20px 18px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:border-color .25s,transform .25s,background .25s;
+}
+.role-card:hover{border-color:var(--accent-soft);transform:translateY(-2px);background:var(--surface-2)}
+.role-card .ic{color:var(--accent);width:22px;height:22px}
+.role-card .tx{color:var(--ink);font-size:13.5px;line-height:1.45;font-weight:500}
 
-    .process-step .step-num {
-      font-family: var(--font-head);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--accent);
-      opacity: 0.5;
-      display: block;
-      margin-bottom: 0.75rem;
-    }
+/* =========================================================
+   FINAL DELIVERABLES
+   ========================================================= */
+.ep-intro{color:var(--ink-2);font-size:15.5px;line-height:1.75;margin:0 0 40px;font-weight:300}
+.ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 32px}
+.ep-card{display:block;background:transparent;border:0;padding:0;text-align:left;}
 
-    .process-step h4 { font-size: 0.88rem; margin-bottom: 0.5rem; }
-    .process-step p { font-size: 0.78rem; color: var(--text2); line-height: 1.65; }
+.ep-thumb{position:relative;aspect-ratio:16/10;border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.ep-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,.78,.24,1)}
 
-    /* AI / proof gallery */
-    .proof-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-    }
+.ep-info{display:flex;align-items:center;gap:14px;margin-top:18px;color:var(--ink)}
+.ep-bullet{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:24px;height:24px;border-radius:50%;
+  border:1px solid var(--ink-3);font-size:11.5px;font-weight:500;color:var(--ink-3);
+  flex-shrink:0;transition:border-color .25s,color .25s,background .25s;
+}
 
-    .proof-grid img {
-      width: 100%;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border2);
-      display: block;
-    }
+.ep-name{font-size:15px;font-weight:500;color:var(--ink);line-height:1.3}
 
-    .lang-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
-    .lang-pill {
-      font-family: var(--font-head); font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 0.35rem 0.75rem;
-      background: var(--bg3); border: 1px solid var(--border2);
-      border-radius: 2rem; color: var(--text2);
-    }
 
-    @media (max-width: 900px) {
-      .episode-grid { grid-template-columns: repeat(2, 1fr); }
-      .char-grid { grid-template-columns: repeat(3, 1fr); }
-      .process-steps { grid-template-columns: repeat(2, 1fr); }
-    }
+/* =========================================================
+   DESIGN SYSTEM FOR CHARACTERS — top-aligned, no white tile
+   ========================================================= */
+.char-grid{
+  display:grid;grid-template-columns:1.55fr 1fr;
+  gap:56px;align-items:start;
+  margin-bottom:36px;
+}
+.char-main{position:relative;aspect-ratio:3/2;border-radius:var(--radius);overflow:hidden}
+.char-main img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .5s ease}
+.char-main.fading img{opacity:0}
 
-    @media (max-width: 540px) {
-      .episode-grid { grid-template-columns: repeat(2, 1fr); }
-      .char-grid { grid-template-columns: repeat(2, 1fr); }
-      .process-steps { grid-template-columns: 1fr; }
-    }
-  </style>
+.char-carousel{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px}
+.car-btn{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--line-strong);color:var(--ink-2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:color .25s,border-color .25s,background .25s,transform .25s;
+}
+.car-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft);transform:scale(1.05)}
+.car-btn:disabled{opacity:0.3;cursor:not-allowed}
+.car-btn svg{width:14px;height:14px}
+.char-track{
+  display:grid;grid-auto-flow:column;
+  grid-auto-columns:calc((100% - 4 * 14px) / 5);
+  gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  scrollbar-width:none;padding:4px 2px;
+}
+.char-track::-webkit-scrollbar{display:none}
+.char-thumb{
+  position:relative;aspect-ratio:3/2;border-radius:10px;
+  overflow:hidden;cursor:pointer;padding:0;scroll-snap-align:start;
+  border:1px solid var(--line);transition:border-color .25s,transform .25s,background .25s;
+}
+.char-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.char-thumb:hover{border-color:var(--accent-soft);transform:translateY(-2px)}
+.char-thumb.active{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent),0 12px 30px -8px var(--accent-glow)}
+
+/* =========================================================
+   SCALABLE ANIMATION SYSTEM
+   ========================================================= */
+.rig-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:center}
+.rig-stack{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rig-img{aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden}
+.rig-img img{width:100%;height:100%;object-fit:cover}
+
+/* =========================================================
+   AI-ASSISTED WORKFLOW
+   ========================================================= */
+.ai-text{margin:0 0 40px}
+.ai-text p{color:var(--ink-2);font-size:16px;line-height:1.75;margin:0 0 14px;font-weight:300}
+.ai-text p:last-child{margin-bottom:0}
+.ai-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.ai-card{position:relative;aspect-ratio:5/4;border-radius:var(--radius);overflow:hidden}
+.ai-card img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,.78,.24,1)}
+.ai-card:hover img{transform:scale(1.05)}
+
+/* =========================================================
+   OUTPUT & IMPACT — 6 cards
+   ========================================================= */
+.created{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 22px;transition:border-color .25s,transform .25s,background .25s;
+}
+.card:hover{border-color:var(--accent-soft);transform:translateY(-3px);background:var(--surface-2)}
+.card .icon{color:var(--accent);margin-bottom:18px}
+.card .t{font-weight:600;font-size:15.5px;margin-bottom:8px;color:var(--ink);line-height:1.25}
+.card .d{color:var(--ink-3);font-size:13.5px;line-height:1.6}
+
+/* =========================================================
+   END-TO-END PRODUCTION PIPELINE — number+icon same row
+   ========================================================= */
+.pipeline-intro{
+  color:var(--ink-2);font-size:15.5px;line-height:1.75;
+  margin:0 0 36px;max-width:880px;font-weight:300;
+}
+.proc{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.step{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 18px 20px;position:relative;
+  transition:border-color .25s,transform .25s;
+}
+.step:hover{border-color:var(--accent-soft);transform:translateY(-3px)}
+.step-top{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:18px;
+}
+.step .n{font-family:var(--f-display);font-weight:700;font-size:30px;color:var(--accent);line-height:1}
+.step .icon{color:var(--accent);display:flex;align-items:center}
+.step .t{font-weight:600;font-size:13.5px;color:var(--ink);margin-bottom:6px;line-height:1.3}
+.step .d{font-size:12px;color:var(--ink-3);line-height:1.55}
+.step + .step::before{content:"→";position:absolute;left:-16px;top:30px;color:var(--ink-4);font-size:16px}
+
+/* =========================================================
+   IMPACT — metric cards
+   ========================================================= */
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.metric{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px 24px 26px;
+  transition:border-color .25s,transform .25s,background .25s;
+  position:relative;overflow:hidden;
+}
+.metric::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-soft),transparent);
+}
+.metric:hover{border-color:var(--accent-soft);transform:translateY(-3px);background:var(--surface-2)}
+.metric .num{
+  font-family:var(--f-display);font-weight:700;
+  font-size:46px;line-height:1;color:var(--ink);
+  letter-spacing:-0.03em;margin-bottom:14px;
+}
+.metric .num em{color:var(--accent);font-style:normal;font-weight:600;font-size:0.7em;margin-left:2px;vertical-align:4px}
+.metric .lbl{font-size:11px;color:var(--accent);letter-spacing:0.22em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.metric .desc{color:var(--ink-2);font-size:12.5px;line-height:1.55;font-weight:300}
+
+/* =========================================================
+   QUOTE
+   ========================================================= */
+.quote-wrap{padding:100px 0;position:relative}
+.quote{
+  position:relative;border-radius:var(--radius-lg);
+  padding:72px 56px;display:grid;grid-template-columns:1fr 1.4fr;
+  gap:48px;align-items:center;overflow:hidden;isolation:isolate;
+}
+.quote-bg{
+  position:absolute;inset:0;z-index:-2;
+  background-image:url("./assets/thumbnails/hero-poster-2.jpg");
+  background-size:cover;background-position:center;
+  transform:scale(1.06);filter:saturate(0.92) contrast(1.05) brightness(0.5);
+  animation:slow-pan 34s ease-in-out infinite alternate;
+}
+@keyframes slow-pan{from{transform:scale(1.06) translate(0,0)}to{transform:scale(1.1) translate(-1.5%,-1%)}}
+.quote::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(110deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 45%, rgba(0,0,0,0.65) 100%), radial-gradient(80% 100% at 0% 50%, rgba(28,171,226,0.14), transparent 60%);
+}
+.unicef-lockup{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.unicef-lockup .uni-svg{width:100%;max-width:220px;height:auto;display:block}
+.unicef-lockup .uni-tag{font-size:12.5px;color:var(--ink-2);letter-spacing:0.22em;text-transform:uppercase;border-top:1px solid var(--line-strong);padding-top:12px;width:100%;max-width:220px}
+.quote-body .mark{font-family:var(--f-display);font-size:64px;line-height:0.6;color:var(--accent);display:block;margin-bottom:-8px}
+.quote-body p{font-family:var(--f-display);font-style:italic;font-weight:500;font-size:26px;line-height:1.35;margin:0 0 18px;color:var(--ink)}
+.quote-body cite{font-style:normal;color:var(--ink-2);font-size:12px;letter-spacing:0.22em;text-transform:uppercase}
+
+/* =========================================================
+   CLOSING — strategic + emotional
+   ========================================================= */
+.closing{padding:90px 0 70px;text-align:center}
+.closing .strategic{
+  font-size:16px;line-height:1.7;color:var(--ink-2);font-weight:300;
+  max-width:760px;margin:0 auto 28px;
+}
+.closing .line{
+  font-family:var(--f-display);font-style:italic;font-weight:500;
+  font-size:clamp(22px,3vw,32px);line-height:1.3;color:var(--ink);
+  max-width:720px;margin:0 auto;letter-spacing:-0.01em;
+}
+
+/* =========================================================
+   FOOTER — icons
+   ========================================================= */
+footer{border-top:1px solid var(--line);padding:48px 0 36px;background:#000}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:36px;flex-wrap:wrap}
+.foot-brand{display:flex;flex-direction:column;gap:4px}
+.foot-brand .name{font-weight:700;font-size:16px;letter-spacing:0.04em}
+.foot-brand .role{color:var(--ink-3);font-size:12.5px;letter-spacing:0.02em}
+.foot-contact{display:flex;align-items:center;gap:32px}
+.foot-contact a{display:inline-flex;align-items:center;gap:10px;color:var(--ink-2);font-size:14px;transition:color .25s ease}
+.foot-contact a:hover{color:var(--accent)}
+.foot-contact a svg{width:18px;height:18px;flex-shrink:0;color:var(--ink-3);transition:color .25s ease}
+.foot-contact a:hover svg{color:var(--accent)}
+.foot-contact a.icon-only{width:40px;height:40px;border-radius:50%;justify-content:center;border:1px solid var(--line-strong);transition:border-color .25s,background .25s,color .25s}
+.foot-contact a.icon-only:hover{border-color:var(--accent);background:var(--accent-soft)}
+.foot-contact a.icon-only svg{width:16px;height:16px}
+.foot-bottom{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;color:var(--ink-3);font-size:11px;letter-spacing:0.18em;text-transform:uppercase}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:1080px){
+  .hero-meta{grid-template-columns:repeat(3,1fr);gap:24px}
+  .brief-grid,.char-grid,.rig-grid,.role-grid{grid-template-columns:1fr;gap:32px}
+  .ep-grid{grid-template-columns:repeat(2,1fr)}
+  .created,.proc{grid-template-columns:repeat(3,1fr)}
+  .step + .step::before{display:none}
+  .ai-row{grid-template-columns:repeat(2,1fr)}
+  .char-track{grid-auto-columns:calc((100% - 3 * 14px) / 4)}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .role-cards{grid-template-columns:1fr 1fr}
+  .quote{grid-template-columns:1fr;padding:48px 36px;gap:28px}
+  .foot{flex-direction:column;align-items:flex-start;gap:24px}
+}
+@media (max-width:720px){
+  .hero{height:auto;min-height:100vh;padding-bottom:40px}
+  .wordmark{font-size:18vw}
+  .ep-grid{grid-template-columns:1fr}
+  .created,.proc{grid-template-columns:repeat(2,1fr)}
+  .ai-row{grid-template-columns:1fr 1fr}
+  .char-track{grid-auto-columns:calc((100% - 2 * 14px) / 3)}
+  .hero-meta{grid-template-columns:repeat(2,1fr);gap:18px}
+  .foot-contact{gap:20px;flex-wrap:wrap}
+  .role-cards{grid-template-columns:1fr}
+  .metrics{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="site-nav">
-    <div class="container">
-      <a href="../../index.html" class="nav-logo">Jiang Yi</a>
-      <ul class="nav-links">
-        <li><a href="../../index.html#featured-projects">Work</a></li>
-        <li><a href="../../index.html#skill-showcase">Skills</a></li>
-        <li><a href="../../index.html#contact" class="nav-cta">Contact</a></li>
-      </ul>
+<!-- NAV -->
+<nav class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M14 8H2M6 4L2 8l4 4"/></svg>
+      Back
+    </a>
+    <div class="nav-unicef" aria-label="UNICEF"><img src="./assets/unicef-logo.svg" alt="UNICEF"></div>
+  </div>
+</nav>
+
+<!-- HERO — repositioned -->
+<header class="hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto"
+         poster="./assets/thumbnails/hero-poster.jpg">
+    <source src="./assets/hero-loop.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-frame">
+    <div class="hero-content">
+      <div class="unicef-mark-blue" aria-label="UNICEF"></div>
+      <h1 class="wordmark">MEENA</h1>
+      <p class="hero-sub">Mental Health Education Initiative<br>for <span class="uni">UNICEF</span> Nepal South Asia</p>
+      <p class="hero-desc">A multilingual educational content system for UNICEF South Asia, designed to deliver emotionally sensitive stories for children across 4 languages through a scalable AI-assisted production workflow. I led the end-to-end visual production pipeline — from character redesign and animation systems to localization, delivery, and social content adaptation.</p>
     </div>
-  </nav>
 
-  <!-- PROJECT HERO -->
-  <section class="project-hero">
-    <div class="container">
-      <div class="project-hero-inner">
-
-        <div class="project-hero-content">
-          <div class="back-wrap">
-            <a href="../../index.html" class="back-link">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-              Back to Portfolio
-            </a>
-          </div>
-
-          <div class="project-logo-area">
-            <img src="./assets/unicef-logo.png" alt="UNICEF"
-                 style="height:32px;width:auto;opacity:0.85;margin-bottom:1rem"
-                 onerror="this.style.display='none'">
-          </div>
-
-          <h1>UNICEF<br>Meena</h1>
-          <div class="subtitle" style="color:#80b4e0;font-family:var(--font-head);font-size:0.75rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:1.25rem">Multilingual Mental-Health Education Series</div>
-
-          <p style="font-size:0.95rem;color:var(--text2);line-height:1.8;max-width:480px">An AI-assisted animation series educating children on mental health and social-emotional topics — designed for multilingual delivery across multiple regions with a scalable, system-driven production workflow.</p>
-
-          <div class="tags" style="margin-top:1.5rem">
-            <span class="tag tag-blue">AI Workflow</span>
-            <span class="tag tag-blue">Animation System</span>
-            <span class="tag tag-blue">Localization</span>
-            <span class="tag">UNICEF</span>
-          </div>
-        </div>
-
-        <div class="project-hero-media">
-          <div class="media-frame">
-            <video
-              src="./assets/hero-loop.mp4"
-              poster="./assets/thumbnails/hero-poster.jpg"
-              autoplay muted loop playsinline
-              onerror="this.style.display='none';document.getElementById('meena-hero-fallback').style.display='flex'">
-            </video>
-            <div id="meena-hero-fallback" class="media-placeholder" style="display:none">
-              <img src="./assets/thumbnails/hero-poster.jpg" alt="Meena hero"
-                   style="width:100%;height:100%;object-fit:cover"
-                   onerror="this.style.display='none'">
-            </div>
-          </div>
-        </div>
-
+    <div class="hero-footer">
+      <div class="hero-meta">
+        <div><div class="l">Client</div><div class="v">UNICEF Nepal</div></div>
+        <div><div class="l">Year</div><div class="v">2025</div></div>
+        <div><div class="l">Episodes</div><div class="v">6</div></div>
+        <div><div class="l">Languages</div><div class="v">4</div></div>
+        <div><div class="l">Role</div><div class="v">Design Lead · AI Workflow · End-to-End Production Owner</div></div>
       </div>
     </div>
+  </div>
+</header>
 
-    <!-- Meta Bar -->
-    <div class="container">
-      <div class="meta-bar">
-        <div class="meta-item">
-          <span class="meta-label">Client</span>
-          <span class="meta-value">UNICEF</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Role</span>
-          <span class="meta-value">Design Lead · Creative Direction</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Format</span>
-          <span class="meta-value">2D Animation Series</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Workflow</span>
-          <span class="meta-value">AI-Assisted Production</span>
-        </div>
-        <div class="meta-item">
-          <span class="meta-label">Focus</span>
-          <span class="meta-value">Mental Health · SEL</span>
-        </div>
+<!-- PRODUCT CHALLENGE -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">Product Challenge</h2>
+    <div class="brief-grid">
+      <div class="brief-img"><img src="./assets/thumbnails/project-brief.png" alt="Meena and friends running together"></div>
+      <div class="body-copy">
+        <p>Meena is one of UNICEF South Asia's most recognizable educational characters. For this project, the challenge was to reintroduce Meena for a new generation of children through stories about emotional wellbeing and mental health — while producing the series efficiently across multiple languages and regional contexts.</p>
+        <p>The project required more than visual redesign. It needed a scalable production system that could support 6 episodes, 4 language versions, localized voiceover, lip-sync adaptation, social content, and consistent character performance across all deliverables.</p>
+        <p>I led the visual and animation production pipeline, combining hands-on design execution with workflow design, AI-assisted asset generation, and modular puppet animation systems to make the production faster, more consistent, and easier to scale.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CHALLENGE & ROLE -->
-  <section class="content-section">
-    <div class="container">
-      <div class="two-col">
-        <div>
-          <span class="col-label">Challenge &amp; Role</span>
-          <h2 class="col-title">Designing for Scale and Sensitivity</h2>
+<!-- MY ROLE & OWNERSHIP -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">My Role &amp; Ownership</h2>
+    <div class="role-grid">
+      <div class="body-copy">
+        <p>I owned the end-to-end visual production pipeline for the series, working from early visual direction through final multilingual delivery. My responsibilities included character redesign, puppet rigging systems, storyboarding, animation production, AI-assisted asset workflows, localization support, lip-sync adaptation, and social content production.</p>
+        <p>I worked closely with the project manager, script and voiceover teams, and external localization vendors to ensure the series could be produced efficiently across 6 episodes and 4 languages while maintaining visual consistency, emotional clarity, and cultural accessibility.</p>
+      </div>
+      <div class="role-cards">
+        <div class="role-card">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z"/></svg></div>
+          <div class="tx">Defined the updated visual direction for the Meena universe</div>
         </div>
-        <div class="col-body">
-          <p>The project required creating an animation series addressing mental health for children — a sensitive topic demanding both clear visual communication and culturally adaptive delivery. The core challenge was producing a high-quality, emotionally resonant series while building a system capable of multilingual localization without full reproduction.</p>
-          <p>My role covered creative direction of the animation visual system, design of the AI-assisted production workflow, localization framework design, and oversight of the end-to-end production pipeline.</p>
+        <div class="role-card">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+          <div class="tx">Built reusable character and animation systems</div>
+        </div>
+        <div class="role-card">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
+          <div class="tx">Integrated AI tools for backgrounds, props, and selected scenes</div>
+        </div>
+        <div class="role-card">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+          <div class="tx">Adapted the pipeline for multilingual voiceover and lip-sync</div>
+        </div>
+        <div class="role-card">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <div class="tx">Delivered full episodes plus supporting social media assets</div>
+        </div>
+        <div class="role-card">
+          <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="tx">Improved production speed while maintaining consistency and quality</div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CHARACTER DESIGN -->
-  <section class="content-section">
-    <div class="container">
-      <span class="section-label">Visual Design</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Character Design</h2>
-      <div class="char-grid">
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-01.png" alt="Character design 01" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-02.png" alt="Character design 02" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-03.png" alt="Character design 03" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-04.png" alt="Character design 04" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-05.png" alt="Character design 05" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-06.png" alt="Character design 06" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-07.png" alt="Character design 07" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-08.png" alt="Character design 08" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-09.png" alt="Character design 09" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-10.png" alt="Character design 10" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/charcter-design-11.png" alt="Character design 11" loading="lazy"></div>
-        <div class="char-thumb"><img src="./assets/thumbnails/character-rigging.jpg" alt="Character rigging" loading="lazy"></div>
+<!-- FINAL DELIVERABLES -->
+<section class="reveal" id="deliverables">
+  <div class="wrap">
+    <h2 class="s-label">Final Deliverables</h2>
+    <p class="ep-intro">A 6-episode animated series produced in 4 languages, designed to help children explore emotions through relatable stories and culturally grounded characters. Each episode runs approximately 5–6 minutes and was fully localized with voiceover and lip-sync adaptation.</p>
+    <div class="ep-grid">
+      <div class="ep-card">
+        <div class="ep-thumb"><img src="./assets/thumbnails/e1.jpg" alt="How Are You Feeling Today?"></div>
+        <div class="ep-info"><span class="ep-bullet">1</span><span class="ep-name">How Are You Feeling Today?</span></div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-thumb"><img src="./assets/thumbnails/e2.jpg" alt="A Different Kind of Picnic"></div>
+        <div class="ep-info"><span class="ep-bullet">2</span><span class="ep-name">A Different Kind of Picnic</span></div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-thumb"><img src="./assets/thumbnails/e3.jpg" alt="The Worry Jar"></div>
+        <div class="ep-info"><span class="ep-bullet">3</span><span class="ep-name">The Worry Jar</span></div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-thumb"><img src="./assets/thumbnails/e4.jpg" alt="Just a Puff"></div>
+        <div class="ep-info"><span class="ep-bullet">4</span><span class="ep-name">Just a Puff</span></div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-thumb"><img src="./assets/thumbnails/e5.jpg" alt="The Talking Spoon"></div>
+        <div class="ep-info"><span class="ep-bullet">5</span><span class="ep-name">The Talking Spoon</span></div>
+      </div>
+      <div class="ep-card">
+        <div class="ep-thumb"><img src="./assets/thumbnails/e6.jpg" alt="The Sport Day"></div>
+        <div class="ep-info"><span class="ep-bullet">6</span><span class="ep-name">The Sport Day</span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- AI WORKFLOW -->
-  <section class="content-section">
-    <div class="container">
-      <span class="section-label">System Design</span>
-      <h2 style="font-size:1.8rem;margin-bottom:0.75rem">AI-Assisted Animation Workflow</h2>
-      <p style="color:var(--text2);font-size:0.92rem;max-width:640px;margin-bottom:2rem">A purpose-built production pipeline integrating AI tools at key stages to accelerate output, maintain consistency, and enable localization at scale.</p>
-
-      <div class="process-steps">
-        <div class="process-step">
-          <span class="step-num">01</span>
-          <h4>Script &amp; Storyboard</h4>
-          <p>AI-assisted script adaptation and storyboard generation from brief to animatic.</p>
-        </div>
-        <div class="process-step">
-          <span class="step-num">02</span>
-          <h4>Asset Generation</h4>
-          <p>Character and background asset creation with AI-augmented production pipeline.</p>
-        </div>
-        <div class="process-step">
-          <span class="step-num">03</span>
-          <h4>Animation &amp; Lip Sync</h4>
-          <p>2D animation with AI-assisted lip sync to support multi-language voiceovers.</p>
-        </div>
-        <div class="process-step">
-          <span class="step-num">04</span>
-          <h4>Localization &amp; Export</h4>
-          <p>Modular localization system allowing audio and text swaps without re-animating.</p>
-        </div>
+<!-- DESIGN SYSTEM FOR CHARACTERS -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">Design System for Characters</h2>
+    <div class="char-grid">
+      <div class="char-main" id="charMain">
+        <img id="charImg" src="./assets/thumbnails/charcter-design-01.png" alt="Meena character design system">
       </div>
-
-      <!-- AI proof images -->
-      <div class="proof-grid" style="margin-top:2rem">
-        <div>
-          <img src="./assets/thumbnails/ai-01.png" alt="AI workflow — step 1" loading="lazy"
-               onerror="this.parentElement.style.display='none'">
-        </div>
-        <div>
-          <img src="./assets/thumbnails/ai-02.png" alt="AI workflow — step 2" loading="lazy"
-               onerror="this.parentElement.style.display='none'">
-        </div>
-        <div>
-          <img src="./assets/thumbnails/hand-shapes.jpg" alt="Hand shapes — gesture reference" loading="lazy"
-               onerror="this.parentElement.style.display='none'">
-        </div>
-        <div>
-          <img src="./assets/thumbnails/vo-1.jpg" alt="Voiceover recording" loading="lazy"
-               onerror="this.parentElement.style.display='none'">
-        </div>
+      <div class="body-copy">
+        <p>Redesigning Meena and the supporting cast required balancing cultural familiarity, emotional warmth, and production scalability.</p>
+        <p>The original references were limited and inconsistent, so I rebuilt the cast into a cleaner, more unified character system. Each character was designed to preserve cultural identity while supporting repeatable animation, multilingual lip-sync, modular mouth shapes, hand poses, and AI-assisted production workflows.</p>
+        <p>This created a reusable visual system that improved consistency across episodes and made future adaptation easier.</p>
       </div>
     </div>
-  </section>
+    <div class="char-carousel">
+      <button class="car-btn" id="carPrev" aria-label="Previous characters">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M10 13L4 8l6-5"/></svg>
+      </button>
+      <div class="char-track" id="charTrack">
+        <button class="char-thumb active" data-n="01"><img src="./assets/thumbnails/charcter-design-01.png" alt="View 01"></button>
+        <button class="char-thumb" data-n="02"><img src="./assets/thumbnails/charcter-design-02.png" alt="View 02"></button>
+        <button class="char-thumb" data-n="03"><img src="./assets/thumbnails/charcter-design-03.png" alt="View 03"></button>
+        <button class="char-thumb" data-n="04"><img src="./assets/thumbnails/charcter-design-04.png" alt="View 04"></button>
+        <button class="char-thumb" data-n="05"><img src="./assets/thumbnails/charcter-design-05.png" alt="View 05"></button>
+        <button class="char-thumb" data-n="06"><img src="./assets/thumbnails/charcter-design-06.png" alt="View 06"></button>
+        <button class="char-thumb" data-n="07"><img src="./assets/thumbnails/charcter-design-07.png" alt="View 07"></button>
+        <button class="char-thumb" data-n="08"><img src="./assets/thumbnails/charcter-design-08.png" alt="View 08"></button>
+        <button class="char-thumb" data-n="09"><img src="./assets/thumbnails/charcter-design-09.png" alt="View 09"></button>
+        <button class="char-thumb" data-n="10"><img src="./assets/thumbnails/charcter-design-10.png" alt="View 10"></button>
+        <button class="char-thumb" data-n="11"><img src="./assets/thumbnails/charcter-design-11.png" alt="View 11"></button>
+      </div>
+      <button class="car-btn" id="carNext" aria-label="Next characters">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 3l6 5-6 5"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
 
-  <!-- PROJECT BRIEF -->
-  <section class="content-section">
-    <div class="container">
-      <div class="two-col">
-        <div>
-          <span class="col-label">Brief</span>
-          <h2 class="col-title">Project Overview</h2>
-        </div>
-        <div class="col-body">
-          <img src="./assets/thumbnails/project-brief.png" alt="Project brief"
-               style="width:100%;border-radius:var(--radius-lg);border:1px solid var(--border2)"
-               onerror="this.style.display='none'" loading="lazy">
-        </div>
+<!-- SCALABLE ANIMATION SYSTEM -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">Scalable Animation System</h2>
+    <div class="rig-grid">
+      <div class="rig-stack">
+        <div class="rig-img"><img src="./assets/thumbnails/character-rigging.jpg" alt="Character rigging system"></div>
+        <div class="rig-img"><img src="./assets/thumbnails/hand-shapes.jpg" alt="Hand and mouth shape library"></div>
+      </div>
+      <div class="body-copy">
+        <p>To support 6 episodes across 4 languages, I rebuilt the characters as modular puppet rigs with reusable mouth shapes, hand poses, and expression systems.</p>
+        <p>This allowed the same character assets to be re-performed for different language versions while preserving consistency in timing, emotion, and visual quality. The system reduced repeated manual work and helped keep production efficient across a multilingual delivery pipeline.</p>
+        <p>The result was a scalable animation framework that balanced expressive storytelling with production speed.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- EPISODES -->
-  <section class="content-section">
-    <div class="container">
-      <span class="section-label">Series</span>
-      <h2 style="font-size:1.8rem;margin-bottom:2rem">Episode Overview</h2>
-      <div class="episode-grid">
-        <div class="episode-thumb">
-          <img src="./assets/thumbnails/e1.jpg" alt="Episode 1" loading="lazy">
-          <div class="ep-label">Episode 01</div>
-        </div>
-        <div class="episode-thumb">
-          <img src="./assets/thumbnails/e2.jpg" alt="Episode 2" loading="lazy">
-          <div class="ep-label">Episode 02</div>
-        </div>
-        <div class="episode-thumb">
-          <img src="./assets/thumbnails/e3.jpg" alt="Episode 3" loading="lazy">
-          <div class="ep-label">Episode 03</div>
-        </div>
-        <div class="episode-thumb">
-          <img src="./assets/thumbnails/e4.jpg" alt="Episode 4" loading="lazy">
-          <div class="ep-label">Episode 04</div>
-        </div>
-        <div class="episode-thumb">
-          <img src="./assets/thumbnails/e5.jpg" alt="Episode 5" loading="lazy">
-          <div class="ep-label">Episode 05</div>
-        </div>
-        <div class="episode-thumb">
-          <img src="./assets/thumbnails/e6.jpg" alt="Episode 6" loading="lazy">
-          <div class="ep-label">Episode 06</div>
-        </div>
+<!-- AI-ASSISTED WORKFLOW -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">AI-Assisted Workflow</h2>
+    <div class="ai-text">
+      <p>AI was not used as a visual shortcut, but as a production accelerator. I integrated AI tools into specific parts of the workflow where they could improve speed without compromising control, consistency, or emotional quality.</p>
+      <p>AI was used primarily for background exploration, prop generation, environment variations, and selected video moments such as flashbacks or complex movement references. These outputs were then manually refined in Photoshop and integrated into the animation pipeline.</p>
+      <p>This approach reduced repetitive production effort, accelerated asset creation, and allowed more time to focus on character performance, storytelling clarity, and localization quality.</p>
+    </div>
+    <div class="ai-row">
+      <div class="ai-card"><img src="./assets/thumbnails/ai-01.png" alt=""></div>
+      <div class="ai-card"><img src="./assets/thumbnails/ai-02.png" alt=""></div>
+      <div class="ai-card"><img src="./assets/thumbnails/vo-1.jpg" alt=""></div>
+      <div class="ai-card"><img src="./assets/thumbnails/vo-2.jpg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTPUT & IMPACT — 6 reframed cards -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">Output &amp; Impact</h2>
+    <div class="created">
+      <div class="card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></svg></div>
+        <div class="t">Character &amp; World System</div>
+        <div class="d">A unified visual system for Meena and her cast — built to preserve cultural identity while supporting repeatable, scalable animation.</div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6M12 22v-4M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M22 12h-4M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg></div>
+        <div class="t">Puppet Animation Framework</div>
+        <div class="d">Reusable rigged character systems that reduced repeated animation work and supported faster multilingual adaptation.</div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+        <div class="t">AI-Assisted Asset Pipeline</div>
+        <div class="d">Workflow integration for backgrounds, props, and selected scenes — accelerating asset creation without losing creative control.</div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <div class="t">Multilingual Localization</div>
+        <div class="d">Pipeline support for English, Nepali, Sinhala, and Tamil — including voiceover integration and lip-sync adaptation.</div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="t">Social Distribution Assets</div>
+        <div class="d">Short-form clips, GIFs, and platform-ready content extending each episode's reach across digital channels.</div>
+      </div>
+      <div class="card">
+        <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13l2 2 4-4"/></svg></div>
+        <div class="t">Full Episode Delivery</div>
+        <div class="d">Six fully produced episodes delivered end-to-end through a pipeline that balanced speed, consistency, and emotional clarity.</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- LOCALIZATION -->
-  <section class="content-section">
-    <div class="container">
-      <div class="two-col">
-        <div>
-          <span class="col-label">Localization</span>
-          <h2 class="col-title">Multilingual Delivery</h2>
+<!-- END-TO-END PRODUCTION PIPELINE -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">End-to-End Production Pipeline</h2>
+    <p class="pipeline-intro">I designed the production workflow to balance emotional storytelling, multilingual scalability, and efficient delivery. Each stage was structured to reduce repeated manual work while keeping enough creative control to protect character performance and cultural sensitivity.</p>
+    <div class="proc">
+      <div class="step">
+        <div class="step-top">
+          <div class="n">01</div>
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
         </div>
-        <div class="col-body">
-          <p>The animation system was designed from the start for multilingual delivery — ensuring that audio, subtitles, and on-screen text elements could be swapped or adapted without triggering full reproduction cycles.</p>
-          <p>Language and region variants were managed through a modular asset system, enabling localization teams to work in parallel with production.</p>
-          <div class="lang-pills">
-            <span class="lang-pill">English</span>
-            <span class="lang-pill">+ Add languages</span>
-          </div>
+        <div class="t">Narrative &amp; Learning Goals</div>
+        <div class="d">Story framing aligned with educational and emotional wellbeing objectives.</div>
+      </div>
+      <div class="step">
+        <div class="step-top">
+          <div class="n">02</div>
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></svg></div>
         </div>
+        <div class="t">Visual Direction &amp; Character System</div>
+        <div class="d">Updated character design and a reusable visual system across the cast.</div>
+      </div>
+      <div class="step">
+        <div class="step-top">
+          <div class="n">03</div>
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg></div>
+        </div>
+        <div class="t">Storyboard &amp; Production Planning</div>
+        <div class="d">Visual planning, pacing, and production scoping per episode.</div>
+      </div>
+      <div class="step">
+        <div class="step-top">
+          <div class="n">04</div>
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="6" r="2"/><path d="M12 8v4l-3 4M12 12l3 4M9 21h6"/></svg></div>
+        </div>
+        <div class="t">Puppet Rigging &amp; Animation</div>
+        <div class="d">Modular rigs and expressive performance built for multilingual scale.</div>
+      </div>
+      <div class="step">
+        <div class="step-top">
+          <div class="n">05</div>
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/><circle cx="12" cy="12" r="3"/></svg></div>
+        </div>
+        <div class="t">AI-Assisted Asset Workflow</div>
+        <div class="d">Selective AI use for backgrounds, props, and scene support — refined manually.</div>
+      </div>
+      <div class="step">
+        <div class="step-top">
+          <div class="n">06</div>
+          <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        </div>
+        <div class="t">Localization, Lip-sync &amp; Delivery</div>
+        <div class="d">Multilingual voiceover, lip-sync, and final delivery across all language versions.</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <p>
-        <a href="../../index.html" class="back-link" style="justify-content:center">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-          Back to Portfolio
+<!-- IMPACT — metric cards -->
+<section class="reveal">
+  <div class="wrap">
+    <h2 class="s-label">Impact</h2>
+    <div class="metrics">
+      <div class="metric">
+        <div class="lbl">Episodes</div>
+        <div class="num">6</div>
+        <div class="desc">Fully produced 5–6 minute episodes delivered end-to-end.</div>
+      </div>
+      <div class="metric">
+        <div class="lbl">Languages</div>
+        <div class="num">4</div>
+        <div class="desc">English, Nepali, Sinhala, and Tamil versions with localized voiceover.</div>
+      </div>
+      <div class="metric">
+        <div class="lbl">Production Speed</div>
+        <div class="num">~6<em>days</em></div>
+        <div class="desc">Per episode once the pipeline was established.</div>
+      </div>
+      <div class="metric">
+        <div class="lbl">Reusable System</div>
+        <div class="num">100<em>%</em></div>
+        <div class="desc">Modular character &amp; animation system reusable across episodes.</div>
+      </div>
+      <div class="metric">
+        <div class="lbl">Social Reach</div>
+        <div class="num">4<em>×</em></div>
+        <div class="desc">Language sets of short-form clips and GIFs extending each episode.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-wrap reveal">
+  <div class="wrap">
+    <div class="quote">
+      <div class="quote-bg"></div>
+      <div class="unicef-lockup">
+        <img src="./assets/unicef-logo.svg" alt="UNICEF" class="uni-svg">
+        <div class="uni-tag">For Every Child</div>
+      </div>
+      <div class="quote-body">
+        <span class="mark">&ldquo;</span>
+        <p>Meena creates a safe space for children to talk about their feelings and know they are not alone.</p>
+        <cite>— UNICEF Nepal Partner</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING — strategic + emotional -->
+<section class="closing reveal">
+  <div class="wrap">
+    <p class="strategic">This project shows how design leadership, production systems, and emerging AI workflows can work together to deliver emotionally meaningful content at scale.</p>
+    <p class="line">Stories that help children feel understood, supported, and less alone.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand">
+        <div class="name">JIANG YI</div>
+        <div class="role">Multidisciplinary Creative Director</div>
+      </div>
+      <div class="foot-contact">
+        <a href="mailto:jiangy17@yahoo.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          jiangy17@yahoo.com
         </a>
-      </p>
-      <p style="margin-top:1rem">&copy; 2025 Jiang Yi. All rights reserved.</p>
+        <a href="tel:+6583020957" aria-label="Phone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
+          +65 8302 0957
+        </a>
+        <a href="https://www.linkedin.com/in/yi-jiang-12a010a3/" target="_blank" rel="noopener" class="icon-only" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.5 18V10H6v8h2.5zM7.25 8.8a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9zM18 18v-4.6c0-2.3-1.23-3.4-2.87-3.4-1.32 0-1.91.73-2.24 1.24V10H10.4c.03.72 0 8 0 8h2.49v-4.46c0-.22.02-.45.08-.61.18-.45.59-.91 1.28-.91.9 0 1.27.69 1.27 1.69V18H18z"/></svg>
+        </a>
+      </div>
     </div>
-  </footer>
+    <div class="foot-bottom">
+      <div>© 2026 Jiang Yi</div>
+      <div>For Every Child</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, {passive:true});
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  // Character switcher
+  const charMain = document.getElementById('charMain');
+  const charImg = document.getElementById('charImg');
+  document.querySelectorAll('#charTrack .char-thumb').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const n = btn.dataset.n;
+      if (btn.classList.contains('active')) return;
+      document.querySelector('#charTrack .char-thumb.active')?.classList.remove('active');
+      btn.classList.add('active');
+      charMain.classList.add('fading');
+      setTimeout(() => {
+        charImg.src = './assets/thumbnails/charcter-design-' + n + '.png';
+        charImg.onload = () => charMain.classList.remove('fading');
+      }, 250);
+    });
+  });
+
+  // Carousel
+  const track = document.getElementById('charTrack');
+  const prevBtn = document.getElementById('carPrev');
+  const nextBtn = document.getElementById('carNext');
+  function updateCarBtns() {
+    const tol = 4;
+    prevBtn.disabled = track.scrollLeft <= tol;
+    nextBtn.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - tol;
+  }
+  prevBtn.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * 0.7, behavior: 'smooth' }));
+  nextBtn.addEventListener('click', () => track.scrollBy({ left:  track.clientWidth * 0.7, behavior: 'smooth' }));
+  track.addEventListener('scroll', updateCarBtns, {passive:true});
+  window.addEventListener('resize', updateCarBtns);
+  updateCarBtns();
+</script>
 
 </body>
 </html>

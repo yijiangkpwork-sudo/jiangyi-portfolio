@@ -1,178 +1,788 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Reader — Coco's Kampong</title>
-  <link rel="stylesheet" href="../../../assets/style.css">
-  <style>
-    body { background: #0d1012; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Picture Book — Hansel and Gretel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand-green:#5EBC6B; --brand-purple:#A77DCF; --brand-pink:#F26B7E;
+  --brand-orange:#FF8C42; --brand-blue:#5BB3D9; --brand-deepblue:#4F71D9;
+  --brand-teal:#4BB8B0;
+  --c-story:var(--brand-orange);
+  --bg:#FFFCF5; --paper:#FFFFFF; --letterbox:#1a1208;
+  --ink:#1F1F1F; --ink-soft:#5A4636; --ink-faint:#A0A0A0;
+  --rule:#ECECEC; --rule-strong:#D8D8D8;
+  --title-blue:#2C4180;
+}
+* { box-sizing:border-box; }
+html, body { margin:0; height:100%; }
+body { font-family:"Mali", system-ui, sans-serif; font-weight:600; color:var(--ink); background:var(--letterbox); overflow:hidden; user-select:none; -webkit-font-smoothing:antialiased; }
+h1,h2,h3 { font-family:"Fredoka", "Mali", sans-serif; font-weight:700; margin:0; }
 
-    .reader-header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(13,16,18,0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 0;
-    }
+.player { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:var(--letterbox); }
+.player-inner {
+  aspect-ratio:16/9; width:100%;
+  max-width: calc(100vh * 16 / 9); max-height: 100vh;
+  background:var(--bg);
+  position:relative; overflow:hidden;
+  box-shadow:0 0 50px rgba(0,0,0,0.3);
+}
+.stage { position:absolute; inset:0; background:var(--paper); overflow:hidden; }
 
-    .reader-header .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+/* SIDE ARROWS */
+.side-arrow {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:70px; display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.82); border:1.5px solid var(--rule); border-radius:12px;
+  color:var(--ink-soft); cursor:pointer; z-index:30;
+  transition: background 150ms, color 150ms, transform 150ms;
+}
+.side-arrow:hover { background:white; color:var(--ink); transform:translateY(-50%) scale(1.04); }
+.side-arrow[disabled] { opacity:0.25; cursor:not-allowed; pointer-events:none; }
+.side-arrow svg { width:22px; height:22px; }
+.side-arrow.prev { left:12px; }
+.side-arrow.next { right:12px; }
 
-    .reader-title {
-      font-family: var(--font-head);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text2);
-    }
+/* TOP HOT-ZONE + CONTROLS */
+.bottom-zone {
+  position:absolute; left:0; right:0; top:0;
+  height:70px; z-index:18;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.05), transparent);
+}
+.controls {
+  position:absolute; left:0; right:0; top:0;
+  display:grid; grid-template-columns:auto 1fr 56px auto;
+  align-items:center; gap:12px;
+  padding:8px 14px 10px;
+  background:rgba(255,252,245,0.96); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--rule);
+  transform:translateY(-110%); opacity:0; pointer-events:none;
+  transition: transform 240ms cubic-bezier(.22,.61,.36,1), opacity 200ms;
+  z-index:20;
+}
+.controls .audio-slot { width: 40px; }
+.player-inner.show-chrome .controls { transform:translateY(0); opacity:1; pointer-events:auto; }
 
-    .reader-stage {
-      min-height: 100vh;
-      padding-top: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 100px 2rem 4rem;
-    }
+.nav-btn {
+  font-family:"Fredoka", sans-serif; font-weight:600;
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 16px; font-size:13px;
+  border-radius:999px; border:none; cursor:pointer;
+  transition: all 150ms;
+}
+.nav-btn.back { background:var(--paper); color:var(--ink-soft); border:1.5px solid var(--rule-strong); }
+.nav-btn.back:hover { color:var(--ink); border-color:var(--ink-soft); }
+.nav-btn.next { background:var(--ink); color:var(--paper); }
+.nav-btn.next:hover { background:#000; transform:translateY(-1px); }
+.nav-btn[disabled] { opacity:0.3; cursor:not-allowed; transform:none; }
+.nav-btn svg { width:14px; height:14px; }
 
-    .book-frame {
-      width: 100%;
-      max-width: 900px;
-      aspect-ratio: 16/9;
-      background: var(--bg2);
-      border: 1px solid var(--border2);
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 1.5rem;
-      color: var(--text3);
-      position: relative;
-      overflow: hidden;
-    }
+.audio-btn {
+  position:absolute; right:100px; top:12px; z-index:22;
+  width:40px; height:40px; border-radius:999px;
+  background:white; border:1.5px solid var(--rule-strong);
+  color:var(--ink-soft); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition: background 180ms, color 180ms, border-color 180ms, transform 120ms, box-shadow 180ms;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  visibility:hidden;
+}
+.audio-btn.is-available { visibility:visible; }
+.audio-btn:hover { background:var(--bg); color:var(--ink); transform:scale(1.06); }
+.audio-btn.is-playing { background:var(--c-story); color:white; border-color:var(--c-story); }
+.audio-btn svg { width:16px; height:16px; }
+.player-inner.show-chrome .audio-btn { box-shadow:none; }
 
-    .book-frame::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 50%, rgba(126,200,160,0.04) 0%, transparent 70%);
-    }
+.progress-block { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.progress-meta { display:flex; align-items:center; gap:10px; font-family:"Fredoka", sans-serif; font-size:11px; color:var(--ink-faint); }
+.progress-meta .title {
+  font-weight:700; font-size:12px; color:var(--ink);
+  display:inline-flex; align-items:center; gap:6px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.progress-meta .title .grade-badge {
+  background:var(--brand-pink); color:white; font-size:9px; padding:1px 6px;
+  border-radius:999px; letter-spacing:0.06em; text-transform:uppercase;
+}
+.lo-chip {
+  font-family:"Fredoka", sans-serif; font-weight:600; font-size:10px;
+  padding:2px 9px; border-radius:999px;
+  background:var(--c-story); color:white;
+  letter-spacing:0.05em; text-transform:uppercase; white-space:nowrap;
+}
+.scene-counter { margin-left:auto; }
+.progress-bar { display:flex; height:6px; border-radius:999px; overflow:hidden; background:var(--rule); }
+.progress-segment { position:relative; height:100%; cursor:pointer; min-width:3px; background:rgba(0,0,0,0.04); }
+.progress-segment + .progress-segment { border-left:2px solid var(--paper); }
+.progress-segment-fill {
+  position:absolute; inset:0; background:var(--c-story);
+  transform-origin:left; transform:scaleX(var(--seg-fill, 0));
+  transition: transform 200ms;
+}
 
-    .book-frame-inner {
-      text-align: center;
-      position: relative;
-    }
+/* SCENE */
+.scene { position:absolute; inset:0; display:none; }
+.scene.is-active { display:flex; }
 
-    .book-frame-inner .book-icon {
-      width: 64px;
-      height: 64px;
-      border: 1px solid var(--border2);
-      border-radius: var(--radius);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      color: #7ec8a0;
-    }
+/* TITLE SCENE (slide 00) — uses exported PPT slide 1 as full-bleed image */
+.title-scene { background:var(--title-blue); align-items:center; justify-content:center; }
+.title-img { width:100%; height:100%; object-fit:contain; display:block; }
+.title-start {
+  position:absolute; bottom:5%; left:50%; transform:translateX(-50%);
+  font-family:"Fredoka", sans-serif; font-weight:700; font-size:18px;
+  background:var(--brand-orange); color:white;
+  padding:14px 36px; border-radius:999px; border:none; cursor:pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(255,140,66,0.35);
+  transition: transform 120ms, box-shadow 120ms;
+  display:inline-flex; align-items:center; gap:10px;
+  z-index:5;
+}
+.title-start:hover { transform:translateX(-50%) translateY(-2px); }
+.title-start:active { transform:translateX(-50%) translateY(2px); box-shadow:0 2px 0 rgba(0,0,0,0.18); }
 
-    .book-frame-inner h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
+/* STORY SCENE — two layouts: split (side-by-side) and stacked (video top, text bottom).
+   Both use a pure white background for the "留白" (negative-space) picture-book feel. */
+.story-scene { background:white; padding:0; }
+.story-grid {
+  position:absolute; inset:0;
+  display:grid;
+  padding:4% 4% 5%;
+  gap:2%;
+}
+.story-scene.layout-split  .story-grid { grid-template-columns: 58% 42%; grid-template-rows: 1fr; }
+.story-scene.layout-stacked .story-grid { grid-template-columns: 1fr; grid-template-rows: 62% 38%; }
 
-    .book-frame-inner p {
-      font-size: 0.82rem;
-      color: var(--text2);
-      max-width: 360px;
-      margin: 0 auto;
-    }
+.story-media {
+  position:relative; overflow:hidden;
+  background:white; display:flex; align-items:center; justify-content:center;
+}
+.story-media video {
+  width:100%; height:100%;
+  object-fit:contain;          /* keep aspect; no crop */
+  background:white;            /* pure white — no orange tile */
+  display:block;
+}
 
-    .book-controls {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-      justify-content: center;
-    }
+/* Lock label sits ABOVE the text box, left-aligned (replaces in-video overlay) */
+.story-right { display:flex; flex-direction:column; justify-content:center; gap:14px; }
+.lock-label {
+  font-family:"Fredoka", sans-serif; font-weight:700;
+  font-size: clamp(12px, 1.3vw, 15px);
+  color: var(--brand-orange);
+  display:inline-flex; align-items:center; gap:8px;
+  align-self:flex-start;
+}
+.lock-label .lock-dot { font-size:14px; }
+.lock-label.is-hidden { display:none; }
+.story-text {
+  font-family:"Mali", sans-serif; font-weight:600;
+  font-size: clamp(15px, 1.8vw, 22px);
+  line-height: 2.3;             /* extra room so larger pill-blanks don't overlap */
+  color: var(--ink);
+}
+/* Blank slots: match chip shape — same rounded corner, similar height + padding.
+   The blank is intentionally a bit wider than chips so a chip drops in cleanly. */
+.story-text .inline-blank {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width: 140px;
+  min-height: 38px;             /* enforce explicit height to match chips */
+  padding: 8px 24px;            /* same paddings as chips below */
+  margin: 0 4px;
+  border: 2.5px dashed var(--rule-strong);
+  border-radius: 999px;         /* SAME radius as chips (pill) */
+  background: #FFFFFF;
+  color: transparent;
+  vertical-align: middle;
+  font-family: "Mali", sans-serif; font-weight: 700;
+  font-size: clamp(14px, 1.5vw, 17px);
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+.story-text .inline-blank.is-target {
+  border-color: var(--brand-orange);
+  background: #FFEFD8;
+  transform: scale(1.04);
+  transition: all 120ms;
+}
+.story-text .inline-blank.is-filled {
+  color: var(--brand-green);
+  background: rgba(94,188,107,0.18);
+  border-style: solid;
+  border-color: var(--brand-green);
+}
 
-    .page-indicator {
-      font-family: var(--font-head);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      color: var(--text3);
-      margin-top: 1.5rem;
-      text-align: center;
-    }
+.chip-tray {
+  display:flex; flex-wrap:wrap; gap: 10px;
+  justify-content:center; align-items:center;
+  padding: 12px 8px 4px;
+  border-top: 1.5px dashed var(--rule);
+  min-height: 52px;
+}
+.tray-chip {
+  font-family:"Mali", sans-serif; font-weight:700;
+  font-size: clamp(14px, 1.5vw, 17px);
+  background: var(--brand-purple); color:white;
+  padding: 8px 24px;            /* matches blank padding */
+  min-height: 38px;             /* matches blank height */
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px;         /* SAME radius as blanks */
+  cursor: grab; user-select: none; touch-action: none;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.15);
+  transition: transform 100ms;
+  box-sizing: border-box;
+}
+.tray-chip:hover { transform: translateY(-2px); }
+.tray-chip.is-dragging {
+  cursor: grabbing; position: fixed; pointer-events: none;
+  z-index: 100; transform: rotate(-3deg) scale(1.08);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.22);
+}
+.tray-chip.is-used { opacity: 0.22; pointer-events: none; transform: none; }
 
-    .todo-note {
-      margin: 2rem auto;
-      max-width: 600px;
-      background: rgba(200,169,110,0.06);
-      border: 1px solid rgba(200,169,110,0.2);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-    }
+.story-feedback {
+  font-family:"Fredoka", sans-serif; font-size: 13px;
+  min-height: 18px; color: var(--ink-soft);
+  text-align: center;
+}
+.story-feedback.success { color: var(--brand-green); font-weight: 700; }
+.story-feedback.error   { color: var(--brand-pink); }
 
-    .todo-note .todo-label {
-      font-family: var(--font-head);
-      font-size: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .todo-note p {
-      font-size: 0.82rem;
-      color: var(--text2);
-    }
-  </style>
+/* ENDING SCENE */
+.end-scene {
+  background:radial-gradient(ellipse at center, #FFE7BD, var(--bg) 70%);
+  align-items:center; justify-content:center;
+  padding:40px; flex-direction:column; gap:14px; text-align:center;
+}
+.end-scene .book { width:120px; height:120px; filter:drop-shadow(0 12px 30px rgba(255,140,66,0.4)); animation:bounce 700ms cubic-bezier(.34,1.56,.64,1); }
+@keyframes bounce { 0% {transform:scale(0);opacity:0;} 60% {transform:scale(1.2);opacity:1;} 100% {transform:scale(1);opacity:1;} }
+.end-scene h1 { font-size:clamp(28px,4vw,44px); color:#6B4226; }
+.end-scene p  { color:var(--ink-soft); font-size:clamp(13px,1.5vw,16px); max-width:500px; margin:0; }
+.end-scene .restart-btn {
+  margin-top:14px;
+  font-family:"Fredoka", sans-serif; font-weight:700; font-size:14px;
+  background:var(--brand-orange); color:white;
+  padding:10px 28px; border-radius:999px; border:none; cursor:pointer;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+}
+.end-scene .restart-btn:hover { transform:translateY(-2px); }
+.confetti { position:absolute; pointer-events:none; inset:0; overflow:hidden; }
+.confetti span { position:absolute; top:-20px; width:9px; height:13px; opacity:0.9; animation:fall linear forwards; }
+@keyframes fall { 0% {transform:translateY(-20px) rotate(0); opacity:1;} 100% {transform:translateY(110vh) rotate(720deg); opacity:0.4;} }
+</style>
 </head>
 <body>
-
-  <div class="reader-header">
-    <div class="container">
-      <a href="../index.html" class="back-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-        Back to Coco's Kampong
-      </a>
-      <span class="reader-title">Interactive Reader · Prototype</span>
-      <span style="font-family:var(--font-head);font-size:0.65rem;color:var(--text3);letter-spacing:0.1em">Coco's Kampong</span>
-    </div>
+<div class="player">
+  <div class="player-inner" id="player-inner">
+    <main class="stage" id="stage">
+      <button class="side-arrow prev" id="btn-prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="side-arrow next" id="btn-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+      <div class="bottom-zone" id="bottom-zone" aria-hidden="true"></div>
+      <button class="audio-btn" id="audio-btn" title="Play / replay audio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/>
+          <path d="M19 8a5 5 0 0 1 0 8"/>
+        </svg>
+      </button>
+    </main>
+    <footer class="controls" id="controls">
+      <button class="nav-btn back" id="btn-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div class="progress-block">
+        <div class="progress-meta">
+          <span class="title"><span class="grade-badge">PB</span> Hansel &amp; Gretel</span>
+          <span class="lo-chip" id="lo-chip">Story</span>
+          <span class="scene-counter" id="scene-counter">—</span>
+        </div>
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="audio-slot" aria-hidden="true"></div>
+      <button class="nav-btn next" id="btn-next-bottom">
+        <span id="btn-next-label">Next</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+    </footer>
   </div>
+</div>
 
-  <main class="reader-stage">
-    <div style="width:100%;max-width:900px">
-      <div class="book-frame">
-        <div class="book-frame-inner">
-          <div class="book-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+<script>
+/* =========================================================
+   PATHS
+   ========================================================= */
+const ANIM = "Animation clips";
+const VO   = "VOs";
+
+/* =========================================================
+   SCENES — title + 11 story pages
+   Each story scene has:
+     - video: animation clip
+     - audio: VO clip
+     - text:  narrative HTML with <span data-blank="N"></span> placeholders
+     - chips: words that fill the blanks (order = blank index)
+   If chips/blanks omitted → play immediately on entry.
+   ========================================================= */
+/* Each slide:
+     - chips[0..N-1] are the CORRECT answers in blank-index order.
+     - any chips after the Nth correct one are DISTRACTORS (wrong answers
+       that the learner has to identify and leave behind).
+   The first `correctCount` chips are matched to blanks by index; everything
+   else is a distractor. (See buildScenes: numBlanks per slide.) */
+const STORY_SLIDES = [
+  // Slide 01 — PPT slide 2
+  {
+    text: `There once lived a poor woodcutter, his <span data-blank="0"></span> and two <span data-blank="1"></span> — a <span data-blank="2"></span> called Hansel and a <span data-blank="3"></span> called Gretel.`,
+    chips: [
+      { label:"wife",       answer:"wife"       },  // correct → blank 0
+      { label:"children",   answer:"children"   },  // correct → blank 1
+      { label:"boy",        answer:"boy"        },  // correct → blank 2
+      { label:"girl",       answer:"girl"       },  // correct → blank 3
+      { label:"stepmother", answer:"stepmother" },  // distractor
+      { label:"witch",      answer:"witch"      },  // distractor
+    ]
+  },
+  // Slide 02 — PPT slide 3
+  {
+    text: `The woodcutter and his <span data-blank="0"></span> did not have enough food for their <span data-blank="1"></span> and daughter. So, they decided to leave them deep in the forest. Hansel and Gretel overheard this and came up with a plan.`,
+    chips: [
+      { label:"wife",       answer:"wife"       },  // correct → blank 0
+      { label:"son",        answer:"son"        },  // correct → blank 1
+      { label:"stepmother", answer:"stepmother" },  // distractor
+      { label:"husband",    answer:"husband"    },  // distractor
+    ]
+  },
+  // Slide 03 — PPT slide 4 (stacked: landscape video on top)
+  {
+    layout: "stacked",
+    text: `When their <span data-blank="0"></span> took them into the forest, Hansel and Gretel dropped pebbles along the way. Then, they found their way home by following the line of pebbles.`,
+    chips: [
+      { label:"parents",    answer:"parents"    },  // correct
+      { label:"stepmother", answer:"stepmother" },  // distractor
+      { label:"witch",      answer:"witch"      },  // distractor
+      { label:"neighbours", answer:"neighbours" },  // distractor
+    ]
+  },
+  // Slide 04 — PPT slide 5
+  {
+    text: `Their <span data-blank="0"></span> and stepmother were surprised to see them back. They decided to take them deeper into the forest once again.`,
+    chips: [
+      { label:"father",  answer:"father"  },        // correct
+      { label:"mother",  answer:"mother"  },        // distractor
+      { label:"witch",   answer:"witch"   },        // distractor
+      { label:"brother", answer:"brother" },        // distractor
+    ]
+  },
+  // Slide 05 — PPT slide 6  (CORRECT ANSWER = "parents")
+  {
+    text: `This time, Hansel and Gretel dropped breadcrumbs because their pebbles were taken by their <span data-blank="0"></span>. But sadly, the animals and birds in the forest ate all the crumbs. They were lost in the forest.`,
+    chips: [
+      { label:"parents",    answer:"parents"    },  // correct
+      { label:"stepmother", answer:"stepmother" },  // distractor
+      { label:"witch",      answer:"witch"      },  // distractor
+      { label:"father",     answer:"father"     },  // distractor
+    ]
+  },
+  // Slide 06 — PPT slide 7 (no interactive)
+  {
+    text: `Then they came upon a strange house. It was made of chocolates, candies and cookies.`,
+    chips: []
+  },
+  // Slide 07 — PPT slide 8 (stacked, no interactive)
+  {
+    layout: "stacked",
+    text: `Hansel and Gretel were so hungry that they started to eat the door, the window and the roof.`,
+    chips: []
+  },
+  // Slide 08 — PPT slide 9 (stacked)
+  {
+    layout: "stacked",
+    text: `The <span data-blank="0"></span>, whose house it was, caught Hansel and Gretel. These <span data-blank="1"></span> would be her dinner tonight.`,
+    chips: [
+      { label:"witch",       answer:"witch"       },  // correct → blank 0
+      { label:"children",    answer:"children"    },  // correct → blank 1
+      { label:"woodcutter",  answer:"woodcutter"  },  // distractor
+      { label:"stepmother",  answer:"stepmother"  },  // distractor
+    ]
+  },
+  // Slide 09 — PPT slide 10 (stacked)
+  {
+    layout: "stacked",
+    text: `She locked Hansel in a cage and ordered Gretel to heat the oven. But just when the <span data-blank="0"></span> bent down to check the fire, Gretel pushed her from behind and locked the oven door.`,
+    chips: [
+      { label:"witch",      answer:"witch"      },  // correct
+      { label:"stepmother", answer:"stepmother" },  // distractor
+      { label:"woman",      answer:"woman"      },  // distractor
+      { label:"mother",     answer:"mother"     },  // distractor
+    ]
+  },
+  // Slide 10 — PPT slide 11
+  {
+    text: `Gretel had saved Hansel and herself! Then, the brother and <span data-blank="0"></span> filled their pockets with the <span data-blank="1"></span> gold.`,
+    chips: [
+      { label:"sister",       answer:"sister"       },  // correct → blank 0
+      { label:"witch's",      answer:"witch's"      },  // correct → blank 1
+      { label:"father's",     answer:"father's"     },  // distractor
+      { label:"stepmother's", answer:"stepmother's" },  // distractor
+    ]
+  },
+  // Slide 11 — PPT slide 12
+  {
+    text: `Hansel and Gretel returned home. They gave the gold to their <span data-blank="0"></span> to buy food, and they were never hungry again.`,
+    chips: [
+      { label:"parents",    answer:"parents"    },  // correct
+      { label:"witch",      answer:"witch"      },  // distractor
+      { label:"stepmother", answer:"stepmother" },  // distractor
+      { label:"uncle",      answer:"uncle"      },  // distractor
+    ]
+  },
+];
+
+/* Build scene list */
+function buildScenes() {
+  const out = [];
+  out.push({ type:"title" });
+  STORY_SLIDES.forEach((s, i) => {
+    const n = String(i+1).padStart(2,"0");
+    out.push({
+      type: "story",
+      slideNumber: i+1,
+      video: encodeURI(`${ANIM}/slide ${n}.mp4`),
+      audio: encodeURI(`${VO}/slide ${n}.mp3`),
+      text: s.text,
+      chips: s.chips || [],
+      layout: s.layout || "split",   // "split" (default) or "stacked"
+    });
+  });
+  out.push({ type:"end" });
+  return out;
+}
+
+const SCENES = buildScenes();
+const state = { index:0, total:SCENES.length, audioController:null };
+const stage = document.getElementById("stage");
+const playerInner = document.getElementById("player-inner");
+const audioBtn = document.getElementById("audio-btn");
+
+/* SFX */
+const sfx = (() => {
+  let ctx=null; const get=()=>ctx||(ctx=new (window.AudioContext||window.webkitAudioContext)());
+  return {
+    pop(){try{const c=get(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();
+      o.type="sine"; o.frequency.setValueAtTime(720,t); o.frequency.exponentialRampToValueAtTime(1280,t+0.08);
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.22,t+0.012); g.gain.exponentialRampToValueAtTime(0.0001,t+0.18);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+0.2);}catch(e){}},
+    correct(){try{const c=get(),t=c.currentTime; [880,1320].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain(); o.type="sine"; o.frequency.value=f;
+      g.gain.setValueAtTime(0.0001,t+i*0.08); g.gain.exponentialRampToValueAtTime(0.20,t+i*0.08+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+i*0.08+0.22);
+      o.connect(g); g.connect(c.destination); o.start(t+i*0.08); o.stop(t+i*0.08+0.25);});}catch(e){}},
+    wrong(){try{const c=get(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();
+      o.type="square"; o.frequency.setValueAtTime(220,t); o.frequency.exponentialRampToValueAtTime(140,t+0.18);
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.16,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.2);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+0.22);}catch(e){}},
+  };
+})();
+
+const el = h => { const t=document.createElement("template"); t.innerHTML=h.trim(); return t.content.firstElementChild; };
+function spawnConfetti(host){const cs=["#FFD83A","#FF8C42","#5EBC6B","#5BB3D9","#A77DCF","#F26B7E"]; for(let i=0;i<60;i++){const s=document.createElement("span"); s.style.left=(Math.random()*100)+"%"; s.style.background=cs[i%cs.length]; s.style.animationDuration=(2+Math.random()*2.5)+"s"; s.style.animationDelay=(Math.random()*0.6)+"s"; s.style.transform=`rotate(${Math.random()*360}deg)`; host.appendChild(s);}}
+
+/* DRAG (mouse + touch) */
+function makeDraggable(elm, opts){
+  let dragging=false, ghost=null, sX=0, sY=0, target=null;
+  const start=(cx,cy)=>{ if(elm.classList.contains("is-used"))return; dragging=true;
+    const r=elm.getBoundingClientRect(); ghost=elm.cloneNode(true); ghost.classList.add("is-dragging");
+    ghost.style.left=r.left+"px"; ghost.style.top=r.top+"px"; ghost.style.width=r.width+"px"; ghost.style.height=r.height+"px";
+    document.body.appendChild(ghost); elm.style.opacity="0.3"; sX=cx; sY=cy; };
+  const move=(cx,cy)=>{ if(!dragging||!ghost)return;
+    const r=elm.getBoundingClientRect();
+    ghost.style.left=(r.left+cx-sX)+"px"; ghost.style.top=(r.top+cy-sY)+"px";
+    const hov=document.elementFromPoint(cx,cy); const targets=opts.getTargets(); let nt=null;
+    for(const t of targets){ if(t.contains(hov)||t===hov){nt=t; break;} }
+    if(nt!==target){ if(target)target.classList.remove("is-target"); if(nt)nt.classList.add("is-target"); target=nt; } };
+  const end=()=>{ if(!dragging)return; dragging=false;
+    if(ghost){ghost.remove(); ghost=null;} elm.style.opacity="";
+    if(target)target.classList.remove("is-target"); if(opts.onEnd)opts.onEnd(elm,target); target=null; };
+  elm.addEventListener("mousedown",e=>{e.preventDefault(); start(e.clientX,e.clientY);});
+  document.addEventListener("mousemove",e=>move(e.clientX,e.clientY));
+  document.addEventListener("mouseup",end);
+  elm.addEventListener("touchstart",e=>start(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+  document.addEventListener("touchmove",e=>{if(dragging){e.preventDefault(); move(e.touches[0].clientX,e.touches[0].clientY);}},{passive:false});
+  document.addEventListener("touchend",end);
+}
+
+/* AUDIO controller — single MP3 per scene; auto-plays when started */
+function setupSceneAudio(audioSrc, onEnd) {
+  if (state.audioController) state.audioController.stop();
+  state.audioController = null;
+  audioBtn.classList.remove("is-available","is-playing");
+  audioBtn.onclick = null;
+
+  if (!audioSrc) return null;
+  audioBtn.classList.add("is-available");
+
+  let a = null, cancelled = false;
+  const stop = () => {
+    cancelled = true;
+    if (a) { try{a.pause(); a.currentTime=0;}catch(e){} }
+    audioBtn.classList.remove("is-playing");
+  };
+  const start = () => {
+    cancelled = false;
+    if (!a) {
+      a = new Audio(audioSrc);
+      a.addEventListener("ended", () => { audioBtn.classList.remove("is-playing"); if (onEnd) onEnd(); });
+      a.addEventListener("error", () => { audioBtn.classList.remove("is-playing"); if (onEnd) onEnd(); });
+    }
+    a.currentTime = 0;
+    a.play().then(()=>{ if(!cancelled) audioBtn.classList.add("is-playing"); }).catch(()=>{
+      audioBtn.classList.remove("is-playing");
+    });
+  };
+  audioBtn.onclick = () => { start(); };
+  state.audioController = { stop, start };
+  return state.audioController;
+}
+
+/* =========================================================
+   RENDERERS
+   ========================================================= */
+const renderers = {
+  title(scene) {
+    const node = el(`<section class="scene title-scene"></section>`);
+    // Uses the exported PPT slide 1 as a full-bleed cover image (slide 00.png)
+    node.innerHTML = `
+      <img class="title-img" src="${encodeURI('slide 00.png')}" alt="Hansel and Gretel — cover" />
+      <button class="title-start" id="title-start">Begin the story
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:18px;height:18px;"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+    `;
+    setupSceneAudio(null);
+    setTimeout(()=>{
+      const btn = node.querySelector("#title-start");
+      if (btn) btn.addEventListener("click", () => go(+1));
+    }, 0);
+    return node;
+  },
+
+  story(scene) {
+    const layout = scene.layout || "split";
+    const node = el(`<section class="scene story-scene layout-${layout}"></section>`);
+    const hasChips = scene.chips && scene.chips.length > 0;
+    node.innerHTML = `
+      <div class="story-grid">
+        <div class="story-media">
+          <video src="${scene.video}" playsinline preload="auto" muted loop></video>
+        </div>
+        <div class="story-right">
+          <div class="lock-label ${hasChips ? "" : "is-hidden"}" id="lock-label">
+            <span class="lock-dot">🔒</span> Fill in the blank to hear the story
           </div>
-          <h3>Interactive Picture Book Reader</h3>
-          <p>Place your picture book assets here. This reader prototype supports page-turn animation, audio narration, and interactive hotspots.</p>
-          <div class="book-controls">
-            <button class="btn btn-outline" disabled>← Prev Page</button>
-            <button class="btn btn-primary" disabled>Next Page →</button>
-          </div>
+          <div class="story-text">${scene.text}</div>
+          <div class="chip-tray" ${hasChips ? "" : "style=\"display:none\""}></div>
+          <div class="story-feedback" id="ifb">&nbsp;</div>
         </div>
       </div>
+    `;
 
-      <p class="page-indicator">Page 1 of — · Add pages to activate</p>
+    const video = node.querySelector("video");
+    const tray  = node.querySelector(".chip-tray");
+    const fb    = node.querySelector("#ifb");
+    const lockLabel = node.querySelector("#lock-label");
+    let interactiveDone = !hasChips;        // if no chips, already "done"
+    let voEnded = false;
 
-      <div class="todo-note">
-        <div class="todo-label">TODO — Add Your Assets</div>
-        <p>Place book page images in <code>./assets/</code> and update the reader script to load them. This frame supports full-bleed images, audio narration per page, and click-through hotspots.</p>
-      </div>
-    </div>
-  </main>
+    // Set up VO. Next button only enables when VO finishes (video loops forever).
+    const audioCtl = setupSceneAudio(scene.audio, () => {
+      voEnded = true;
+      updateNextEnabled();
+    });
 
+    const updateNextEnabled = () => {
+      const last = state.index === state.total - 1;
+      const ok   = interactiveDone && voEnded;
+      document.getElementById("btn-next").disabled        = last ? true : !ok;
+      document.getElementById("btn-next-bottom").disabled = last ? true : !ok;
+    };
+
+    // Gate Next on entry: locked until interactive done + VO end
+    document.getElementById("btn-next").disabled        = true;
+    document.getElementById("btn-next-bottom").disabled = (state.index === state.total - 1);
+
+    // Start playback function — animation loops; VO plays once
+    const startPlayback = () => {
+      video.muted = true;           // ensure autoplay-safe
+      video.loop  = true;           // loop until next
+      video.play().catch(()=>{});
+      if (audioCtl) audioCtl.start();
+    };
+
+    if (hasChips) {
+      // Blanks expect answers from chips[blankIndex] (the FIRST N entries are
+      // the correct answers in blank-index order; entries after that are
+      // distractors that never match a blank).
+      const blanks = [...node.querySelectorAll("[data-blank]")].map(span => {
+        span.classList.add("inline-blank");
+        const idx = +span.dataset.blank;
+        span.dataset.answer = (scene.chips[idx]?.answer || "").toLowerCase();
+        return span;
+      });
+
+      // Shuffle chips for the tray (Fisher–Yates) so correct answers
+      // aren't always the leftmost chips.
+      const shuffled = scene.chips.slice();
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      shuffled.forEach((c) => {
+        const chip = document.createElement("div");
+        chip.className = "tray-chip";
+        chip.textContent = c.label;
+        chip.dataset.label = c.answer.toLowerCase();
+        tray.appendChild(chip);
+        makeDraggable(chip, {
+          getTargets: () => blanks.filter(b => !b.classList.contains("is-filled")),
+          onEnd: (src, target) => {
+            if (!target || target.classList.contains("is-filled")) return;
+            if (target.dataset.answer === src.dataset.label) {
+              target.classList.add("is-filled");
+              target.textContent = c.label;
+              src.classList.add("is-used");
+              sfx.correct();
+              fb.textContent = "Nice!";
+              fb.className = "story-feedback success";
+              if (blanks.every(b => b.classList.contains("is-filled"))) {
+                fb.textContent = "🌟 All filled! Watch the story…";
+                fb.className = "story-feedback success";
+                interactiveDone = true;
+                if (lockLabel) lockLabel.classList.add("is-hidden");
+                setTimeout(startPlayback, 350);
+              }
+            } else {
+              sfx.wrong();
+              fb.textContent = "Hmm, try a different blank.";
+              fb.className = "story-feedback error";
+            }
+          }
+        });
+      });
+    } else {
+      // No interactive → start video + VO immediately
+      setTimeout(startPlayback, 250);
+    }
+
+    // Teardown — stop video AND VO when leaving scene (even if VO not finished)
+    node._teardown = () => {
+      try { video.pause(); video.currentTime = 0; } catch(e) {}
+      if (state.audioController) state.audioController.stop();
+    };
+    return node;
+  },
+
+  end(scene) {
+    const node = el(`<section class="scene end-scene"></section>`);
+    node.innerHTML = `
+      <svg class="book" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs><radialGradient id="bg2" cx="35%" cy="30%" r="70%"><stop offset="0%" stop-color="#FFEBA8"/><stop offset="50%" stop-color="#FFB45A"/><stop offset="100%" stop-color="#C77A2B"/></radialGradient></defs>
+        <circle cx="100" cy="100" r="68" fill="url(#bg2)"/>
+        <path d="M55 70 Q85 60 100 68 Q115 60 145 70 L145 135 Q115 127 100 135 Q85 127 55 135 Z" fill="white"/>
+        <path d="M100 68 L100 135" stroke="#5BB3D9" stroke-width="3" fill="none"/>
+      </svg>
+      <h1>The End</h1>
+      <p>You finished the story of Hansel and Gretel! Want to read it again?</p>
+      <button class="restart-btn" id="restart-btn">Read again</button>
+      <div class="confetti" id="confetti"></div>`;
+    setTimeout(()=>{
+      sfx.correct();
+      spawnConfetti(node.querySelector("#confetti"));
+      const r = node.querySelector("#restart-btn");
+      if (r) r.addEventListener("click", () => jumpTo(0));
+    }, 80);
+    setupSceneAudio(null);
+    return node;
+  }
+};
+
+/* =========================================================
+   PROGRESS + NAV
+   ========================================================= */
+function renderProgressBar() {
+  const bar = document.getElementById("progress-bar"); bar.innerHTML = "";
+  // Single segment for the story (simpler LO)
+  const seg = document.createElement("button");
+  seg.className = "progress-segment";
+  seg.style.flex = String(state.total);
+  seg.innerHTML = `<div class="progress-segment-fill"></div>`;
+  bar.appendChild(seg);
+}
+function updateProgressFill() {
+  const seg = document.querySelector(".progress-segment");
+  if (!seg) return;
+  const fill = (state.index + 1) / state.total;
+  seg.querySelector(".progress-segment-fill").style.transform = `scaleX(${fill})`;
+  // scene-counter & chip label
+  const labels = ["Cover","Story 1","Story 2","Story 3","Story 4","Story 5","Story 6","Story 7","Story 8","Story 9","Story 10","Story 11","The End"];
+  document.getElementById("lo-chip").textContent = labels[state.index] || "Story";
+  document.getElementById("scene-counter").textContent = `${state.index+1} / ${state.total}`;
+}
+
+function renderScene() {
+  const scene = SCENES[state.index]; const r = renderers[scene.type]; if (!r) return;
+  const old = stage.querySelectorAll(".scene");
+  old.forEach(o => { if (o._teardown) o._teardown(); o.remove(); });
+  const n = r(scene); stage.appendChild(n); n.classList.add("is-active");
+}
+function jumpTo(i) {
+  if (i < 0 || i >= state.total || i === state.index) return;
+  if (state.audioController) state.audioController.stop();
+  state.index = i;
+  // updateChrome FIRST so the story renderer's per-scene Next-button gating
+  // isn't overridden by the generic chrome reset afterwards.
+  updateChrome();
+  renderScene();
+}
+function go(d) { jumpTo(state.index + d); }
+function updateChrome() {
+  document.getElementById("btn-prev").disabled = state.index === 0;
+  document.getElementById("btn-back").disabled = state.index === 0;
+  // Note: btn-next can be re-disabled by story scene gating
+  const last = state.index === state.total - 1;
+  document.getElementById("btn-next").disabled = last;
+  document.getElementById("btn-next-bottom").disabled = last;
+  document.getElementById("btn-next-label").textContent = last ? "Done" : "Next";
+  updateProgressFill();
+}
+
+/* Top bar hover */
+function setupHover() {
+  const zone = document.getElementById("bottom-zone");
+  const controls = document.getElementById("controls");
+  const audioEl = document.getElementById("audio-btn");
+  let hideTimer = null;
+  const show = () => { clearTimeout(hideTimer); playerInner.classList.add("show-chrome"); };
+  const hide = () => { hideTimer = setTimeout(()=>playerInner.classList.remove("show-chrome"), 220); };
+  zone.addEventListener("mouseenter", show); zone.addEventListener("mouseleave", hide);
+  controls.addEventListener("mouseenter", show); controls.addEventListener("mouseleave", hide);
+  audioEl.addEventListener("mouseenter", show); audioEl.addEventListener("mouseleave", hide);
+}
+
+function init() {
+  document.getElementById("btn-prev").addEventListener("click", () => go(-1));
+  document.getElementById("btn-next").addEventListener("click", () => { if (!document.getElementById("btn-next").disabled) go(+1); });
+  document.getElementById("btn-back").addEventListener("click", () => go(-1));
+  document.getElementById("btn-next-bottom").addEventListener("click", () => { if (!document.getElementById("btn-next-bottom").disabled) go(+1); });
+  document.addEventListener("keydown", e => {
+    if (["INPUT","VIDEO","IFRAME"].includes(e.target.tagName)) return;
+    if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); if (!document.getElementById("btn-next").disabled) go(+1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+  });
+  renderProgressBar(); updateChrome(); renderScene();
+  setupHover();
+}
+window.addEventListener("DOMContentLoaded", init);
+</script>
 </body>
 </html>
