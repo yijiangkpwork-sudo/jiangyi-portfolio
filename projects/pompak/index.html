@@ -53,12 +53,20 @@
     }
     .hero-full .hero-full__bg img{object-fit:contain;object-position:right top;transform:none}
     .ph-note{font-size:.68rem;color:var(--text3);margin-top:.6rem;font-style:italic}
+    /* UI design image grid */
+    .ui-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
     @media(max-width:900px){
       .overview-grid{grid-template-columns:1fr;gap:2.5rem}
       .feat-grid{grid-template-columns:repeat(2,1fr)}
       .book-grid{grid-template-columns:1fr}
       .impact-grid{grid-template-columns:repeat(2,1fr)}
       .proof-strip{grid-template-columns:1fr}
+      .ui-3col{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:640px){
+      .feat-grid{grid-template-columns:1fr}
+      .impact-grid{grid-template-columns:1fr}
+      .ui-3col{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -79,7 +87,7 @@
     <div class="hero-full__bg">
       <img src="./assets/Hero%20Image.png" alt="PomPak – Learn to Earn"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="hero-full__placeholder" style="display:none">Place hero-poster.jpg in ./assets/</div>
+      <div class="hero-full__placeholder" style="display:none"></div>
     </div>
     <div class="hero-full__frame">
       <div class="hero-full__content">
@@ -277,7 +285,7 @@
     <div class="container">
       <span class="section-label">UI Design</span>
       <h2 class="section-h2" style="margin-bottom:2rem">UI Design Across Web & Mobile</h2>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+      <div class="ui-3col">
         <div class="gallery-item"><img src="./assets/game%20poster%2001.jpg" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
         <div class="gallery-item"><img src="./assets/game%20poster%2002.jpg" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
         <div class="gallery-item"><img src="./assets/game%20poster%2003%2Cjpg.png" loading="lazy" onerror="this.parentElement.style.background='#0a0a0a'"></div>
@@ -379,7 +387,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Back to Portfolio
       </a>
-      <p>&copy; 2025 Jiang Yi. All rights reserved.</p>
+      <p>&copy; 2026 Jiang Yi. All rights reserved.</p>
     </div>
   </footer>
 

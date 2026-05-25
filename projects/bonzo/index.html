@@ -65,12 +65,14 @@
       .badge-item img{width:110px;height:110px}
       .impact-grid{grid-template-columns:repeat(2,1fr)}
       .feat-grid{grid-template-columns:repeat(3,1fr)}
+      .comp-grid{grid-template-columns:repeat(3,1fr)!important}
     }
     @media(max-width:600px){
       .gami-grid{grid-template-columns:1fr}
       .badge-row{grid-template-columns:repeat(2,1fr)}
       .badge-item img{width:90px;height:90px}
       .feat-grid{grid-template-columns:repeat(2,1fr)}
+      .comp-grid{grid-template-columns:repeat(2,1fr)!important}
     }
   </style>
 </head>
@@ -170,66 +172,46 @@
       <p class="section-lead">Bonzo became a reusable shell for launching game-based learning competitions across subjects, markets, and campaigns. The same platform logic supported short learning games, points, leaderboards, rewards, certificates, and school-level participation reports.</p>
 
       <!-- Competition program cards -->
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin:2rem 0 1.75rem">
+      <div class="comp-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin:2rem 0 1.75rem">
 
-        <a href="https://www.knowledgeplatform.com.pk/sitarey/" target="_blank" rel="noopener"
-           style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.1rem;text-decoration:none;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;gap:.5rem"
-           onmouseenter="this.style.transform='translateY(-3px)';this.style.borderColor='var(--accent-soft)';this.style.boxShadow='0 12px 28px -8px var(--accent-glow)'"
-           onmouseleave="this.style.transform='';this.style.borderColor='';this.style.boxShadow=''">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.15rem">
-            <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Sitarey</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <a href="https://www.knowledgeplatform.com.pk/sitarey/" target="_blank" rel="noopener" class="comp-card">
+          <div class="comp-card__title">Sitarey
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </div>
-          <p style="font-size:.75rem;color:var(--text2);line-height:1.55;margin:0">Pakistan national digital learning competition for Grades 3–11+.</p>
-          <span style="font-size:.6rem;color:var(--accent);font-weight:600;margin-top:auto">View program →</span>
+          <p class="comp-card__desc">Pakistan national digital learning competition for Grades 3–11+.</p>
+          <span class="comp-card__cta">View program →</span>
         </a>
 
-        <a href="https://www.knowledgeplatform.com.pk/sitarey-result/" target="_blank" rel="noopener"
-           style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.1rem;text-decoration:none;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;gap:.5rem"
-           onmouseenter="this.style.transform='translateY(-3px)';this.style.borderColor='var(--accent-soft)';this.style.boxShadow='0 12px 28px -8px var(--accent-glow)'"
-           onmouseleave="this.style.transform='';this.style.borderColor='';this.style.boxShadow=''">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.15rem">
-            <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Sitarey Results</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <a href="https://www.knowledgeplatform.com.pk/sitarey-result/" target="_blank" rel="noopener" class="comp-card">
+          <div class="comp-card__title">Sitarey Results
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </div>
-          <p style="font-size:.75rem;color:var(--text2);line-height:1.55;margin:0">Public winners and competition result archive.</p>
-          <span style="font-size:.6rem;color:var(--accent);font-weight:600;margin-top:auto">View program →</span>
+          <p class="comp-card__desc">Public winners and competition result archive.</p>
+          <span class="comp-card__cta">View program →</span>
         </a>
 
-        <a href="https://gamesgym.knowledgeplatform.com/" target="_blank" rel="noopener"
-           style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.1rem;text-decoration:none;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;gap:.5rem"
-           onmouseenter="this.style.transform='translateY(-3px)';this.style.borderColor='var(--accent-soft)';this.style.boxShadow='0 12px 28px -8px var(--accent-glow)'"
-           onmouseleave="this.style.transform='';this.style.borderColor='';this.style.boxShadow=''">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.15rem">
-            <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Summer Maths Fiesta</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <a href="https://gamesgym.knowledgeplatform.com/" target="_blank" rel="noopener" class="comp-card">
+          <div class="comp-card__title">Summer Maths Fiesta
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </div>
-          <p style="font-size:.75rem;color:var(--text2);line-height:1.55;margin:0">Online mathematics games competition for Grades 5–8.</p>
-          <span style="font-size:.6rem;color:var(--accent);font-weight:600;margin-top:auto">View program →</span>
+          <p class="comp-card__desc">Online mathematics games competition for Grades 5–8.</p>
+          <span class="comp-card__cta">View program →</span>
         </a>
 
-        <a href="https://globalclimateliteracy.org/program/glc" target="_blank" rel="noopener"
-           style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.1rem;text-decoration:none;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;gap:.5rem"
-           onmouseenter="this.style.transform='translateY(-3px)';this.style.borderColor='var(--accent-soft)';this.style.boxShadow='0 12px 28px -8px var(--accent-glow)'"
-           onmouseleave="this.style.transform='';this.style.borderColor='';this.style.boxShadow=''">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.15rem">
-            <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Global Climate Literacy</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <a href="https://globalclimateliteracy.org/program/glc" target="_blank" rel="noopener" class="comp-card">
+          <div class="comp-card__title">Global Climate Literacy
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </div>
-          <p style="font-size:.75rem;color:var(--text2);line-height:1.55;margin:0">Climate-literacy games competition connected to Green Guardians.</p>
-          <span style="font-size:.6rem;color:var(--accent);font-weight:600;margin-top:auto">View program →</span>
+          <p class="comp-card__desc">Climate-literacy games competition connected to Green Guardians.</p>
+          <span class="comp-card__cta">View program →</span>
         </a>
 
-        <a href="https://shupavugames.com/" target="_blank" rel="noopener"
-           style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.1rem;text-decoration:none;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;gap:.5rem"
-           onmouseenter="this.style.transform='translateY(-3px)';this.style.borderColor='var(--accent-soft)';this.style.boxShadow='0 12px 28px -8px var(--accent-glow)'"
-           onmouseleave="this.style.transform='';this.style.borderColor='';this.style.boxShadow=''">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.15rem">
-            <span style="font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Shupavu Games</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <a href="https://shupavugames.com/" target="_blank" rel="noopener" class="comp-card">
+          <div class="comp-card__title">Shupavu Games
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </div>
-          <p style="font-size:.75rem;color:var(--text2);line-height:1.55;margin:0">Kenya learning-games platform using 3-minute curriculum-aligned games and competition mechanics.</p>
-          <span style="font-size:.6rem;color:var(--accent);font-weight:600;margin-top:auto">View program →</span>
+          <p class="comp-card__desc">Kenya learning-games platform using 3-minute curriculum-aligned games and competition mechanics.</p>
+          <span class="comp-card__cta">View program →</span>
         </a>
 
       </div>
@@ -555,7 +537,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Back to Portfolio
       </a>
-      <p>&copy; 2025 Jiang Yi. All rights reserved.</p>
+      <p>&copy; 2026 Jiang Yi. All rights reserved.</p>
     </div>
   </footer>
 

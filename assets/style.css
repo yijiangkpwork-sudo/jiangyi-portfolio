@@ -72,16 +72,30 @@ section{padding:5rem 0}
 .nav-cta:hover{background:var(--accent)!important;color:var(--bg)!important;border-color:var(--accent)!important}
 
 /* ── BUTTONS — pill style like meena-v2 ── */
-.btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--f);font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0.75rem 1.5rem;border-radius:999px;transition:transform .2s,background .2s,color .2s;cursor:pointer;border:none}
-.btn-primary{background:var(--accent);color:#000;box-shadow:0 12px 30px -8px var(--accent-glow)}
-.btn-primary:hover{transform:translateY(-1px);background:var(--accent2);color:#000}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--f);font-size:0.68rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0.75rem 1.5rem;border-radius:999px;transition:transform .2s,background .2s,color .2s,box-shadow .2s;cursor:pointer;border:none;text-decoration:none}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 18px var(--accent-glow),0 4px 20px rgba(0,0,0,.4)}
+.btn-primary:hover{transform:translateY(-2px);background:var(--accent2);color:#fff;box-shadow:0 0 32px var(--accent-glow),0 8px 28px rgba(0,0,0,.5)}
+.btn-primary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* Gold theme: keep dark text for contrast on bright yellow */
+.theme-gold .btn-primary{color:#000}
+.theme-gold .btn-primary:hover{color:#000}
 .btn-outline{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
-.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.btn-outline:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
 /* ── HERO CTA GLOW BUTTON — shared across project pages ── */
 .hero-cta-btn{display:inline-flex;align-items:center;gap:.55rem;padding:.9rem 2.25rem;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-radius:99px;margin-top:2.25rem;position:relative;z-index:2;box-shadow:0 0 24px var(--accent-glow),0 0 64px var(--accent-glow),0 4px 24px rgba(0,0,0,.5);transition:transform .3s ease,box-shadow .3s ease}
 .hero-cta-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 40px var(--accent-glow),0 0 110px var(--accent-glow),0 8px 32px rgba(0,0,0,.6)}
+.hero-cta-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .hero-cta-btn svg{flex-shrink:0}
+
+/* ── COMPETITION / EXTERNAL LINK CARD — replaces Bonzo inline hover JS ── */
+.comp-card{background:#000;border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.1rem;text-decoration:none;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;display:flex;flex-direction:column;gap:.5rem}
+.comp-card:hover{transform:translateY(-3px);border-color:var(--accent-soft);box-shadow:0 12px 28px -8px var(--accent-glow)}
+.comp-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.comp-card__title{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;justify-content:space-between;margin-bottom:.15rem}
+.comp-card__desc{font-size:.75rem;color:var(--ink-2);line-height:1.55;margin:0}
+.comp-card__cta{font-size:.6rem;color:var(--accent);font-weight:600;margin-top:auto}
 
 /* ── ROLE GRID — shared across project pages ── */
 .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.5rem}
@@ -229,4 +243,15 @@ section{padding:5rem 0}
   .container,.container-wide{padding:0 1.25rem}
   .skill-card{flex:0 0 100%}
   .impact-grid{grid-template-columns:1fr}
+}
+
+/* ── REDUCED MOTION ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+  .reveal{opacity:1;transform:none;transition:none}
 }
