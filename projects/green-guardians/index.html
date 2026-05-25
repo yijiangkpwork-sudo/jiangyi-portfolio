@@ -9,6 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
   <style>
     @keyframes slow-pan{from{background-position:40% center}to{background-position:60% center}}
+    /* Custom theme colour — brighter green */
+    body.theme-green{--accent:#05d35d;--accent2:#2def74;--accent-soft:rgba(5,211,93,.15);--accent-glow:rgba(5,211,93,.40)}
+    /* Extra breathing room above the footer meta bar */
+    .hero-full__footer{padding-top:2.5rem}
+    /* hero-cta-btn is in global style.css */
     /* Hero: full-bleed cover + looping ken-burns pan animation */
     @keyframes hero-pan{0%{transform:scale(1.06) translateX(0)}100%{transform:scale(1.06) translateX(-3%)}}
     .hero-full__bg img{
@@ -34,11 +39,7 @@
       pointer-events:none!important;
     }
 
-    /* Role grid */
-    .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.5rem}
-    .role-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.1rem 1rem;font-size:.72rem;font-weight:600;color:var(--text2);line-height:1.45;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
-    .role-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px -8px var(--accent-glow);border-color:var(--accent-soft)}
-    .role-card svg{display:block;width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.6rem}
+    /* role-grid/role-card are in global style.css */
 
     /* Impact cards */
     .gg-impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2rem}
@@ -92,7 +93,6 @@
     .lesson-thumb-item img{width:100%;height:100%;object-fit:cover;display:block}
 
     @media(max-width:1000px){
-      .role-grid{grid-template-columns:repeat(2,1fr)}
       .gg-impact-grid{grid-template-columns:repeat(2,1fr)}
       .eco-grid{grid-template-columns:repeat(2,1fr)}
       .grade-grid{grid-template-columns:1fr}
@@ -102,13 +102,17 @@
       .lesson-thumb-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:640px){
-      .role-grid{grid-template-columns:1fr}
       .gg-impact-grid{grid-template-columns:1fr}
       .eco-grid{grid-template-columns:1fr}
       .prod-grid{grid-template-columns:1fr}
       .gallery-3,.gallery-4,.gallery-2{grid-template-columns:1fr}
       .lesson-thumb-grid{grid-template-columns:repeat(2,1fr)}
     }
+
+    /* Competition engagement stat cards */
+    .gclc-stat{background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center}
+    .gclc-num{font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem}
+    .gclc-label{font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
   </style>
 </head>
 <body class="theme-green">
@@ -145,6 +149,10 @@
           <span class="tag">Partner Platform</span>
           <span class="tag">Scalable Templates</span>
         </div>
+        <a href="https://www.greenguardians.com/" class="hero-cta-btn" target="_blank" rel="noopener">
+          Visit Green Guardians
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
       </div>
       <div class="hero-full__footer">
         <div class="hero-full__meta hero-full__meta--4">
@@ -161,7 +169,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Scale & Context</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Impact & Ecosystem Context</h2>
+      <h2 class="section-h2">Impact & Ecosystem Context</h2>
       <p class="section-lead">Green Guardians was built within an environmental literacy ecosystem combining lesson content, partner resources, community-based programs, and scalable learning media. Ecosystem figures are presented as partner hub context, not direct attribution to a single design asset.</p>
       <div class="gg-impact-grid">
         <div class="gg-impact-item">
@@ -231,7 +239,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">My Role & Ownership</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Design Lead · Brand System · Learning Media</h2>
+      <h2 class="section-h2">Design Lead · Brand System · Learning Media</h2>
       <p class="section-lead">I led the design direction and hands-on execution across Green Guardians' visual identity, character systems, UI/UX, lesson visuals, video direction, campaign assets, social media, partner-facing materials, and scalable production templates.</p>
       <div class="role-grid">
         <div class="role-card">
@@ -282,7 +290,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Product Architecture</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Environmental Literacy Product System</h2>
+      <h2 class="section-h2">Environmental Literacy Product System</h2>
       <p class="section-lead">Green Guardians combined teacher resources, partner programs, lesson content, videos, activities, games, and visual storytelling into one scalable learning ecosystem.</p>
       <div class="eco-grid">
         <div class="eco-card">
@@ -335,7 +343,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Character System</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Characters for Different Learner Stages</h2>
+      <h2 class="section-h2">Characters for Different Learner Stages</h2>
       <p class="section-lead">The visual system used younger, more playful character styling for early grades and older human characters for upper primary learners — helping environmental literacy content feel age-appropriate across different grade levels.</p>
       <div class="grade-grid">
         <div class="grade-card">
@@ -374,7 +382,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Digital Product</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Lessons, Videos & Interactive Activities</h2>
+      <h2 class="section-h2">Lessons, Videos & Interactive Activities</h2>
       <p class="section-lead">The lesson system used visuals, stories, videos, activities, games, and classroom-ready materials to turn environmental topics into active learning experiences.</p>
 
       <!-- Video Lessons — 3 across -->
@@ -429,7 +437,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Platform Design</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Community-Based Partner Hub</h2>
+      <h2 class="section-h2">Community-Based Partner Hub</h2>
       <p class="section-lead">For the US market, Green Guardians supported the CAELI Community-Based Partner Hub — a platform connecting K–12 educators and administrators to environmental education partners and their programs. I contributed design direction and visual/product execution across the hub experience.</p>
       <div class="gallery-4">
         <div class="gallery-item"><img src="./assets/Partner%20Hub%2001.png" alt="Partner Hub 1" loading="lazy" onerror="this.parentElement.style.background='#111'"></div>
@@ -448,7 +456,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Production Design</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Scalable Production System</h2>
+      <h2 class="section-h2">Scalable Production System</h2>
       <p class="section-lead">To help the platform scale, I created visual standards, templates, character systems, and production workflows that could support new lessons, videos, activities, campaigns, and partner-facing content.</p>
       <div class="prod-grid">
         <div class="prod-card">
@@ -483,7 +491,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Global Competition</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Global Climate Literacy Competition</h2>
+      <h2 class="section-h2">Global Climate Literacy Competition</h2>
       <p class="section-lead">Green Guardians also hosted the Global Climate Literacy Competition, a digital, games-based climate learning competition for students. The competition turned climate literacy into short, repeatable micro-games with progress, questions, competition mechanics, and participation data.</p>
 
       <!-- Public context highlight -->
@@ -493,25 +501,25 @@
 
       <!-- Engagement metric strip -->
       <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin-bottom:2.5rem">
-        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">16,922</div>
-          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Games Played</div>
+        <div class="gclc-stat stat-hover">
+          <div class="gclc-num">16,922</div>
+          <div class="gclc-label">Games Played</div>
         </div>
-        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">312 hrs</div>
-          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Hours Spent</div>
+        <div class="gclc-stat stat-hover">
+          <div class="gclc-num">312 hrs</div>
+          <div class="gclc-label">Hours Spent</div>
         </div>
-        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">43,771</div>
-          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Questions Attempted</div>
+        <div class="gclc-stat stat-hover">
+          <div class="gclc-num">43,771</div>
+          <div class="gclc-label">Questions Attempted</div>
         </div>
-        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">14 min</div>
-          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Avg. Time per User</div>
+        <div class="gclc-stat stat-hover">
+          <div class="gclc-num">14 min</div>
+          <div class="gclc-label">Avg. Time per User</div>
         </div>
-        <div style="background:#000;border:1px solid var(--line);border-radius:12px;padding:1.4rem 1rem;text-align:center;transition:transform .25s,box-shadow .25s" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 16px 40px -10px var(--accent-glow)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-          <div style="font-size:2rem;font-weight:800;color:var(--accent);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem">32</div>
-          <div style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2)">Questions per User</div>
+        <div class="gclc-stat stat-hover">
+          <div class="gclc-num">32</div>
+          <div class="gclc-label">Questions per User</div>
         </div>
       </div>
 

@@ -236,7 +236,8 @@
     }
     /* Project grid — 3 col, wraps to 2 rows for 5 items */
     .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.5rem}
-    .projects-grid .project-card{flex:none;min-width:0;width:100%}
+    .projects-grid .project-card{flex:none;min-width:0;width:100%;cursor:pointer}
+
     /* Skill grid — 4 col × 2 rows */
     .skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:2.5rem}
     .skills-grid .skill-card{flex:none;min-width:0;width:100%}
@@ -247,6 +248,57 @@
     .carousel-nav-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s,color .2s;flex-shrink:0}
     .carousel-nav-btn:hover{background:var(--accent);border-color:var(--accent);color:#000}
     .carousel-nav-btn svg{width:13px;height:13px}
+
+    /* ── VISUAL GALLERY ── */
+    .vg-tabs{display:flex;gap:0;flex-wrap:wrap;margin-bottom:0;border-bottom:1px solid rgba(255,255,255,.07)}
+    .vg-tab{background:none;border:none;border-bottom:2px solid transparent;padding:.65rem 1.2rem .75rem;font-family:var(--f);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.36);cursor:pointer;transition:color .2s,border-color .2s;margin-bottom:-1px;white-space:nowrap}
+    .vg-tab:hover{color:rgba(255,255,255,.72)}
+    .vg-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .vg-pane{display:none;padding-top:.5rem}
+    .vg-pane.active{display:block}
+    .vg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.55rem}
+    .vg-thumb{aspect-ratio:16/9;background:#0a0a0a;border-radius:7px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,.06);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;position:relative}
+    .vg-thumb:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.18);box-shadow:0 8px 24px -8px rgba(0,0,0,.7)}
+    .vg-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+    .vg-thumb:hover img{transform:scale(1.05)}
+    .vg-thumb-overlay{position:absolute;inset:0;background:transparent;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s,background .25s}
+    .vg-thumb:hover .vg-thumb-overlay{background:rgba(0,0,0,.38);opacity:1}
+    .vg-thumb-overlay svg{width:20px;height:20px;color:#fff;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+    .vg-empty{grid-column:1/-1;padding:4rem 2rem;text-align:center;color:rgba(255,255,255,.16);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase}
+    .vg-load-more{display:block;margin:1.25rem auto 0;background:none;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.5);font-family:var(--f);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.65rem 1.75rem;border-radius:99px;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+    .vg-load-more:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,255,255,.03)}
+    /* Scrollable frame */
+    .vg-frame{border:1px solid rgba(255,255,255,.09);border-radius:14px;background:#060606;max-height:580px;overflow-y:auto;overflow-x:hidden;padding:1.5rem;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.14) transparent}
+    .vg-frame::-webkit-scrollbar{width:5px}
+    .vg-frame::-webkit-scrollbar-track{background:transparent}
+    .vg-frame::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:99px}
+    .vg-frame::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.26)}
+    /* PDF button shared style */
+    .vg-pdf-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.48rem .9rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:rgba(255,255,255,.58);font-family:var(--f);font-size:.58rem;font-weight:600;letter-spacing:.06em;text-decoration:none;transition:border-color .2s,color .2s,background .2s;white-space:nowrap}
+    .vg-pdf-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.24);color:#fff}
+    .vg-pdf-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+    /* Video thumbnails — always show subtle play overlay */
+    .vg-thumb--video .vg-thumb-overlay{opacity:1;background:rgba(0,0,0,.18)}
+    .vg-thumb--video:hover .vg-thumb-overlay{background:rgba(0,0,0,.5)}
+    /* PDF row inside pane — above image grid */
+    .vg-pdf-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+    /* Lightbox */
+    .vg-lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.93);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center}
+    .vg-lightbox.open{display:flex}
+    .vg-lb-inner{display:flex;flex-direction:column;align-items:center;max-width:90vw;position:relative}
+    .vg-lb-img{max-width:88vw;max-height:82vh;object-fit:contain;display:block;border-radius:6px;box-shadow:0 32px 80px -16px rgba(0,0,0,.8)}
+    .vg-lb-caption{color:rgba(255,255,255,.45);font-size:.66rem;letter-spacing:.08em;margin-top:.9rem;text-align:center;font-family:var(--f)}
+    .vg-lb-counter{position:fixed;top:1.4rem;left:50%;transform:translateX(-50%);font-size:.56rem;color:rgba(255,255,255,.35);letter-spacing:.12em;text-transform:uppercase;font-family:var(--f);pointer-events:none}
+    .vg-lb-close{position:fixed;top:1.1rem;right:1.1rem;width:38px;height:38px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:50%;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:10}
+    .vg-lb-close:hover{background:rgba(255,255,255,.18)}
+    .vg-lb-prev,.vg-lb-next{position:fixed;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:50%;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:10}
+    .vg-lb-prev:hover,.vg-lb-next:hover{background:rgba(255,255,255,.18)}
+    .vg-lb-prev{left:1.1rem}
+    .vg-lb-next{right:1.1rem}
+    .vg-lb-prev svg,.vg-lb-next svg,.vg-lb-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+    @media(max-width:1100px){.vg-grid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:800px){.vg-grid{grid-template-columns:repeat(3,1fr)}.vg-lb-prev{left:.5rem}.vg-lb-next{right:.5rem}}
+    @media(max-width:500px){.vg-grid{grid-template-columns:repeat(2,1fr)}.vg-lb-img{max-height:72vh}}
   </style>
 </head>
 <body class="theme-blue">
@@ -305,9 +357,9 @@
       <div class="projects-grid">
 
             <!-- Coco's Kampong -->
-            <a href="./projects/cocos-kampong/index.html" class="project-card">
+            <div class="project-card" onclick="window.location='./projects/cocos-kampong/index.html'">
               <div class="card-thumb">
-                <img src="./projects/cocos-kampong/assets/hero-poster.jpg" alt="Coco's Kampong"
+                <img src="./projects/cocos-kampong/assets/town-setting.png" alt="Coco's Kampong"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="thumb-placeholder" style="display:none">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -321,14 +373,11 @@
                   <span class="tag">Education IP</span>
                   <span class="tag">Interactive Learning</span>
                 </div>
-                <div class="card-footer">
-                  <span class="card-cta">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
               </div>
-            </a>
+            </div>
 
             <!-- UNICEF Meena -->
-            <a href="./projects/unicef-meena/index.html" class="project-card">
+            <div class="project-card" onclick="window.location='./projects/unicef-meena/index.html'">
               <div class="card-thumb">
                 <img src="./projects/unicef-meena/assets/thumbnails/hero-poster.jpg" alt="UNICEF Meena"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -344,37 +393,31 @@
                   <span class="tag">Animation System</span>
                   <span class="tag">Localization</span>
                 </div>
-                <div class="card-footer">
-                  <span class="card-cta">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
               </div>
-            </a>
+            </div>
 
-            <!-- Pompak -->
-            <a href="./projects/pompak/index.html" class="project-card">
+            <!-- PomPak -->
+            <div class="project-card" onclick="window.location='./projects/pompak/index.html'">
               <div class="card-thumb">
-                <img src="./projects/pompak/assets/hero-poster.jpg" alt="Pompak"
+                <img src="./projects/pompak/assets/hero-poster.jpg" alt="PomPak"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                 <div class="thumb-placeholder" style="display:none">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                 </div>
               </div>
               <div class="card-body">
-                <div class="card-title">Pompak</div>
+                <div class="card-title">PomPak</div>
                 <p class="card-desc">Financial literacy program for young learners in Pakistan.</p>
                 <div class="tags">
                   <span class="tag">Financial Literacy</span>
                   <span class="tag">Education Design</span>
                   <span class="tag">Learning Media</span>
                 </div>
-                <div class="card-footer">
-                  <span class="card-cta">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
               </div>
-            </a>
+            </div>
 
             <!-- Bonzo -->
-            <a href="./projects/bonzo/index.html" class="project-card">
+            <div class="project-card" onclick="window.location='./projects/bonzo/index.html'">
               <div class="card-thumb">
                 <img src="./projects/bonzo/assets/hero-poster.jpg" alt="Bonzo"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -390,14 +433,11 @@
                   <span class="tag">UX/UI</span>
                   <span class="tag">EdTech Platform</span>
                 </div>
-                <div class="card-footer">
-                  <span class="card-cta">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
               </div>
-            </a>
+            </div>
 
             <!-- Green Guardians -->
-            <a href="./projects/green-guardians/index.html" class="project-card">
+            <div class="project-card" onclick="window.location='./projects/green-guardians/index.html'">
               <div class="card-thumb">
                 <img src="./projects/green-guardians/assets/hero-poster.jpg" alt="Green Guardians"
                      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -413,142 +453,63 @@
                   <span class="tag">Character IP</span>
                   <span class="tag">Learning Design</span>
                 </div>
-                <div class="card-footer">
-                  <span class="card-cta">View Project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
               </div>
-            </a>
+            </div>
 
       </div><!-- /projects-grid -->
     </div>
   </section>
 
-  <!-- SKILL SHOWCASE -->
+  <!-- VISUAL GALLERY -->
   <section class="skill-showcase" id="skill-showcase">
     <div class="container-wide">
-      <div class="section-header">
+      <div class="section-header" style="margin-bottom:1.75rem">
         <div>
           <span class="section-label">Capabilities</span>
-          <h2>Skill Showcase</h2>
+          <h2>Visual Work &amp; Capabilities</h2>
         </div>
       </div>
 
-      <div class="skills-grid">
+      <!-- Tab navigation -->
+      <div class="vg-tabs" role="tablist">
+        <button class="vg-tab active" data-tab="characters-worlds">Characters &amp; Worlds</button>
+        <button class="vg-tab" data-tab="games-learning">Games &amp; Learning</button>
+        <button class="vg-tab" data-tab="motion-video">Motion / Video</button>
+        <button class="vg-tab" data-tab="branding-marketing">Branding &amp; Marketing</button>
+        <button class="vg-tab" data-tab="product-ui">Product &amp; UI</button>
+        <button class="vg-tab" data-tab="legacy">Legacy Portfolio 2014</button>
+      </div>
 
-            <!-- Product & UX/UI -->
-            <a href="./reels/product-ux-ui/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./projects/bonzo/assets/01.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">Product &amp; UX/UI Design</div>
-                <p class="card-desc">End-to-end product design, information architecture, and interaction systems.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
+      <!-- Tab panes inside scrollable frame -->
+      <div class="vg-frame">
+        <div class="vg-pane active" id="tab-characters-worlds"></div>
+        <div class="vg-pane" id="tab-games-learning"></div>
+        <div class="vg-pane" id="tab-motion-video"></div>
+        <div class="vg-pane" id="tab-branding-marketing"></div>
+        <div class="vg-pane" id="tab-product-ui"></div>
+        <div class="vg-pane" id="tab-legacy"></div>
+      </div>
 
-            <!-- Web / Interactive -->
-            <a href="./reels/web-interactive/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./reels/web-interactive/assets/Bonzo%20website.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">Web / Interactive Prototyping</div>
-                <p class="card-desc">Interactive prototypes, web experiences, and digital learning environments.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
+    </div><!-- /container-wide -->
 
-            <!-- AI Workflow -->
-            <a href="./reels/ai-workflow/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./projects/unicef-meena/assets/thumbnails/hero-poster.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">AI Workflow &amp; Automation</div>
-                <p class="card-desc">AI-assisted design pipelines, automation systems, and scalable production workflows.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Branding & Logo -->
-            <a href="./reels/branding-logo/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./projects/cocos-kampong/assets/hero-poster.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">Branding &amp; Logo Design</div>
-                <p class="card-desc">Brand identity systems, visual language, and logo design for education and media products.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Character & World -->
-            <a href="./reels/character-world-design/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./projects/pompak/assets/hero-poster.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">Character &amp; World Design</div>
-                <p class="card-desc">Character development, world-building, and visual universe design for education IP.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Motion / Video -->
-            <a href="./reels/motion-video-animation/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./projects/unicef-meena/assets/thumbnails/hero-poster-2.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">Motion / Video / Animation</div>
-                <p class="card-desc">2D animation, motion design, video production, and educational media delivery.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Game-Based Learning -->
-            <a href="./reels/game-based-learning/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./projects/bonzo/assets/game.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">Game-Based Learning</div>
-                <p class="card-desc">Learning game design, gamification systems, and interactive educational mechanics.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
-
-            <!-- Print & Marketing -->
-            <a href="./reels/print-marketing/index.html" class="skill-card">
-              <div class="card-thumb">
-                <img src="./reels/print-marketing/assets/Facebook%20Cover.png" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none'">
-              </div>
-              <div class="card-body">
-                <div class="card-title">Print &amp; Marketing Design</div>
-                <p class="card-desc">Print collateral, marketing campaigns, workbooks, and promotional materials for education brands.</p>
-                <div class="card-footer">
-                  <span class="card-cta">View Reel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></span>
-                </div>
-              </div>
-            </a>
-
-      </div><!-- /skills-grid -->
+    <!-- Lightbox -->
+    <div class="vg-lightbox" id="vgLightbox">
+      <button class="vg-lb-close" id="vgClose" aria-label="Close">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button class="vg-lb-prev" id="vgPrev" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="vg-lb-next" id="vgNext" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="vg-lb-counter" id="vgCounter"></div>
+      <div class="vg-lb-inner">
+        <img class="vg-lb-img" id="vgImg" src="" alt="">
+        <div class="vg-lb-caption" id="vgCaption"></div>
+      </div>
     </div>
+
   </section>
 
   <!-- IMPACT -->
@@ -661,6 +622,316 @@
   window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>40);},{passive:true});
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');obs.unobserve(e.target);}});},{threshold:0.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+
+<!-- VISUAL GALLERY SCRIPT -->
+<script>
+(function(){
+  var B   = './Visual%20Work%20%26%20Capabilities/assets/';
+  var PUI = B + 'Product%20%26%20UI/';
+  var CW  = B + 'Characters%20%26%20Worlds/';
+  var GL  = B + 'Games%20%26%20Learning/';
+  var MV  = B + 'Motion%20%3A%20Video/';
+  var BM  = B + 'Branding%20%26%20Marketing/';
+  var LP  = B + 'Legacy%20Portfolio%202014/';
+
+  /* ── GALLERY DATA ── */
+  var data = {
+    'product-ui': {
+      images: [
+        { src: PUI+'01_1.jpg',                        caption: '01_1' },
+        { src: PUI+'01_2.jpg',                        caption: '01_2' },
+        { src: PUI+'02.jpg',                          caption: '02' },
+        { src: PUI+'03.jpg',                          caption: '03' },
+        { src: PUI+'Bonzo%20Website.jpg',             caption: 'Bonzo Website' },
+        { src: PUI+'Green%20Guardians%20website.png', caption: 'Green Guardians Website' },
+        { src: PUI+'UOB%2001.png',                    caption: 'UOB 01' },
+        { src: PUI+'UOB%2002.png',                    caption: 'UOB 02' }
+      ],
+      pdfs: []
+    },
+    'characters-worlds': {
+      images: [
+        { src: CW+'01.jpg',                  caption: '01' },
+        { src: CW+'02.jpg',                  caption: '02' },
+        { src: CW+'03.jpg',                  caption: '03' },
+        { src: CW+'04.jpg',                  caption: '04' },
+        { src: CW+'05.jpg',                  caption: '05' },
+        { src: CW+'Baba.png',                caption: 'Baba' },
+        { src: CW+'Bibi.png',                caption: 'Bibi' },
+        { src: CW+'CharacterList11.png',     caption: 'Character List' },
+        { src: CW+'Coco.png',                caption: 'Coco' },
+        { src: CW+'Poppy.png',               caption: 'Poppy' },
+        { src: CW+'Slide1.png',              caption: 'Slide 1' },
+        { src: CW+'Slide2.png',              caption: 'Slide 2' },
+        { src: CW+'Slide3.png',              caption: 'Slide 3' },
+        { src: CW+'Slide4.png',              caption: 'Slide 4' },
+        { src: CW+'Slide5.png',              caption: 'Slide 5' },
+        { src: CW+'Slide6.png',              caption: 'Slide 6' },
+        { src: CW+'Slide7.png',              caption: 'Slide 7' },
+        { src: CW+'characters.png',          caption: 'Characters' },
+        { src: CW+'charcter-design-01.png',  caption: 'Character Design 01' },
+        { src: CW+'charcter-design-02.png',  caption: 'Character Design 02' },
+        { src: CW+'charcter-design-03.png',  caption: 'Character Design 03' },
+        { src: CW+'charcter-design-04.png',  caption: 'Character Design 04' },
+        { src: CW+'charcter-design-05.png',  caption: 'Character Design 05' },
+        { src: CW+'charcter-design-06.png',  caption: 'Character Design 06' },
+        { src: CW+'charcter-design-07.png',  caption: 'Character Design 07' },
+        { src: CW+'charcter-design-08.png',  caption: 'Character Design 08' },
+        { src: CW+'charcter-design-09.png',  caption: 'Character Design 09' },
+        { src: CW+'charcter-design-10.png',  caption: 'Character Design 10' },
+        { src: CW+'charcter-design-11.png',  caption: 'Character Design 11' }
+      ],
+      pdfs: []
+    },
+    'games-learning': {
+      images: [
+        { src: GL+'Asset%201.png',                   caption: 'Asset 1' },
+        { src: GL+'ChanmpionsAgainstSmoggers-2.jpg', caption: 'Champions Against Smoggers' },
+        { src: GL+'ClueOn%2001.png',                 caption: 'ClueOn 01' },
+        { src: GL+'ClueOn%2002.png',                 caption: 'ClueOn 02' },
+        { src: GL+'ClueOn%2003.png',                 caption: 'ClueOn 03' },
+        { src: GL+'DinoEggs%2001.png',               caption: 'DinoEggs 01' },
+        { src: GL+'DinoEggs%2002.png',               caption: 'DinoEggs 02' },
+        { src: GL+'DinoEggs%2003.png',               caption: 'DinoEggs 03' },
+        { src: GL+'DinoEggs%2004.png',               caption: 'DinoEggs 04' },
+        { src: GL+'DinoEggs%2005.png',               caption: 'DinoEggs 05' },
+        { src: GL+'DinoEggs%2006.png',               caption: 'DinoEggs 06' },
+        { src: GL+'Game%20types.png',                caption: 'Game Types' },
+        { src: GL+'GameonSG.png',                    caption: 'GameonSG' },
+        { src: GL+'Race%20to%20Zero%2001.png',       caption: 'Race to Zero 01' },
+        { src: GL+'Race%20to%20Zero%2002.png',       caption: 'Race to Zero 02' },
+        { src: GL+'RubySpidey%2001.png',             caption: 'RubySpidey 01' },
+        { src: GL+'RubySpidey%2002.png',             caption: 'RubySpidey 02' },
+        { src: GL+'SumoMochi%2001.jpg',              caption: 'SumoMochi 01' },
+        { src: GL+'SumoMochi%2002.jpg',              caption: 'SumoMochi 02' },
+        { src: GL+'SumoMochi%2003.jpg',              caption: 'SumoMochi 03' },
+        { src: GL+'SumoMochi%2004.png',              caption: 'SumoMochi 04' },
+        { src: GL+'game%20thumbnail.png',            caption: 'Game Thumbnail' }
+      ],
+      pdfs: [
+        { path: GL+'PDF/CW_Designs.pdf',       name: 'CW Designs' },
+        { path: GL+'PDF/GG.Brochure_v8.pdf',   name: 'GG Brochure' },
+        { path: GL+'PDF/Race%20to%20Zero.pdf', name: 'Race to Zero' },
+        { path: GL+'PDF/SumoMochi_V2.pdf',     name: 'SumoMochi' }
+      ]
+    },
+    'motion-video': {
+      images: [
+        { src: MV+"Coco's%20Kampong%20Theme%20Song.png", caption: "Coco's Kampong Theme Song", isVideo: true, videoUrl: 'https://www.youtube.com/watch?v=4eFnmV1pES8' },
+        { src: MV+'Coco%E2%80%99s%20marketing%20video.png', caption: "Coco's Marketing Video",  isVideo: true, videoUrl: 'https://www.youtube.com/watch?v=p9oZq95RqmE' },
+        { src: MV+'Compound%20Words.jpg',                caption: 'Compound Words',             isVideo: false },
+        { src: MV+'KP%20logo%20animation.png',           caption: 'KP Logo Animation',          isVideo: true, videoUrl: MV+'video%20clips%20to%20link/KP%20logo%20animation.mp4' },
+        { src: MV+'Kung%20Fu%20Punctuation.png',         caption: 'Kung Fu Punctuation',        isVideo: true, videoUrl: 'https://www.youtube.com/watch?v=krL7_BqlL10' },
+        { src: MV+'The%205E%20Instructional%20Model.png',caption: 'The 5E Instructional Model', isVideo: true, videoUrl: 'https://www.youtube.com/watch?v=Ig7Ye1_so7Y' }
+      ],
+      pdfs: []
+    },
+    'branding-marketing': {
+      images: [
+        { src: BM+'Asset%202.png',                         caption: 'Asset 2' },
+        { src: BM+'Asset%204%40300x.png',                  caption: 'Asset 4' },
+        { src: BM+'Branding%20%26%20Marketing%2001-1.png', caption: 'Branding & Marketing 01-1' },
+        { src: BM+'Branding%20%26%20Marketing%2001-2.png', caption: 'Branding & Marketing 01-2' },
+        { src: BM+'Branding%20%26%20Marketing%2001-3.png', caption: 'Branding & Marketing 01-3' },
+        { src: BM+'Branding%20%26%20Marketing%2001-4.png', caption: 'Branding & Marketing 01-4' },
+        { src: BM+'Branding%20%26%20Marketing%2001-5.png', caption: 'Branding & Marketing 01-5' },
+        { src: BM+'Branding%20%26%20Marketing%2001-6.png', caption: 'Branding & Marketing 01-6' },
+        { src: BM+'Branding%20%26%20Marketing%2002-1.png', caption: 'Branding & Marketing 02-1' },
+        { src: BM+'Branding%20%26%20Marketing%2002-2.png', caption: 'Branding & Marketing 02-2' },
+        { src: BM+'Branding%20%26%20Marketing%2002-3.png', caption: 'Branding & Marketing 02-3' },
+        { src: BM+'Branding%20%26%20Marketing%2002-4.png', caption: 'Branding & Marketing 02-4' },
+        { src: BM+'Branding%20%26%20Marketing%2003-1.png', caption: 'Branding & Marketing 03-1' },
+        { src: BM+'Branding%20%26%20Marketing%2008-1.png', caption: 'Branding & Marketing 08-1' },
+        { src: BM+'Genius%20Games.png',                    caption: 'Genius Games' }
+      ],
+      pdfs: [
+        { path: BM+'pdfs/Brochure_v4.pdf',                 name: 'Brochure v4' },
+        { path: BM+'pdfs/KP_BrandGuidelines.pdf',          name: 'KP Brand Guidelines' },
+        { path: BM+'pdfs/Shupavu_Brochure_20_11_2024.pdf', name: 'Shupavu Brochure' }
+      ]
+    },
+    'legacy': {
+      images: [
+        { src: LP+'Artboard%201.png',  caption: 'Artboard 1' },
+        { src: LP+'Artboard%202.png',  caption: 'Artboard 2' },
+        { src: LP+'Artboard%203.png',  caption: 'Artboard 3' },
+        { src: LP+'Artboard%204.png',  caption: 'Artboard 4' },
+        { src: LP+'Artboard%205.png',  caption: 'Artboard 5' },
+        { src: LP+'Artboard%206.png',  caption: 'Artboard 6' },
+        { src: LP+'Artboard%207.png',  caption: 'Artboard 7' },
+        { src: LP+'Artboard%208.png',  caption: 'Artboard 8' },
+        { src: LP+'Artboard%209.png',  caption: 'Artboard 9' },
+        { src: LP+'Artboard%2010.png', caption: 'Artboard 10' },
+        { src: LP+'Artboard%2011.png', caption: 'Artboard 11' },
+        { src: LP+'Artboard%2012.png', caption: 'Artboard 12' },
+        { src: LP+'Artboard%2013.png', caption: 'Artboard 13' },
+        { src: LP+'Artboard%2014.png', caption: 'Artboard 14' },
+        { src: LP+'Artboard%2015.png', caption: 'Artboard 15' },
+        { src: LP+'Artboard%2016.png', caption: 'Artboard 16' },
+        { src: LP+'Artboard%2017.png', caption: 'Artboard 17' },
+        { src: LP+'Artboard%2018.png', caption: 'Artboard 18' },
+        { src: LP+'Artboard%2019.png', caption: 'Artboard 19' },
+        { src: LP+'Artboard%2020.png', caption: 'Artboard 20' },
+        { src: LP+'Artboard%2021.png', caption: 'Artboard 21' },
+        { src: LP+'Artboard%2022.png', caption: 'Artboard 22' }
+      ],
+      pdfs: [
+        { path: LP+'PDF/Portfolio6.pdf', name: 'Portfolio 2014' }
+      ]
+    }
+  };
+
+  /* ── ICONS ── */
+  var PLAY_ICON = '<svg viewBox="0 0 24 24" width="32" height="32"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.55)"/><polygon points="10,8 18,12 10,16" fill="white" style="filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))"/></svg>';
+  var EXPAND_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+  var PDF_ICON  = '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>';
+  var INITIAL   = 15;
+
+  /* ── BUILD THUMB ── */
+  function makeThumb(tabId, item, idx) {
+    var div = document.createElement('div');
+    div.className = 'vg-thumb' + (item.isVideo ? ' vg-thumb--video' : '');
+    var img = document.createElement('img');
+    img.src = item.src; img.alt = item.caption || ''; img.loading = 'lazy';
+    img.onerror = function(){ this.parentElement.style.background='#111'; };
+    var ov = document.createElement('div');
+    ov.className = 'vg-thumb-overlay';
+    ov.innerHTML = item.isVideo ? PLAY_ICON : EXPAND_ICON;
+    div.appendChild(img); div.appendChild(ov);
+    if (item.isVideo && item.videoUrl) {
+      div.addEventListener('click', function(){ window.open(item.videoUrl, '_blank', 'noopener,noreferrer'); });
+    } else {
+      div.addEventListener('click', (function(t,i){ return function(){ openLB(t,i); }; })(tabId, idx));
+    }
+    return div;
+  }
+
+  /* ── BUILD PANES ── */
+  Object.keys(data).forEach(function(tabId) {
+    var pane = document.getElementById('tab-' + tabId);
+    if (!pane) return;
+    var tab = data[tabId];
+    var images = tab.images || [];
+
+    /* PDF buttons at top of pane — no label */
+    var pdfs = tab.pdfs || [];
+    if (pdfs.length) {
+      var row = document.createElement('div');
+      row.className = 'vg-pdf-row';
+      pdfs.forEach(function(pdf){
+        var a = document.createElement('a');
+        a.href = pdf.path; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.className = 'vg-pdf-btn';
+        a.innerHTML = PDF_ICON + '<span>' + pdf.name + '</span>';
+        row.appendChild(a);
+      });
+      pane.appendChild(row);
+    }
+
+    var grid = document.createElement('div');
+    grid.className = 'vg-grid';
+
+    if (images.length === 0) {
+      var emp = document.createElement('div');
+      emp.className = 'vg-empty';
+      emp.textContent = 'Images coming soon';
+      grid.appendChild(emp);
+      pane.appendChild(grid);
+    } else {
+      var vis = Math.min(images.length, INITIAL);
+      for (var i = 0; i < vis; i++) grid.appendChild(makeThumb(tabId, images[i], i));
+      pane.appendChild(grid);
+      if (images.length > INITIAL) {
+        var btn = document.createElement('button');
+        btn.className = 'vg-load-more';
+        btn.textContent = 'Show all — ' + images.length + ' images';
+        (function(b, t, imgs, start){
+          b.addEventListener('click', function(){
+            for (var j = start; j < imgs.length; j++) grid.appendChild(makeThumb(t, imgs[j], j));
+            b.remove();
+          });
+        })(btn, tabId, images, vis);
+        pane.appendChild(btn);
+      }
+    }
+  });
+
+  /* ── TAB SWITCHING ── */
+  var frame = document.querySelector('.vg-frame');
+  document.querySelectorAll('.vg-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = this.dataset.tab;
+      document.querySelectorAll('.vg-tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.vg-pane').forEach(function(p){ p.classList.remove('active'); });
+      this.classList.add('active');
+      var pane = document.getElementById('tab-' + id);
+      if (pane) pane.classList.add('active');
+      if (frame) frame.scrollTop = 0;
+    });
+  });
+
+  /* ── LIGHTBOX ── */
+  var lb      = document.getElementById('vgLightbox');
+  var lbImg   = document.getElementById('vgImg');
+  var lbCap   = document.getElementById('vgCaption');
+  var lbCnt   = document.getElementById('vgCounter');
+  var curTab  = null, curIdx = 0;
+
+  /* Only navigate among non-video items */
+  function lbItems(tabId){ return data[tabId].images.filter(function(it){ return !it.isVideo; }); }
+  function lbIndexOf(tabId, idx){
+    var items = lbItems(tabId), item = data[tabId].images[idx];
+    return items.indexOf(item);
+  }
+
+  function openLB(tabId, idx){
+    curTab = tabId; curIdx = idx;
+    renderLB(); lb.classList.add('open'); document.body.style.overflow = 'hidden';
+  }
+  function renderLB(){
+    var item = data[curTab].images[curIdx];
+    lbImg.src = item.src; lbImg.alt = item.caption || '';
+    lbCap.textContent = item.caption || '';
+    var items = lbItems(curTab);
+    var pos = lbIndexOf(curTab, curIdx);
+    lbCnt.textContent = (pos + 1) + ' / ' + items.length;
+    var prevI = findAdj(curIdx, -1), nextI = findAdj(curIdx, 1);
+    document.getElementById('vgPrev').style.opacity = prevI < 0 ? '.25' : '1';
+    document.getElementById('vgNext').style.opacity = nextI < 0 ? '.25' : '1';
+  }
+  function findAdj(from, dir){
+    var imgs = data[curTab].images;
+    for (var i = from + dir; i >= 0 && i < imgs.length; i += dir){
+      if (!imgs[i].isVideo) return i;
+    }
+    return -1;
+  }
+  function closeLB(){ lb.classList.remove('open'); document.body.style.overflow = ''; setTimeout(function(){ lbImg.src=''; }, 300); }
+
+  document.getElementById('vgClose').addEventListener('click', closeLB);
+  document.getElementById('vgPrev').addEventListener('click', function(e){
+    e.stopPropagation(); var p = findAdj(curIdx,-1); if(p>=0){curIdx=p;renderLB();}
+  });
+  document.getElementById('vgNext').addEventListener('click', function(e){
+    e.stopPropagation(); var n = findAdj(curIdx,1); if(n>=0){curIdx=n;renderLB();}
+  });
+  lb.addEventListener('click', function(e){ if(e.target===lb) closeLB(); });
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') closeLB();
+    if(e.key==='ArrowLeft'){  var p=findAdj(curIdx,-1); if(p>=0){curIdx=p;renderLB();} }
+    if(e.key==='ArrowRight'){ var n=findAdj(curIdx, 1); if(n>=0){curIdx=n;renderLB();} }
+  });
+  var tx=0;
+  lb.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+  lb.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)<40) return;
+    if(dx>0){var p=findAdj(curIdx,-1);if(p>=0){curIdx=p;renderLB();}}
+    else    {var n=findAdj(curIdx, 1);if(n>=0){curIdx=n;renderLB();}}
+  },{passive:true});
+
+})();
 </script>
 </body>
 </html>

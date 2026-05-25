@@ -9,12 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
   <style>
     @keyframes slow-pan{from{background-position:40% center}to{background-position:60% center}}
-
-    /* Role grid */
-    .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-top:1.5rem}
-    .role-card{background:#000;border:1px solid var(--line);border-radius:10px;padding:1.1rem 1rem;font-size:.72rem;font-weight:600;color:var(--text2);line-height:1.45;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
-    .role-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px -8px var(--accent-glow);border-color:var(--accent-soft)}
-    .role-card svg{display:block;width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;margin-bottom:.6rem}
+    /* Custom theme colour — brighter pink */
+    body.theme-pink{--accent:#ff8594;--accent2:#ffaab6;--accent-soft:rgba(255,133,148,.15);--accent-glow:rgba(255,133,148,.40)}
+    .hero-full__bg img{transform:none!important;object-fit:cover!important;object-position:center center!important}
+    .hero-full__bg::before{background:linear-gradient(100deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.62) 36%,rgba(0,0,0,.2) 58%,rgba(0,0,0,0) 74%),linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 18%)!important}
+    /* Extra breathing room above the footer meta bar */
+    .hero-full__footer{padding-top:2.5rem}
+    /* hero-cta-btn and role-grid/role-card are in global style.css */
 
     /* Impact cards */
     .ck-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
@@ -50,11 +51,11 @@
     .expr-img img{width:100%;height:100%;object-fit:contain;padding:4px}
 
     /* Icon grid */
-    .icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.65rem;margin-top:1.75rem}
-    .icon-item{text-align:center;background:#000;border:1px solid var(--line);border-radius:10px;padding:.8rem .4rem;transition:transform .25s ease,box-shadow .25s ease}
-    .icon-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px -6px var(--accent-glow)}
-    .icon-item img{width:40px;height:40px;object-fit:contain;display:block;margin:0 auto .35rem}
-    .icon-label{font-size:.52rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+    .icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-top:1.75rem}
+    .icon-item{text-align:center;background:none;border:none;padding:.4rem;transition:transform .25s ease}
+    .icon-item:hover{transform:translateY(-4px) scale(1.08)}
+    .icon-item img{width:120px;height:120px;object-fit:contain;display:block;margin:0 auto}
+    .icon-label{display:none}
 
     /* Production system cards */
     .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem}
@@ -64,10 +65,14 @@
     .prod-desc{font-size:.82rem;color:var(--text3);line-height:1.6}
 
     /* Interactive reader block */
-    .proto-block{background:#000;border:1px solid var(--line);border-radius:16px;padding:3rem;display:flex;justify-content:space-between;align-items:center;gap:3rem}
+    .proto-block{background:none;border:none;border-radius:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+    .proto-thumb{border-radius:20px;overflow:hidden;box-shadow:0 32px 80px -16px rgba(236,72,153,.45),0 0 0 1px rgba(236,72,153,.18);transition:transform .4s ease,box-shadow .4s ease}
+    .proto-thumb:hover{transform:scale(1.02);box-shadow:0 40px 100px -16px rgba(236,72,153,.6),0 0 0 1px rgba(236,72,153,.3)}
+    .proto-thumb img{width:100%;display:block;object-fit:cover}
     .proto-features{list-style:none;padding:0;margin:.85rem 0 1.5rem;display:flex;flex-direction:column;gap:.45rem}
     .proto-features li{font-size:.84rem;color:var(--text2);display:flex;align-items:center;gap:.5rem}
     .proto-features li::before{content:'→';color:var(--accent);font-size:.75rem;flex-shrink:0}
+    @media(max-width:1000px){.proto-block{grid-template-columns:1fr}}
     .proto-note{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-top:.75rem}
 
     /* Marketing grid */
@@ -78,7 +83,6 @@
       .ck-impact-grid{grid-template-columns:repeat(2,1fr)}
       .eco-grid{grid-template-columns:repeat(2,1fr)}
       .prod-grid{grid-template-columns:repeat(2,1fr)}
-      .role-grid{grid-template-columns:repeat(2,1fr)}
       .icon-grid{grid-template-columns:repeat(4,1fr)}
       .proto-block{flex-direction:column;gap:2rem}
     }
@@ -87,7 +91,6 @@
       .ck-impact-grid{grid-template-columns:1fr}
       .eco-grid{grid-template-columns:1fr}
       .prod-grid{grid-template-columns:1fr}
-      .role-grid{grid-template-columns:1fr}
       .icon-grid{grid-template-columns:repeat(3,1fr)}
       .mktg-grid{grid-template-columns:1fr}
     }
@@ -101,7 +104,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         Jiang Yi
       </a>
-      <img src="./assets/lss_white_on-topbar-right.png" alt="Learn Smart Singapore"
+      <img src="./assets/logo_big.png" alt="Learn Smart Singapore"
            style="height:36px;width:auto;display:block" onerror="this.style.display='none'">
     </div>
   </nav>
@@ -109,7 +112,7 @@
   <!-- HERO -->
   <section class="hero-full">
     <div class="hero-full__bg">
-      <img src="./assets/hero-poster.jpg" alt="Coco's Kampong"
+      <img src="./assets/town-setting.png" alt="Coco's Kampong"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
       <div class="hero-full__placeholder" style="display:none"></div>
     </div>
@@ -125,6 +128,10 @@
           <span class="tag">Singapore Curriculum</span>
           <span class="tag">Interactive Learning</span>
         </div>
+        <a href="https://www.youtube.com/@learnsmartsingapore5556" class="hero-cta-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+          Watch on YouTube
+        </a>
       </div>
       <div class="hero-full__footer">
         <div class="hero-full__meta hero-full__meta--4">
@@ -141,7 +148,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Scale & Reach</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Impact & Ecosystem Context</h2>
+      <h2 class="section-h2">Impact & Ecosystem Context</h2>
       <p class="section-lead">Coco's Kampong was built within the broader Learn Smart Singapore / Knowledge Platform ecosystem as a scalable education product system. Direct product metrics come from the Grade 1–5 English + Math brochure snapshot; broader KP and publishing reach should be treated as ecosystem and distribution context.</p>
       <div class="ck-impact-grid">
         <div class="ck-impact-item">
@@ -201,7 +208,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">My Role & Ownership</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Design Lead · Product System · Hands-on Execution</h2>
+      <h2 class="section-h2">Design Lead · Product System · Hands-on Execution</h2>
       <p class="section-lead">I contributed as Design Lead / Director of Design, shaping the product idea, creative direction, character world, learning experience, production standards, and hands-on execution across digital lessons, videos, readers, workbooks, games, marketing assets, and prototypes.</p>
       <p style="color:var(--text2);font-size:.88rem;line-height:1.8;margin-bottom:1.5rem">I worked closely with English and Math subject leads to translate curriculum needs into scalable learner-facing experiences. Once the core system matured, later teams extended the standards into Science and additional markets.</p>
       <div class="role-grid">
@@ -250,11 +257,39 @@
     </div>
   </section>
 
+  <!-- INTERACTIVE READER PROTOTYPE -->
+  <section class="content-section reveal">
+    <div class="container">
+      <div class="proto-block">
+        <!-- Thumbnail left — full rounded, pink glow -->
+        <div class="proto-thumb">
+          <img src="./assets/Slide%2000.png" alt="Interactive Reader preview"
+               onerror="this.parentElement.style.background='#111'">
+        </div>
+        <!-- Text + button right -->
+        <div>
+          <span class="section-label">Showreel</span>
+          <h2 style="font-size:2rem;margin:.75rem 0 1rem;line-height:1.15">Next-Generation Interactive Reader Prototype</h2>
+          <p style="color:var(--text2);font-size:.88rem;line-height:1.8;margin-bottom:.9rem">A Claude-assisted prototype exploring how Coco's Kampong-style readers could evolve into voice-guided, animation-supported, interactive learning stories.</p>
+          <ul class="proto-features">
+            <li>Voice-guided story playback</li>
+            <li>3D animated story clips</li>
+            <li>Drag-and-drop reading interactions</li>
+            <li>Progress and navigation controls</li>
+            <li>Scalable format for future interactive readers</li>
+          </ul>
+          <p class="proto-note" style="margin-bottom:1.75rem">Prototype / proof of concept — not a launched product.</p>
+          <a href="./picture-book/picture-book-player.html" class="btn btn-primary" style="padding:1rem 2.25rem;font-size:.88rem;white-space:nowrap;display:inline-block">Open Interactive Reader →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- LEARNING PRODUCT ECOSYSTEM -->
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Product Architecture</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Learning Product Ecosystem</h2>
+      <h2 class="section-h2">Learning Product Ecosystem</h2>
       <p class="section-lead">The same design system supported multiple learner-facing and business-facing formats, helping Coco's Kampong feel like one connected product rather than disconnected lesson materials.</p>
       <div class="eco-grid">
         <div class="eco-card">
@@ -289,7 +324,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Visual System & World Design</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Visual World & Character System</h2>
+      <h2 class="section-h2">Visual World & Character System</h2>
       <p class="section-lead">Coco's Kampong was built as a recognisable learning world. Characters, settings, colours, layouts, and story moments were designed to stay consistent across lessons, videos, books, games, and marketing.</p>
 
       <img src="./assets/town-map.png" alt="Coco's Kampong town map"
@@ -359,7 +394,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Digital Product</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Digital Lessons & Game-Based Learning</h2>
+      <h2 class="section-h2">Digital Lessons & Game-Based Learning</h2>
       <p class="section-lead">Playful lesson screens, activities, and games turned curriculum content into more engaging learner experiences — built on reusable templates and interaction patterns.</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem">
         <div class="gallery-item"><img src="./assets/lesson-thumbnail.jpg" loading="lazy" alt="Lesson screen" onerror="this.parentElement.style.background='#111'"></div>
@@ -376,7 +411,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Interaction Design</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Learning Interaction Icon System</h2>
+      <h2 class="section-h2">Learning Interaction Icon System</h2>
       <p class="section-lead">A reusable icon system for common learning actions — watch, listen, read, write, draw, sing, play, explore, create, choose, solve, count, and challenge.</p>
       <div class="icon-grid">
         <div class="icon-item"><img src="./assets/lesson-object-icons/tt_watch.png" alt="Watch" loading="lazy"><div class="icon-label">Watch</div></div>
@@ -405,7 +440,7 @@
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Production Design</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Scalable Production System</h2>
+      <h2 class="section-h2">Scalable Production System</h2>
       <p class="section-lead">To help the product scale, I created reusable visual standards, templates, animation systems, and production patterns so teams could produce new content without reinventing the product each time.</p>
       <div class="prod-grid">
         <div class="prod-card">
@@ -436,35 +471,12 @@
     </div>
   </section>
 
-  <!-- INTERACTIVE READER PROTOTYPE -->
-  <section class="content-section reveal">
-    <div class="container">
-      <div class="proto-block">
-        <div>
-          <span class="section-label">Showreel</span>
-          <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Next-Generation Interactive Reader Prototype</h2>
-          <p style="color:var(--text2);font-size:.88rem;line-height:1.8">A Claude-assisted prototype exploring how Coco's Kampong-style readers could evolve into voice-guided, animation-supported, interactive learning stories.</p>
-          <ul class="proto-features">
-            <li>Voice-guided story playback</li>
-            <li>3D animated story clips</li>
-            <li>Drag-and-drop reading interactions</li>
-            <li>Progress and navigation controls</li>
-            <li>Scalable format for future interactive readers</li>
-          </ul>
-          <p class="proto-note">Prototype / proof of concept — not a launched product.</p>
-        </div>
-        <div style="flex-shrink:0;text-align:center">
-          <a href="./picture-book/picture-book-player.html" class="btn btn-primary" style="padding:1rem 2.25rem;font-size:.88rem;white-space:nowrap">Open Interactive Reader →</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- MARKETING & DISTRIBUTION -->
   <section class="content-section reveal">
     <div class="container">
       <span class="section-label">Go-To-Market</span>
-      <h2 style="font-size:1.8rem;margin:1rem 0 1rem;line-height:1.1">Marketing & Distribution Assets</h2>
+      <h2 class="section-h2">Marketing & Distribution Assets</h2>
       <p class="section-lead">Campaign and sales materials helped package the product for schools, parents, partners, and regional markets.</p>
       <div class="mktg-grid">
         <div class="gallery-item" style="aspect-ratio:unset;min-height:200px"><img src="./assets/sm-post-facebook.png" loading="lazy" alt="Facebook post" onerror="this.parentElement.style.background='#111'"></div>
