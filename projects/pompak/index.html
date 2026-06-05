@@ -51,7 +51,7 @@
         linear-gradient(95deg,#000 0%,rgba(0,0,0,.96) 30%,rgba(0,0,0,.65) 50%,rgba(0,0,0,.15) 68%,rgba(0,0,0,0) 100%),
         linear-gradient(to top,rgba(0,0,0,1) 0%,rgba(0,0,0,0) 20%);
     }
-    .hero-full .hero-full__bg img{object-fit:contain;object-position:right top;transform:none}
+    .hero-full .hero-full__bg img,.hero-full .hero-full__bg video{object-fit:contain;object-position:right top;transform:none}
     .ph-note{font-size:.68rem;color:var(--text3);margin-top:.6rem;font-style:italic}
     /* UI design image grid */
     .ui-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
@@ -85,9 +85,10 @@
   <!-- HERO -->
   <section class="hero-full">
     <div class="hero-full__bg">
-      <img src="./assets/Hero%20Image.png" alt="PomPak – Learn to Earn"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="hero-full__placeholder" style="display:none"></div>
+      <video autoplay muted loop playsinline preload="auto"
+             poster="./assets/Hero%20Image.png">
+        <source src="./assets/Hero%20Image.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-full__frame">
       <div class="hero-full__content">
