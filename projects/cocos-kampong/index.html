@@ -11,7 +11,7 @@
     @keyframes slow-pan{from{background-position:40% center}to{background-position:60% center}}
     /* Custom theme colour — brighter pink */
     body.theme-pink{--accent:#ff8594;--accent2:#ffaab6;--accent-soft:rgba(255,133,148,.15);--accent-glow:rgba(255,133,148,.40)}
-    .hero-full__bg img{transform:none!important;object-fit:cover!important;object-position:center center!important}
+    .hero-full__bg img,.hero-full__bg video{transform:scale(0.9)!important;object-fit:cover!important;object-position:center center!important;width:100%;height:100%;position:absolute;inset:0;transform-origin:center center}
     .hero-full__bg::before{background:linear-gradient(100deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.62) 36%,rgba(0,0,0,.2) 58%,rgba(0,0,0,0) 74%),linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 18%)!important}
     /* Extra breathing room above the footer meta bar */
     .hero-full__footer{padding-top:2.5rem}
@@ -112,9 +112,10 @@
   <!-- HERO -->
   <section class="hero-full">
     <div class="hero-full__bg">
-      <img src="./assets/town-setting.png" alt="Coco's Kampong"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="hero-full__placeholder" style="display:none"></div>
+      <video autoplay muted loop playsinline preload="auto"
+             poster="./assets/hero-poster.jpg">
+        <source src="./assets/hero loop animation.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-full__frame">
       <div class="hero-full__content">
