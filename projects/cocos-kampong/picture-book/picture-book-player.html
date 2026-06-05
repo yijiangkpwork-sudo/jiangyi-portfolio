@@ -551,9 +551,9 @@ function setupSceneAudio(audioSrc, onEnd) {
 const renderers = {
   title(scene) {
     const node = el(`<section class="scene title-scene"></section>`);
-    // Uses the exported PPT slide 1 as a full-bleed cover image (slide 00.png)
+    // Uses the exported PPT slide 1 as a full-bleed cover image
     node.innerHTML = `
-      <img class="title-img" src="${encodeURI('slide 00.png')}" alt="Hansel and Gretel — cover" />
+      <img class="title-img" src="${encodeURI('Hansel and Gretel COVER PAGE.png')}" alt="Hansel and Gretel — cover" />
       <button class="title-start" id="title-start">Begin the story
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="width:18px;height:18px;"><polyline points="9 6 15 12 9 18"/></svg>
       </button>
