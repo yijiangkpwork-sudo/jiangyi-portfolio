@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Green Guardians — Jiang Yi</title>
+  <meta name="description" content="Green Guardians case study by Jiang Yi: an environmental literacy learning platform, lesson hub, character IP, and campaign asset system.">
+  <meta property="og:title" content="Green Guardians — Jiang Yi">
+  <meta property="og:description" content="A character-led environmental literacy platform and scalable learning media system.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://jiangyi-portfolio.vercel.app/projects/green-guardians/assets/hero-poster.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Green Guardians — Jiang Yi">
+  <meta name="twitter:description" content="An environmental literacy platform, lesson hub, character IP, and campaign asset system.">
+  <meta name="twitter:image" content="https://jiangyi-portfolio.vercel.app/projects/green-guardians/assets/hero-poster.jpg">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../assets/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
@@ -103,6 +113,10 @@
       .gclc-stat-grid{grid-template-columns:repeat(3,1fr)!important}
     }
     @media(max-width:640px){
+      .hero-full__bg::before{background:
+        linear-gradient(100deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 44%,rgba(0,0,0,.46) 70%,rgba(0,0,0,.2) 100%),
+        linear-gradient(to top,rgba(0,0,0,.74) 0%,rgba(0,0,0,0) 28%)!important}
+      .hero-full__desc{color:rgba(255,255,255,.72)}
       .gg-impact-grid{grid-template-columns:1fr}
       .eco-grid{grid-template-columns:1fr}
       .prod-grid{grid-template-columns:1fr}
@@ -142,7 +156,7 @@
     <div class="hero-full__frame">
       <div class="hero-full__content">
         <span class="hero-full__eyebrow">Environmental Literacy Platform</span>
-        <h1 class="hero-full__title">GREEN<br>GUARDIANS</h1>
+        <h1 class="hero-full__title" aria-label="Green Guardians">GREEN<br>GUARDIANS</h1>
         <p class="hero-full__sub">Environmental Literacy Learning Hub</p>
         <p class="hero-full__desc">A character-led environmental literacy platform and lesson hub designed to help teachers turn sustainability, climate, ecosystems, and community action into engaging learning experiences.</p>
         <div class="hero-full__tags">
